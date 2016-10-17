@@ -29,7 +29,7 @@ public class DBConnection {
 			String value) {
 		PreparedStatement stm;
 		try{
-			stm = con.prepareStatement("SELECT * FROM ? WHERE ? LIKE ?");
+			stm = con.prepareStatement("SELECT * FROM ? WHERE ? LIKE %?%");
 			stm.setString(1, table);
 			stm.setString(2, field);
 			stm.setString(3, value);
