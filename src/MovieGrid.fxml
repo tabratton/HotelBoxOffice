@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 
-<GridPane fx:id="pane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MovieGridController">
-  <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
-  </columnConstraints>
-  <rowConstraints>
-      <RowConstraints minHeight="10.0" percentHeight="33.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="33.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="33.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-</GridPane>
+
+<FlowPane fx:id="pane"
+          alignment="TOP_CENTER"
+          columnHalignment="CENTER"
+          hgap="10.0"
+          vgap="10.0"
+          maxHeight="-Infinity"
+          maxWidth="-Infinity"
+          minHeight="-Infinity"
+          minWidth="-Infinity"
+          prefHeight="700.0"
+          prefWidth="700.0"
+          prefWrapLength="700.0"
+          xmlns="http://javafx.com/javafx/8.0.102"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="MovieGridController">
+</FlowPane>
