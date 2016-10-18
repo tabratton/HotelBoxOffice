@@ -43,10 +43,13 @@ public class HotelBox extends Application {
    * Creates the main application scene.
    *
    * @param mainPane the main application layout.
-   * @return the created scene.
+   * @return         the created scene.
    */
   private Scene createScene(Pane mainPane) {
     Scene scene = new Scene(mainPane);
+    // Attaches the .css to the scene, all changes and rules in it should
+    // propagate throughout the program.
+    scene.getStylesheets().add("HotBox.css");
 
     return scene;
   }

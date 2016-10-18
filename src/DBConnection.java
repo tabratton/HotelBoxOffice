@@ -26,10 +26,12 @@ public class DBConnection {
     return con;
   }
 
-  public ResultSet searchStatement(String table) {
+  public ResultSet searchStatement(String row1, String row2, String row3,
+                                   String table) {
     PreparedStatement stm;
     try {
-      String s = String.format("SELECT *FROM %s", table);
+      String s = String.format("SELECT %s, %s, %s FROM %s", row1, row2, row3,
+          table);
       stm = con.prepareStatement(s);
       return stm.executeQuery();
     } catch (SQLException ex) {

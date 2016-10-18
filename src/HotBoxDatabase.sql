@@ -65,7 +65,7 @@ CREATE TABLE CASTING
 (
   CASTING_ID  char(6)   primary key,
   ACTOR_ID	  char(6)   References ACTORS(ACTOR_ID),
-  MOVIE_ID	  char(6)	  References MOVIES(MOIVE_ID)
+  MOVIE_ID	  char(6)	  References MOVIES(MOVIE_ID)
 );
 
 -- Insert casting
@@ -81,7 +81,7 @@ CREATE TABLE RATING
 (
   RATING_ID			char(6)	  primary key,
   CUSTOMER_ID		char(6)	  references CUSTOMER(CUSTOMER_ID),
-  MOVIE_ID			char(6)	  references MOVIES(MOIVE_ID),
+  MOVIE_ID			char(6)	  references MOVIES(MOVIE_ID),
   RATING_NUM		int			  NOT NULL,
   RATING_DATE		date		  NOT NULL
 );
@@ -110,7 +110,7 @@ CREATE TABLE CUSTOMER_RENTALS
 (
   RENTAL_ID			char(6)	  primary key,
   CUSTOMER_ID		char(6)   references CUSTOMER(CUSTOMER_ID),
-  MOVIE_ID			char(6)		references MOVIES(MOIVE_ID),
+  MOVIE_ID			char(6)		references MOVIES(MOVIE_ID),
   RENTAL_DATE		date		  NOT NULL
 );
 

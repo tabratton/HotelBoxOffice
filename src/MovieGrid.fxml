@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-
-<FlowPane fx:id="pane"
-          alignment="TOP_CENTER"
-          columnHalignment="CENTER"
-          hgap="10.0"
-          vgap="10.0"
-          maxHeight="-Infinity"
-          maxWidth="-Infinity"
-          minHeight="-Infinity"
-          minWidth="-Infinity"
-          prefHeight="700.0"
-          prefWidth="700.0"
-          prefWrapLength="700.0"
-          xmlns="http://javafx.com/javafx/8.0.102"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="MovieGridController">
-</FlowPane>
+<ScrollPane maxHeight="-Infinity"
+            fx:id="scrollPane"
+            fx:controller="MovieGridController"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="600.0"
+            prefWidth="720.0"
+            xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/8.0.102">
+   <content>
+      <FlowPane fx:id="flowPane"
+                alignment="TOP_CENTER"
+                columnHalignment="CENTER"
+                hgap="10.0"
+                prefHeight="600.0"
+                prefWidth="700.0"
+                prefWrapLength="700.0"
+                vgap="10.0" />
+   </content>
+</ScrollPane>
