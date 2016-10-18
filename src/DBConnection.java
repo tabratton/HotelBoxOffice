@@ -42,15 +42,29 @@ public class DBConnection {
   public ResultSet searchStatement(String table, String field, String value) {
     PreparedStatement stm;
     try {
-      stm = con.prepareStatement("SELECT * FROM ? WHERE ? LIKE ?");
-      stm.setString(1, table);
-      stm.setString(2, field);
-      stm.setString(3, value);
+      String s = String.format("SELECT * FROM %s WHERE %s = %s", table, field,
+          value);
+      stm = con.prepareStatement(s);
       return stm.executeQuery();
+      
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
       return null;
     }
   }
 
+  public ResultSet searchStatement(String table, String field, String value, 
+          boolean similar) {
+    PreparedStatement stm;
+    try {
+      String s = String.format("SELECT * FROM %s WHERE %s LIKE %%%s%%", table, field,
+          value);
+      stm = con.prepareStatement(s);
+      return stm.executeQuery();
+      
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      return null;
+    }
+  }
 }
