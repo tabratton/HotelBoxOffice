@@ -16,6 +16,7 @@ public class HotBoxNavigator {
   public static final String MAIN = "HotelBox.fxml";
   public static final String MOVIE_GRID = "MovieGrid.fxml";
   public static final String MOVIE_PAGE = "MoviePage.fxml";
+  public static final String CUSTOMER_EDIT = "CustomerEdit.fxml";
 
   /**
    * The main application layout controller.
