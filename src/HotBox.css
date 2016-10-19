@@ -1,7 +1,18 @@
-#moviegridbutton {
+#movieGridButton {
     -fx-background-color: transparent;
+}
+
+#movieGridButton:hover {
+    -fx-background-color: transparent;
+    -fx-padding: 8, 8, 8, 8;
+}
+
+#movieGridButton:pressed {
+    -fx-background-color: transparent;
+    -fx-padding: 12 4 4 12;
 }
 
 .scroll-pane {
     -fx-background-color: transparent;
 }
+
