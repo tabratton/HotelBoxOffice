@@ -4,8 +4,8 @@ import java.io.IOException;
 
 /**
  * Utility class for controlling navigation between views.
- * <p>
- * All methods on the navigator are static to facilitate
+ *
+ * <p>All methods on the navigator are static to facilitate
  * simple access from anywhere in the application.
  */
 public class HotBoxNavigator {
@@ -19,7 +19,7 @@ public class HotBoxNavigator {
   public static final String CUSTOMER_EDIT = "CustomerEdit.fxml";
 
   /**
-   * Convenience static fields to determine the last clicked buttons
+   * Convenience static fields to determine the last clicked buttons.
    */
   public static int lastClickedMovie;
   public static int lastClickedActor;
@@ -41,12 +41,12 @@ public class HotBoxNavigator {
   /**
    * Loads the view specified by the fxml file into the
    * hotBoxHolder pane of the main application layout.
-   * <p>
-   * Previously loaded view for the same fxml file are not cached.
+   *
+   * <p>Previously loaded view for the same fxml file are not cached.
    * The fxml is loaded anew and a new view node hierarchy generated
    * every time this method is invoked.
-   * <p>
-   * A more sophisticated load function could potentially add some
+   *
+   * <p>A more sophisticated load function could potentially add some
    * enhancements or optimizations, for example:
    * cache FXMLLoaders
    * cache loaded view nodes, so they can be recalled or reused
@@ -59,8 +59,8 @@ public class HotBoxNavigator {
     try {
       mainController.setPage(FXMLLoader.load(HotBoxNavigator.class
           .getResource(fxml)));
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException ex) {
+      ex.printStackTrace();
     }
   }
 
