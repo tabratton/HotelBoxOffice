@@ -1,10 +1,11 @@
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.event.ActionEvent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.TextAlignment;
@@ -12,15 +13,19 @@ import javafx.scene.text.TextAlignment;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
- * Controller for the MovieGrid.fxml
+ * Controller for the MovieGrid.fxml.
+ *
  * <p>Gets list of all movies from the database and then constructs buttons
  * that load an individual information page for each movie.
+ *
  * <p>Currently displays all movies in the database on one page with a scroll
  * bar.
+ *
+ * @author Tyler Bratton tylerbratton96 @ gmail.com
  */
 public class MovieGridController implements Initializable {
   // FlowPane object that allows us to modify the FlowPane defined in the
@@ -29,16 +34,22 @@ public class MovieGridController implements Initializable {
   private FlowPane flowPane;
   // ScrollPane object that allows us to set certain things. Not needed with
   // .css file
-//  @FXML
-//  private ScrollPane scrollPane;
+  @FXML
+  private ScrollPane scrollPane;
   public static String lastClickedMovie;
 
+  /**
+   * Initializes the Move Grid page with data from the database.
+   *
+   * @param url    Not explicitly used in method.
+   * @param bundle Not explicitly used in method.
+   */
+  @Override
   public void initialize(URL url, ResourceBundle bundle) {
-    // ArrayList to hold all the buttons. More than likely not necessary,
-    // but it's good to be safe.
-    ArrayList<Button> buttons = new ArrayList<>();
+    // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value
+    HashMap<String, Integer> titleKeys = new HashMap<String, Integer>();
     // Initialize database connection
-    DBConnection con = new DBConnection();
+    DatabaseConnection con = new DatabaseConnection();
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
     // table
     ResultSet rs = con.searchStatement("MOVIE_ID", "MOVIE_TITLE",
@@ -53,14 +64,11 @@ public class MovieGridController implements Initializable {
 
       // Creates a new button for each entry in the result set.
       for (int i = 0; i < numRows; i++) {
-        // Creates a button with text that matches the movie title it is for
-        buttons.add(new Button(String.format("%s", rs.getString("MOVIE_TITLE")
-        )));
-        // Creates a local reference to the current button so we can edit it
-        // easier.
-        Button currentButton = buttons.get(i);
-        // Not needed with .css file
-//        currentButton.setStyle("-fx-background-color: transparent;");
+        final String movieTitle = rs.getString("MOVIE_TITLE");
+        final String movieImage = rs.getString("MOVIE_IMAGE");
+        final Integer movieId = Integer.parseInt(rs.getString("MOVIE_ID"));
+        titleKeys.put(movieTitle, movieId);
+        Button currentButton = new Button(movieTitle);
         // Sets the ID so that the stylesheet can be applied to the buttons.
         currentButton.setId("moviegridbutton");
         // Sets the image to display above the text
@@ -79,18 +87,19 @@ public class MovieGridController implements Initializable {
           @Override
           public void handle(ActionEvent event) {
             Button button = (Button) event.getSource();
-            System.out.println(button.getText());
-            lastClickedMovie = button.getText();
+            String currentTitle = button.getText();
+            HotBoxNavigator.lastClickedMovie = titleKeys.get(currentTitle);
             // Once the movie page is made, this line will load it.
             // Ideally the initialize() method of that page will read
             // lastClickedMovie and use that string to load the correct data
             // for the clicked movie.
             //HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_PAGE);
+            System.out.println(currentTitle);
           }
         });
 
         // Creates a new image from the imgur url in the database
-        ImageView imageView = new ImageView(rs.getString("MOVIE_IMAGE"));
+        ImageView imageView = new ImageView(movieImage);
         // Sets the button graphic to the database image.
         currentButton.setGraphic(imageView);
 
@@ -102,7 +111,5 @@ public class MovieGridController implements Initializable {
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
-    // Not needed with .css file
-//    scrollPane.setStyle("-fx-background-color:transparent;");
   }
 }
