@@ -21,8 +21,8 @@ public class HotBoxNavigator {
   /**
    * Convenience static fields to determine the last clicked buttons.
    */
-  public static int lastClickedMovie;
-  public static int lastClickedActor;
+  public static String lastClickedMovie;
+  public static String lastClickedActor;
 
   /**
    * The main application layout controller.

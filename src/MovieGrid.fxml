@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.FlowPane?>
 
 <ScrollPane maxHeight="-Infinity"
-            fx:id="scrollPane"
             fx:controller="MovieGridController"
             maxWidth="-Infinity"
             minHeight="-Infinity"

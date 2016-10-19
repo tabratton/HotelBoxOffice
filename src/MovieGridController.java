@@ -33,8 +33,8 @@ public class MovieGridController implements Initializable {
   private FlowPane flowPane;
   // ScrollPane object that allows us to set certain things. Not needed with
   // .css file
-  @FXML
-  private ScrollPane scrollPane;
+//  @FXML
+//  private ScrollPane scrollPane;
   // Desired width of the image to be used for the buttons
   private static final int TARGET_WIDTH = 150;
   // Calculates desired height based on the known aspect ratio of the images.
@@ -49,7 +49,7 @@ public class MovieGridController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle bundle) {
     // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value
-    HashMap<String, Integer> titleKeys = new HashMap<String, Integer>();
+    HashMap<String, String> titleKeys = new HashMap<String, String>();
     // Initialize database connection
     DatabaseConnection con = new DatabaseConnection();
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
@@ -68,7 +68,7 @@ public class MovieGridController implements Initializable {
       for (int i = 0; i < numRows; i++) {
         final String movieTitle = rs.getString("MOVIE_TITLE");
         final String movieImage = rs.getString("MOVIE_IMAGE");
-        final Integer movieId = Integer.parseInt(rs.getString("MOVIE_ID"));
+        final String movieId = rs.getString("MOVIE_ID");
         titleKeys.put(movieTitle, movieId);
         Button currentButton = new Button(movieTitle);
         // Sets the ID so that the stylesheet can be applied to the buttons.
