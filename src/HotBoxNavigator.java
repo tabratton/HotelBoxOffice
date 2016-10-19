@@ -19,6 +19,12 @@ public class HotBoxNavigator {
   public static final String CUSTOMER_EDIT = "CustomerEdit.fxml";
 
   /**
+   * Convenience static fields to determine the last clicked buttons
+   */
+  public static int lastClickedMovie;
+  public static int lastClickedActor;
+
+  /**
    * The main application layout controller.
    */
   private static HotBoxController mainController;
