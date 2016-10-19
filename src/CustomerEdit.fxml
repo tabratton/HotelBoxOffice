@@ -64,19 +64,19 @@
         <Label
                 text="Customer ID:"/>
         <TextField
-                fx:id="cID"
+                fx:id="customerId"
 
                 GridPane.columnIndex="1"/>
         <TextField
-                fx:id="cName"
+                fx:id="customerName"
                 GridPane.columnIndex="1"
                 GridPane.rowIndex="1"/>
         <TextField
-                fx:id="cBalance"
+                fx:id="customerBalance"
                 GridPane.columnIndex="1"
                 GridPane.rowIndex="2"/>
         <TextField
-                fx:id="cRoom"
+                fx:id="customerRoom"
                 GridPane.columnIndex="1"
                 GridPane.rowIndex="3"/>
         <GridPane
@@ -100,9 +100,9 @@
             </rowConstraints>
             <children>
                 <TextField
-                        fx:id="cPassword"/>
+                        fx:id="customerPassword"/>
                 <TextField
-                        fx:id="cConfirm"
+                        fx:id="customerConfirm"
                         GridPane.rowIndex="1"/>
             </children>
         </GridPane>
