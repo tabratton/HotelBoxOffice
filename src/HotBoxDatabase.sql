@@ -1,3 +1,6 @@
+-- DO NOT RUN THIS UNLESS YOU ARE ABSOLUTELY SURE YOU HAVE A LOCAL DATABASE
+-- INSTANCE SELECTED, YOU COULD MESS UP THE ONLINE DATABASE
+
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
 -- Host: hotelboxoffice.cornjso48dgu.us-east-1.rds.amazonaws.com    Database: HotelBoxOffice
