@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane fx:id="bottomGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -23,10 +23,10 @@
       <Label text="Current Balance:" GridPane.rowIndex="2" />
       <Label text="Current Room Number:" GridPane.rowIndex="3" />
       <Label text="Customer ID:" />
-      <TextField fx:id="CID" GridPane.columnIndex="1" />
-      <TextField fx:id="CName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField fx:id="CBalance" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="CRoom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="cID" GridPane.columnIndex="1" />
+      <TextField fx:id="cName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="cBalance" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="cRoom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -36,8 +36,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="CPassword" />
-            <TextField fx:id="CConfirm" GridPane.rowIndex="1" />
+            <TextField fx:id="cPassword" />
+            <TextField fx:id="cConfirm" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <GridPane GridPane.rowIndex="4">
@@ -53,7 +53,7 @@
             <Label text="Confirm Password:" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="submiter" mnemonicParsing="false" onAction="#Submit" onMouseClicked="#Submit" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Button fx:id="submitButton" mnemonicParsing="false" onAction="#Submit" onMouseClicked="#Submit" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="5" />
    </children>
    <opaqueInsets>
       <Insets />
