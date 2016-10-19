@@ -8,10 +8,13 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-  private static final String HOST = "jdbc:mysql://hotelboxoffice"
-      + ".cornjso48dgu.us-east-1.rds.amazonaws.com:3306/HotelBoxOffice";
-  private static final String USER_NAME = "masterRoot";
-  private static final String PASSWORD = "masterRoot";
+  private static final boolean onCampus = true;
+  private static final String HOST = onCampus
+      ? "jdbc:mysql://localhost:3306/HotelBoxOffice" :
+      "jdbc:mysql://hotelboxoffice.cornjso48dgu.us-east-1.rds.amazonaws"
+          + ".com:3306/HotelBoxOffice";
+  private static final String USER_NAME = onCampus ? "root" : "masterRoot";
+  private static final String PASSWORD = onCampus ? "root" : "masterRoot";
   private Connection con;
 
   public DatabaseConnection() {
