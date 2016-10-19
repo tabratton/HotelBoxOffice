@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.TextAlignment;
 
@@ -36,7 +35,10 @@ public class MovieGridController implements Initializable {
   // .css file
   @FXML
   private ScrollPane scrollPane;
-  public static String lastClickedMovie;
+  // Desired width of the image to be used for the buttons
+  private static final int TARGET_WIDTH = 150;
+  // Calculates desired height based on the known aspect ratio of the images.
+  private static final int TARGET_HEIGHT = (TARGET_WIDTH * 3) / 2;
 
   /**
    * Initializes the Move Grid page with data from the database.
@@ -70,12 +72,12 @@ public class MovieGridController implements Initializable {
         titleKeys.put(movieTitle, movieId);
         Button currentButton = new Button(movieTitle);
         // Sets the ID so that the stylesheet can be applied to the buttons.
-        currentButton.setId("moviegridbutton");
+        currentButton.setId("movieGridButton");
         // Sets the image to display above the text
         currentButton.setContentDisplay(ContentDisplay.TOP);
         // Sets size of the button, solves headaches related to text wrapping
-        // of long movie titles.
-        currentButton.setPrefSize(150, 200);
+        // of long movie titles. +50 to allow for longer titles
+        currentButton.setPrefSize(TARGET_WIDTH + 50, TARGET_HEIGHT + 50);
         // No Ellipses for us.
         currentButton.setWrapText(true);
         // Aligns the contents of the button to be centered on the top.
@@ -98,10 +100,10 @@ public class MovieGridController implements Initializable {
           }
         });
 
-        // Creates a new image from the imgur url in the database
-        ImageView imageView = new ImageView(movieImage);
-        // Sets the button graphic to the database image.
-        currentButton.setGraphic(imageView);
+        // Sets the button graphic to the database image with specified
+        // values for width and height.
+        currentButton.setGraphic(ImageUtility.getImage(movieImage,
+            TARGET_WIDTH, TARGET_HEIGHT));
 
         // Add the button to the flow pane.
         flowPane.getChildren().add(currentButton);

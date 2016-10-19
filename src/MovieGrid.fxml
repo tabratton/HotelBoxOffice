@@ -20,7 +20,6 @@
                 hgap="10.0"
                 prefHeight="600.0"
                 prefWidth="700.0"
-                prefWrapLength="700.0"
                 vgap="10.0" />
    </content>
 </ScrollPane>
