@@ -3,22 +3,24 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<ScrollPane maxHeight="-Infinity"
-            fx:controller="MovieGridController"
-            maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="600.0"
-            prefWidth="720.0"
-            xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/8.0.102">
+<ScrollPane
+        fx:controller="MovieGridController"
+        maxHeight="-Infinity"
+        maxWidth="-Infinity"
+        minHeight="-Infinity"
+        minWidth="-Infinity"
+        prefHeight="600.0"
+        prefWidth="720.0"
+        xmlns:fx="http://javafx.com/fxml/1"
+        xmlns="http://javafx.com/javafx/8.0.102">
    <content>
-      <FlowPane fx:id="flowPane"
-                alignment="TOP_CENTER"
-                columnHalignment="CENTER"
-                hgap="10.0"
-                prefHeight="600.0"
-                prefWidth="700.0"
-                vgap="10.0" />
+      <FlowPane
+              fx:id="flowPane"
+              alignment="TOP_CENTER"
+              columnHalignment="CENTER"
+              hgap="10.0"
+              prefHeight="600.0"
+              prefWidth="700.0"
+              vgap="10.0" />
    </content>
 </ScrollPane>

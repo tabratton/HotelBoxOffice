@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.TextAlignment;
 
@@ -31,10 +30,6 @@ public class MovieGridController implements Initializable {
   // fxml dynamically.
   @FXML
   private FlowPane flowPane;
-  // ScrollPane object that allows us to set certain things. Not needed with
-  // .css file
-//  @FXML
-//  private ScrollPane scrollPane;
   // Desired width of the image to be used for the buttons
   private static final int TARGET_WIDTH = 150;
   // Calculates desired height based on the known aspect ratio of the images.
