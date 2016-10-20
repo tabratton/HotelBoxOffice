@@ -90,7 +90,7 @@ public class MovieGridController implements Initializable {
             // Ideally the initialize() method of that page will read
             // lastClickedMovie and use that string to load the correct data
             // for the clicked movie.
-            //HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_PAGE);
+            HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_PAGE);
             System.out.println(currentTitle);
           }
         });
