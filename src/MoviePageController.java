@@ -36,10 +36,14 @@ public class MoviePageController implements Initializable {
 
     try {
       rs.first();
-      String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
-      String description = "Description: " + rs.getString("MOVIE_DESCRIPTION");
-      String releaseDate = "Release Date: " + rs.getString("MOVIE_"
+      final String title = rs.getString("MOVIE_TITLE");
+      final String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
+      final String description = "Description: " + rs.getString("MOVIE_"
+          + "DESCRIPTION");
+      final String releaseDate = "Release Date: " + rs.getString("MOVIE_"
           + "RELEASE_DATE");
+      final String movieImage = rs.getString("MOVIE_IMAGE");
+
       //Things for the ListView
       ObservableList<String> data = FXCollections.observableArrayList(director,
           description, releaseDate);
