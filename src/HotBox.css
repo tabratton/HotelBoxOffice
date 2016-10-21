@@ -16,3 +16,8 @@
     -fx-background-color: transparent;
 }
 
+.list-view {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
