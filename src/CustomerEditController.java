@@ -38,11 +38,10 @@ public class CustomerEditController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-
-    DatabaseConnection con = new DatabaseConnection();
     String value = "1";
     if (value.equals("2")) {
-      ResultSet rs = con.searchStatement("CUSTOMER", "CUSTOMER_ID", value);
+      ResultSet rs = HotelBox.dbConnection.searchStatement("CUSTOMER",
+          "CUSTOMER_ID", value);
       try {
         while (rs.next()) {
           customerId.setText(rs.getString("CUSTOMER_ID"));

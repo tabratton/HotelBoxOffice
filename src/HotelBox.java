@@ -8,6 +8,9 @@ import java.io.IOException;
 
 public class HotelBox extends Application {
 
+  // Initialize database connection
+  public static DatabaseConnection dbConnection = new DatabaseConnection();
+
   @Override
   public void start(Stage stage) throws Exception {
     stage.setTitle("Hotel Box Office");
@@ -28,8 +31,8 @@ public class HotelBox extends Application {
   private Pane loadMainPane() throws IOException {
     FXMLLoader loader = new FXMLLoader();
 
-    Pane mainPane = (Pane) loader.load(getClass().getResourceAsStream
-        (HotBoxNavigator.MAIN));
+    Pane mainPane = (Pane) loader.load(getClass().getResourceAsStream(
+        HotBoxNavigator.MAIN));
 
     HotBoxController mainController = loader.getController();
 

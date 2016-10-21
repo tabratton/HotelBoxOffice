@@ -45,12 +45,10 @@ public class MovieGridController implements Initializable {
   public void initialize(URL url, ResourceBundle bundle) {
     // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value
     HashMap<String, String> titleKeys = new HashMap<String, String>();
-    // Initialize database connection
-    DatabaseConnection con = new DatabaseConnection();
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
     // table
-    ResultSet rs = con.searchStatement("MOVIE_ID", "MOVIE_TITLE",
-        "MOVIE_IMAGE", "MOVIES");
+    ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIE_ID",
+        "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
 
     try {
       // Moves the cursor to the last position to determine the number of
