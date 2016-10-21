@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  * FXML Controller class.
@@ -45,6 +47,9 @@ public class MoviePageController implements Initializable {
 
   @FXML
   private GridPane innerGridPane;
+  
+  @FXML
+  private Button goBackButton;
 
   /**
    * Initializes the controller class.
@@ -96,7 +101,18 @@ public class MoviePageController implements Initializable {
       text = new Text(releaseDate);
       text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
       listView.getItems().add(text);
-
+      
+      
+          goBackButton.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            goBackButton = (Button) event.getSource();
+           
+            // Once the Button is clicked it goes back to the MainGrid
+            HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
+          
+            }
+           });
       // Commented out and not removed in case we want to change back to this
       // code.
       //Things for the ListView
@@ -108,3 +124,4 @@ public class MoviePageController implements Initializable {
     }
   }
 }
+
