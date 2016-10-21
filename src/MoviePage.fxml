@@ -1,115 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-
-
-<AnchorPane
-        id="AnchorPane"
-        prefHeight="500.0"
-        prefWidth="700.0"
-        xmlns="http://javafx.com/javafx/8"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="MoviePageController">
-   <children>
-      <SplitPane
-              dividerPositions="0.29797979797979796"
-              layoutX="23.0"
-              layoutY="73.0"
-              prefHeight="500.0"
-              prefWidth="700.0"
-              AnchorPane.bottomAnchor="0.0"
-              AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane
-                  minHeight="0.0"
-                  minWidth="0.0"
-                  prefHeight="160.0"
-                  prefWidth="100.0">
-               <children>
-                  <ListView
-                          fx:id="listView"
-                          layoutX="-10.0"
-                          layoutY="66.0"
-                          opacity="0.69"
-                          prefHeight="498.0"
-                          prefWidth="204.0"
-                          AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0"
-                          AnchorPane.rightAnchor="0.0"
-                          AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
-          <AnchorPane
-                  minHeight="0.0"
-                  minWidth="0.0"
-                  prefHeight="160.0"
-                  prefWidth="100.0">
-               <children>
-                  <SplitPane
-                          dividerPositions="0.13911290322580644"
-                          layoutX="117.0"
-                          layoutY="87.0"
-                          orientation="VERTICAL"
-                          prefHeight="498.0"
-                          prefWidth="486.0"
-                          AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0"
-                          AnchorPane.rightAnchor="0.0"
-                          AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane
-                              minHeight="0.0"
-                              minWidth="0.0"
-                              prefHeight="100.0"
-                              prefWidth="160.0">
-                           <children>
-                              <Label
-                                      fx:id="movieTitle"
-                                      layoutX="218.0"
-                                      layoutY="33.0"
-                                      prefHeight="65.0"
-                                      prefWidth="484.0"
-                                      text="Label"
-                                      AnchorPane.bottomAnchor="0.0"
-                                      AnchorPane.leftAnchor="0.0"
-                                      AnchorPane.rightAnchor="0.0"
-                                      AnchorPane.topAnchor="0.0" />
-                           </children></AnchorPane>
-                      <AnchorPane
-                              minHeight="0.0"
-                              minWidth="0.0"
-                              prefHeight="100.0"
-                              prefWidth="160.0">
-                           <children>
-                              <Button
-                                      fx:id="playMovie"
-                                      layoutX="160.0"
-                                      layoutY="136.0"
-                                      mnemonicParsing="false"
-                                      prefHeight="423.0"
-                                      prefWidth="484.0"
-                                      text="Button"
-                                      AnchorPane.bottomAnchor="0.0"
-                                      AnchorPane.leftAnchor="0.0"
-                                      AnchorPane.rightAnchor="0.0"
-                                      AnchorPane.topAnchor="0.0" />
-                           </children>
-                      </AnchorPane>
-
-                    </items>
-                  </SplitPane>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
+<AnchorPane id="AnchorPane"
+            prefHeight="500.0"
+            prefWidth="700.0"
+            xmlns="http://javafx.com/javafx/8.0.102"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="MoviePageController">
+  <children>
+    <SplitPane dividerPositions="0.3"
+               layoutX="23.0"
+               layoutY="73.0"
+               prefHeight="500.0"
+               prefWidth="700.0"
+               AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0"
+               AnchorPane.topAnchor="0.0">
+      <items>
+        <AnchorPane minHeight="0.0"
+                    minWidth="0.0"
+                    prefHeight="160.0"
+                    prefWidth="100.0">
+          <children>
+            <ListView fx:id="listView"
+                      layoutX="-10.0"
+                      layoutY="66.0"
+                      opacity="0.69"
+                      prefHeight="498.0"
+                      prefWidth="204.0"
+                      AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="-20.0"
+                      AnchorPane.topAnchor="0.0"/>
+          </children>
+        </AnchorPane>
+        <GridPane>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES"
+                               minWidth="10.0"
+                               prefWidth="486.0"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints maxHeight="244.0"
+                            minHeight="10.0"
+                            prefHeight="40.0"
+                            vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="460.0"
+                            minHeight="10.0"
+                            prefHeight="460.0"
+                            vgrow="SOMETIMES"/>
+          </rowConstraints>
+          <children>
+            <Label fx:id="movieTitle"
+                   id="moviePageTitle"
+                   alignment="CENTER"
+                   text="Movie Title"
+                   GridPane.halignment="CENTER"
+                   GridPane.valignment="CENTER"/>
+            <GridPane fx:id="innerGrid" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES"
+                                   maxWidth="340.0"
+                                   minWidth="10.0"
+                                   prefWidth="340.0"/>
+                <ColumnConstraints hgrow="SOMETIMES"
+                                   maxWidth="238.0"
+                                   minWidth="10.0"
+                                   prefWidth="149.0"/>
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0"
+                                prefHeight="30.0"
+                                vgrow="SOMETIMES"/>
+              </rowConstraints>
+              <children>
+                <Button fx:id="playMovie"
+                        mnemonicParsing="false"
+                        text="Rent Movie"
+                        GridPane.columnIndex="1"
+                        GridPane.halignment="CENTER"
+                        GridPane.valignment="CENTER"/>
+                <Button fx:id="movieImageButton"
+                        mnemonicParsing="false"
+                        GridPane.halignment="CENTER"
+                        GridPane.valignment="CENTER"/>
+              </children>
+            </GridPane>
+          </children>
+        </GridPane>
+      </items>
+    </SplitPane>
+  </children>
 </AnchorPane>

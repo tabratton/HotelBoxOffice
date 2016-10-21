@@ -2,13 +2,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -20,13 +31,20 @@ import java.util.ResourceBundle;
 public class MoviePageController implements Initializable {
 
   @FXML
-  private ListView<String> listView;
+  //private ListView<String> listView;
+  private ListView<Text> listView;
 
   @FXML
   private Button playMovie;
 
   @FXML
   private Label movieTitle;
+
+  @FXML
+  private Button movieImageButton;
+
+  @FXML
+  private GridPane innerGridPane;
 
   /**
    * Initializes the controller class.
@@ -47,20 +65,44 @@ public class MoviePageController implements Initializable {
       final String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
       final String description = "Description: " + rs.getString("MOVIE_"
           + "DESCRIPTION");
-      final String releaseDate = "Release Date: " + rs.getString("MOVIE_"
-          + "RELEASE_DATE");
+      String releaseDate = rs.getString("MOVIE_RELEASE_DATE");
       final String movieImage = rs.getString("MOVIE_IMAGE");
 
       //sets title for the page
       movieTitle.setText(title);
 
+      //Converts date stored in database to a date in the format of "April 2,
+      // 2011"
+      SimpleDateFormat isoDate = new SimpleDateFormat("yyyy-MM-dd");
+      DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
+      try {
+        Date date = isoDate.parse(releaseDate);
+        releaseDate = "Release Date: " + df.format(date);
+      } catch (ParseException ex) {
+        System.out.println(ex.getMessage());
+      }
       //sets image for the play movie button
-      playMovie.setGraphic(ImageUtility.getImage(movieImage, 420, 500));
+      movieImageButton.setGraphic(ImageUtility.getImage(movieImage, 300, 450));
+      movieImageButton.setStyle("-fx-background-color: transparent;");
 
+      // Sets the text that will be each item of the list, and sets the text
+      // wrapping property so that the scroll bar is not needed.
+      Text text = new Text(director);
+      text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
+      listView.getItems().add(text);
+      text = new Text(description);
+      text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
+      listView.getItems().add(text);
+      text = new Text(releaseDate);
+      text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
+      listView.getItems().add(text);
+
+      // Commented out and not removed in case we want to change back to this
+      // code.
       //Things for the ListView
-      ObservableList<String> data = FXCollections.observableArrayList(director,
-          description, releaseDate);
-      listView.setItems(data);
+      //ObservableList<String> data = FXCollections.observableArrayList(director,
+      //description, releaseDate);
+      //listView.setItems(data);
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
