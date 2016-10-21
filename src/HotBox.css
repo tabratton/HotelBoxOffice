@@ -12,6 +12,10 @@
     -fx-padding: 12 4 4 12;
 }
 
+#moviePageTitle {
+    -fx-font-size: 32px;
+}
+
 .scroll-pane {
     -fx-background-color: transparent;
 }
