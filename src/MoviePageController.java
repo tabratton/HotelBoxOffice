@@ -1,17 +1,12 @@
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -20,10 +15,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
+
 
 /**
  * FXML Controller class.
@@ -46,9 +40,6 @@ public class MoviePageController implements Initializable {
   private Button movieImageButton;
 
   @FXML
-  private GridPane innerGridPane;
-  
-  @FXML
   private Button goBackButton;
 
   /**
@@ -57,7 +48,7 @@ public class MoviePageController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value
-    HashMap<String, String> actorKeys = new HashMap<String, String>();
+    // HashMap<String, String> actorKeys = new HashMap<String, String>();
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
     // table
     ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES", "MOVIE_ID",
@@ -74,6 +65,8 @@ public class MoviePageController implements Initializable {
       final String movieImage = rs.getString("MOVIE_IMAGE");
 
       //sets title for the page
+      movieTitle.setWrapText(true);
+      movieTitle.setTextAlignment(TextAlignment.CENTER);
       movieTitle.setText(title);
 
       //Converts date stored in database to a date in the format of "April 2,
@@ -101,22 +94,21 @@ public class MoviePageController implements Initializable {
       text = new Text(releaseDate);
       text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
       listView.getItems().add(text);
-      
-      
-          goBackButton.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            goBackButton = (Button) event.getSource();
-           
-            // Once the Button is clicked it goes back to the MainGrid
-            HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
-          
-            }
-           });
+
+
+      goBackButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          // Once the Button is clicked it goes back to the MainGrid
+          HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
+
+        }
+      });
       // Commented out and not removed in case we want to change back to this
       // code.
       //Things for the ListView
-      //ObservableList<String> data = FXCollections.observableArrayList(director,
+      //ObservableList<String> data = FXCollections.observableArrayList
+      // (director,
       //description, releaseDate);
       //listView.setItems(data);
     } catch (SQLException ex) {
