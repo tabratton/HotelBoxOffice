@@ -113,4 +113,32 @@ public class DatabaseConnection {
       return null;
     }
   }
+  
+  /**NOT SURE IF THIS SEARCH STATEMENT SHOULD BE USED TO ADD THE GENRE IN
+   * MOVIEPAGE, CASTING IS NOT INCLUDED
+   * Automatically constructs search statement and executes it.
+   *
+   * @param table1   The table that you want to select data from.
+   * @param table2   The table that you want to join a field from.
+   * @param field1   The column of data that you are using to find a row/rows.
+   * @param field2   The column of data from table2 that you are using
+   *                 to find a row/rows.
+   * @param value   The pattern that you are using to select from.
+   * @return        A ResultSet object that contains the information you
+   *                requested.
+   */
+  public ResultSet searchStatement(String table1, String table2, String field1,
+                                   String field2, String value) {
+    PreparedStatement stm;
+    try {
+      String search = String.format("SELECT * FROM %s JOIN %s ON %s.%s = %s.%s "
+          + "WHERE %s = %s",table1, table2, table1, field1, table2, field1,
+          field2, value);
+      stm = con.prepareStatement(search);
+      return stm.executeQuery();
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      return null;
+    }
+  }  
 }
