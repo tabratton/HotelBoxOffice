@@ -9,7 +9,9 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
   private static final String HOST = "jdbc:mysql://hotelboxoffice"
-      + ".cornjso48dgu.us-east-1.rds.amazonaws.com:3306/HotelBoxOffice";
+      + ".cornjso48dgu.us-east-1.rds.amazonaws"
+      + ".com:3306/HotelBoxOffice?verifyServerCertificate=false&useSSL=true"
+      + "&requireSSL=true";
   private static final String USERNAME = "masterRoot";
   private static final String PASSWORD = "masterRoot";
   private Connection con;
@@ -44,6 +46,29 @@ public class DatabaseConnection {
   /**
    * Automatically constructs search statement and executes it.
    *
+   * <p>Selects all data from an entire table.
+   *
+   * @param table The table that you are selecting data from.
+   * @return      A ResultSet object that contains the information that you
+   *              requested.
+   */
+  public ResultSet searchStatement(String table) {
+    PreparedStatement stm;
+    try {
+      String search = String.format("SELECT * FROM %s", table);
+      stm = con.prepareStatement(search);
+      return stm.executeQuery();
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      return null;
+    }
+  }
+
+  /**
+   * Automatically constructs search statement and executes it.
+   *
+   * <p>Selects 3 columns of a specified table.
+   *
    * @param col1  The first column you want to get data for.
    * @param col2  The second column you want to get data for.
    * @param col3  The third column you want to get data for.
@@ -67,6 +92,8 @@ public class DatabaseConnection {
 
   /**
    * Automatically constructs search statement and executes it.
+   *
+   * <p>Selects all rows that match a specified pattern.
    *
    * @param table The table that you want to select data from.
    * @param field The column of data that you are using to find a row.
