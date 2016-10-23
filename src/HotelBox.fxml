@@ -3,12 +3,19 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox prefHeight="200.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="HotBoxController">
+<VBox
+    prefHeight="200.0"
+    prefWidth="300.0"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="HotBoxController">
     <children>
-        <Label fx:id="headerLabel" maxWidth="1.7976931348623157E308"
-               text="Place holder for navigation menu(?) and search bar(?)"
-               VBox.vgrow="NEVER" />
-        <StackPane fx:id="hotBoxHolder" VBox.vgrow="ALWAYS" />
+        <Label
+            fx:id="headerLabel"
+            maxWidth="1.7976931348623157E308"
+            text="Place holder for navigation menu(?) and search bar(?)"
+            VBox.vgrow="NEVER" />
+        <StackPane
+            fx:id="hotBoxHolder"
+            VBox.vgrow="ALWAYS" />
     </children>
 </VBox>
