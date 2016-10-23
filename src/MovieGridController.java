@@ -49,6 +49,9 @@ public class MovieGridController implements Initializable {
     // table
     ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIE_ID",
         "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
+    // Magic to set the preferred width and height to the current window size.
+    flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
+    flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
 
     try {
       // Moves the cursor to the last position to determine the number of

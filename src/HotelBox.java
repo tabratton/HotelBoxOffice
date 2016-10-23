@@ -10,14 +10,17 @@ public class HotelBox extends Application {
 
   // Initialize database connection
   public static DatabaseConnection dbConnection = new DatabaseConnection();
+  // Allows MovieGridController to access the current window size.
+  public static Stage testStage;
 
   @Override
   public void start(Stage stage) throws Exception {
     stage.setTitle("Hotel Box Office");
-
+    testStage = stage;
     stage.setScene(createScene(loadMainPane()));
 
     stage.show();
+
   }
 
   /**
