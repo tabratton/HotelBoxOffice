@@ -82,8 +82,6 @@ public class MovieGridController implements Initializable {
   }
 
   private void createChoiceBox(ResultSet genres) {
-    // Clear genre keys so that we don't have duplicate entries.
-    genreKeys.clear();
     genreKeys.put("All", "0");
     choiceBox.setTooltip(new Tooltip("Filter by genre"));
     // Add default All selection
@@ -147,8 +145,6 @@ public class MovieGridController implements Initializable {
   }
 
   private void createButtons(ResultSet rs) {
-    // Clear title keys so that we don't have duplicate entries.
-    titleKeys.clear();
     try {
       // Moves the cursor to the last position to determine the number of
       // entries in the result set.
