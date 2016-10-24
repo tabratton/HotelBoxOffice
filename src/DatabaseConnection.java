@@ -49,8 +49,8 @@ public class DatabaseConnection {
    * <p>Selects all data from an entire table.
    *
    * @param table The table that you are selecting data from.
-   * @return      A ResultSet object that contains the information that you
-   *              requested.
+   * @return A ResultSet object that contains the information that you
+   *         requested.
    */
   public ResultSet searchStatement(String table) {
     PreparedStatement stm;
@@ -73,8 +73,7 @@ public class DatabaseConnection {
    * @param col2  The second column you want to get data for.
    * @param col3  The third column you want to get data for.
    * @param table The table that you are selecting data from.
-   * @return      A ResultSet object that contains the information you
-   *              requested.
+   * @return A ResultSet object that contains the information you requested.
    */
   public ResultSet searchStatement(String col1, String col2, String col3,
                                    String table) {
@@ -99,8 +98,7 @@ public class DatabaseConnection {
    * @param field The column of data that you are using to find a row.
    * @param value The value of that column that you are getting the row data
    *              for.
-   * @return      A ResultSet object that contains the information you
-   *              requested.
+   * @return A ResultSet object that contains the information you requested.
    */
   public ResultSet searchStatement(String table, String field, String value) {
     PreparedStatement stm;
@@ -118,21 +116,25 @@ public class DatabaseConnection {
   /**
    * Automatically constructs search statement and executes it.
    *
-   * @param table   The table that you want to select data from.
-   * @param field   The column of data that you are using to find a row/rows.
-   * @param value   The pattern that you are using to select froms.
-   * @param similar Unused boolean that is simply to have one more argument so
-   *                that it doesn't conflict with other searchStatement
-   *                methods.
-   * @return        A ResultSet object that contains the information you
-   *                requested.
+   * @param table    The table that you want to select data from.
+   * @param field    The column of data that you are using to find a row/rows.
+   * @param value    The pattern that you are using to select froms.
+   * @param useLower Determines whether to use the LOWER() function when
+   *                 searching.
+   * @return A ResultSet object that contains the information you requested.
    */
   public ResultSet searchStatement(String table, String field, String value,
-                                   boolean similar) {
+                                   boolean useLower) {
     PreparedStatement stm;
     try {
-      String search = String.format("SELECT * FROM %s WHERE %s LIKE '%%%s%%'",
-          table, field, value);
+      String search = "";
+      if (useLower) {
+        search = String.format("SELECT * FROM %s WHERE LOWER(%s) LIKE "
+            + "LOWER(\'%%%s%%\')", table, field, value);
+      } else {
+        search = String.format("SELECT * FROM %s WHERE %s LIKE \'%%%s%%\')",
+            table, field, value);
+      }
       stm = con.prepareStatement(search);
       return stm.executeQuery();
     } catch (SQLException ex) {
@@ -152,8 +154,7 @@ public class DatabaseConnection {
    * @param field2 The column of data from table2 that you are using to find a
    *               row/rows.
    * @param value  The pattern that you are using to select from.
-   * @return       A ResultSet object that contains the information you
-   *               requested.
+   * @return A ResultSet object that contains the information you requested.
    */
   public ResultSet searchStatement(String table1, String table2, String field1,
                                    String field2, String value) {
@@ -161,7 +162,7 @@ public class DatabaseConnection {
     try {
       String search = String.format("SELECT * FROM %s JOIN %s ON %s.%s = %s.%s"
               + " WHERE %s = %s", table1, table2, table1, field1, table2,
-              field1, field2, value);
+          field1, field2, value);
       stm = con.prepareStatement(search);
       return stm.executeQuery();
     } catch (SQLException ex) {
