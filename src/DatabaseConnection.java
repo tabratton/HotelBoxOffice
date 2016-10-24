@@ -131,7 +131,7 @@ public class DatabaseConnection {
                                    boolean similar) {
     PreparedStatement stm;
     try {
-      String search = String.format("SELECT * FROM %s WHERE %s LIKE %%%s%%",
+      String search = String.format("SELECT * FROM %s WHERE %s LIKE '%%%s%%'",
           table, field, value);
       stm = con.prepareStatement(search);
       return stm.executeQuery();
