@@ -1,16 +1,10 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -78,7 +72,9 @@ public class MovieGridController implements Initializable {
       rs = HotelBox.dbConnection.searchStatement("MOVIE_ID",
           "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
     }
-    createButtons(rs);
+    GeneralUtilities.createButtons(rs, titleKeys, flowPane, HotBoxNavigator
+            .MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIE_TITLE",
+        "MOVIE_IMAGE", "MOVIE_ID");
   }
 
   private void createChoiceBox(ResultSet genres) {
@@ -139,68 +135,11 @@ public class MovieGridController implements Initializable {
             // Clear the display of movies
             removeAllButtons();
             // Create new grid with current selection of genre
-            createButtons(newSet);
+            GeneralUtilities.createButtons(newSet, titleKeys, flowPane,
+                HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
+                "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID");
           }
         });
-  }
-
-  private void createButtons(ResultSet rs) {
-    try {
-      // Moves the cursor to the last position to determine the number of
-      // entries in the result set.
-      rs.last();
-      int numRows = rs.getRow();
-      rs.first();
-
-      // Creates a new button for each entry in the result set.
-      for (int i = 0; i < numRows; i++) {
-        final String movieTitle = rs.getString("MOVIE_TITLE");
-        final String movieImage = rs.getString("MOVIE_IMAGE");
-        final String movieId = rs.getString("MOVIE_ID");
-        titleKeys.put(movieTitle, movieId);
-        Button currentButton = new Button(movieTitle);
-        // Sets the ID so that the stylesheet can be applied to the buttons.
-        currentButton.setId("movieGridButton");
-        // Sets the image to display above the text
-        currentButton.setContentDisplay(ContentDisplay.TOP);
-        // Sets size of the button, solves headaches related to text wrapping
-        // of long movie titles. +50 to allow for longer titles
-        currentButton.setPrefSize(TARGET_WIDTH + 50, TARGET_HEIGHT + 50);
-        // No Ellipses for us.
-        currentButton.setWrapText(true);
-        // Aligns the contents of the button to be centered on the top.
-        currentButton.setAlignment(Pos.TOP_CENTER);
-        // Text is centered when it wraps.
-        currentButton.setTextAlignment(TextAlignment.CENTER);
-        // Defines an anonymous event handler for the button.
-        currentButton.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            Button button = (Button) event.getSource();
-            String currentTitle = button.getText();
-            HotBoxNavigator.lastClickedMovie = titleKeys.get(currentTitle);
-            // Once the movie page is made, this line will load it.
-            // Ideally the initialize() method of that page will read
-            // lastClickedMovie and use that string to load the correct data
-            // for the clicked movie.
-            HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_PAGE);
-            System.out.println(currentTitle);
-          }
-        });
-
-        // Sets the button graphic to the database image with specified
-        // values for width and height.
-        currentButton.setGraphic(ImageUtility.getImage(movieImage,
-            TARGET_WIDTH, TARGET_HEIGHT));
-
-        // Add the button to the flow pane.
-        flowPane.getChildren().add(currentButton);
-        // Advance the cursor to the next database entry.
-        rs.next();
-      }
-    } catch (SQLException ex) {
-      System.err.println(ex.getMessage());
-    }
   }
 
   private void removeAllButtons() {

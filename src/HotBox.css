@@ -1,13 +1,13 @@
-#movieGridButton {
+#gridButton {
     -fx-background-color: transparent;
 }
 
-#movieGridButton:hover {
+#gridButton:hover {
     -fx-background-color: transparent;
     -fx-padding: 8, 8, 8, 8;
 }
 
-#movieGridButton:pressed {
+#gridButton:pressed {
     -fx-background-color: transparent;
     -fx-padding: 12 4 4 12;
 }
