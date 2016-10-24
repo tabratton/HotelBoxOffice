@@ -26,21 +26,34 @@ public class HotBoxController {
     hotBoxHolder.getChildren().setAll(node);
   }
 
+  /**
+   * Load the search results page.
+   */
   public void loadSearchResults() {
     HotBoxNavigator.lastSearchTerm = searchBox.getText();
     HotBoxNavigator.loadPage(HotBoxNavigator.SEARCH_RESULTS);
   }
 
+  /**
+   * Load the movie grid page.
+   */
   public void loadMovieGrid() {
     resetSearchBox();
+    MovieGridController.loadedByNavigation = true;
     HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
   }
 
+  /**
+   * Load the actor list page.
+   */
   public void loadActorList() {
     resetSearchBox();
     HotBoxNavigator.loadPage(HotBoxNavigator.ACTOR_LIST);
   }
 
+  /**
+   * Load the admin page.
+   */
   public void loadAdminPage() {
     resetSearchBox();
     //HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);

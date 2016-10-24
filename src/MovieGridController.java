@@ -43,6 +43,8 @@ public class MovieGridController implements Initializable {
   private static String currentSelectedGenreName = "All";
   // Stores the id of the current/last selected genre.
   private static int currentSelectedGenreId = 0;
+  // Determines if the page was loaded by the navigation bar.
+  public static boolean loadedByNavigation;
 
   /**
    * Initializes the Move Grid page with data from the database.
@@ -55,6 +57,13 @@ public class MovieGridController implements Initializable {
     // Magic to set the preferred width and height to the current window size.
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
+
+    if (loadedByNavigation) {
+      currentSelectedGenreName = "All";
+      currentSelectedGenreId = 0;
+      loadedByNavigation = false;
+    }
+
     // Gets the data for the GENRES table.
     ResultSet databaseGenres = HotelBox.dbConnection.searchStatement("GENRE "
         + "ORDER BY GENRE_NAME");
