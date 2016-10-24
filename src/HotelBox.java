@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -18,7 +19,8 @@ public class HotelBox extends Application {
     stage.setTitle("Hotel Box Office");
     testStage = stage;
     stage.setScene(createScene(loadMainPane()));
-
+    stage.getIcons().add(new Image(HotelBox.class.getResourceAsStream(
+        "/images/icon.png")));
     stage.show();
 
   }
