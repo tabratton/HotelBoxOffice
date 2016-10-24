@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<TabPane minHeight="-Infinity"
+         minWidth="-Infinity"
+         fx:controller="SearchResultsController"
+         prefHeight="600.0"
+         prefWidth="720.0"
+         tabClosingPolicy="UNAVAILABLE"
+         xmlns:fx="http://javafx.com/fxml/1"
+         xmlns="http://javafx.com/javafx/8.0.102">
+  <tabs>
+    <Tab text="Movie Results">
+      <content>
+        <ScrollPane prefHeight="600.0"
+                    prefWidth="720.0"
+                    hbarPolicy="NEVER"
+                    minHeight="-Infinity"
+                    minWidth="-Infinity">
+          <content>
+            <FlowPane fx:id="movieFlowPane"
+                      alignment="TOP_CENTER"
+                      columnHalignment="CENTER"
+                      hgap="10.0"
+                      prefHeight="570.0"
+                      prefWidth="700.0"
+                      vgap="10.0"/>
+          </content>
+        </ScrollPane>
+      </content>
+    </Tab>
+    <Tab text="Actor/Actress Results">
+      <content>
+        <ScrollPane prefHeight="600.0"
+                    prefWidth="720.0"
+                    hbarPolicy="NEVER"
+                    minHeight="-Infinity"
+                    minWidth="-Infinity">
+          <content>
+            <FlowPane fx:id="actorFlowPane"
+                      alignment="TOP_CENTER"
+                      columnHalignment="CENTER"
+                      hgap="10.0"
+                      prefHeight="570.0"
+                      prefWidth="700.0"
+                      vgap="10.0"/>
+          </content>
+        </ScrollPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
