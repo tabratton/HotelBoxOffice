@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="200.0"
+      prefWidth="500.0"
+      xmlns="http://javafx.com/javafx/8.0.102"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="HotBoxController">
+  <children>
+    <AnchorPane prefHeight="30.0">
+      <children>
+        <HBox prefHeight="30.0">
+          <children>
+            <Button mnemonicParsing="false" text="Movie List"/>
+            <Button mnemonicParsing="false" text="Actor/Actress List"/>
+            <Button mnemonicParsing="false" text="Admin Tools"/>
+          </children>
+        </HBox>
+        <TextField id="searchBox"
+                   prefWidth="200.0"
+                   promptText="Search Movies and Actors"
+                   AnchorPane.rightAnchor="0.0"/>
+      </children>
+    </AnchorPane>
+    <StackPane fx:id="hotBoxHolder" VBox.vgrow="ALWAYS"/>
+  </children>
+</VBox>
