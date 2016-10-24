@@ -17,12 +17,16 @@ public class HotBoxNavigator {
   public static final String MOVIE_GRID = "MovieGrid.fxml";
   public static final String MOVIE_PAGE = "MoviePage.fxml";
   public static final String CUSTOMER_EDIT = "CustomerEdit.fxml";
+  public static final String SEARCH_RESULTS = "SearchResults.fxml";
+  public static final String ACTOR_PAGE = "ActorPage.fxml";
 
   /**
    * Convenience static fields to determine the last clicked buttons.
    */
   public static String lastClickedMovie;
   public static String lastClickedActor;
+
+  public static String lastSearchTerm;
 
   /**
    * The main application layout controller.
