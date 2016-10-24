@@ -80,7 +80,7 @@ public class MoviePageController implements Initializable {
         System.out.println(ex.getMessage());
       }
       //sets image for the play movie button
-      movieImageButton.setGraphic(ImageUtility.getImage(movieImage, 300, 450));
+      movieImageButton.setGraphic(GeneralUtilities.getImage(movieImage, 300, 450));
       movieImageButton.setStyle("-fx-background-color: transparent;");
 
       // Sets the text that will be each item of the list, and sets the text
@@ -95,12 +95,11 @@ public class MoviePageController implements Initializable {
       text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
       listView.getItems().add(text);
 
-
       goBackButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
           // Once the Button is clicked it goes back to the MainGrid
-          HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
+          HotBoxNavigator.loadPage(HotBoxNavigator.lastPageLoaded);
 
         }
       });
