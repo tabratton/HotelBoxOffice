@@ -17,17 +17,29 @@
       <children>
         <HBox prefHeight="30.0">
           <children>
-            <Button mnemonicParsing="false" text="Movie List"/>
-            <Button mnemonicParsing="false" text="Actor/Actress List"/>
-            <Button mnemonicParsing="false" text="Admin Tools"/>
+            <Button fx:id="movieButton"
+                    mnemonicParsing="false"
+                    onAction="#loadMovieGrid"
+                    text="Movie List"/>
+            <Button fx:id="actorButton"
+                    mnemonicParsing="false"
+                    onAction="#loadActorList"
+                    text="Actor/Actress List"/>
+            <Button fx:id="adminButton"
+                    mnemonicParsing="false"
+                    onAction="#loadAdminPage"
+                    text="Admin Tools"/>
           </children>
         </HBox>
         <TextField id="searchBox"
+                   fx:id="searchBox"
+                   onAction="#loadSearchResults"
                    prefWidth="200.0"
                    promptText="Search Movies and Actors"
                    AnchorPane.rightAnchor="0.0"/>
       </children>
     </AnchorPane>
-    <StackPane fx:id="hotBoxHolder" VBox.vgrow="ALWAYS"/>
+    <StackPane fx:id="hotBoxHolder"
+               VBox.vgrow="ALWAYS"/>
   </children>
 </VBox>
