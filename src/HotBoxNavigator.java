@@ -25,7 +25,7 @@ public class HotBoxNavigator {
    */
   public static String lastClickedMovie;
   public static String lastClickedActor;
-
+  public static String lastPageLoaded;
   public static String lastSearchTerm;
 
   /**
