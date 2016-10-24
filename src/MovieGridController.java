@@ -74,7 +74,7 @@ public class MovieGridController implements Initializable {
     }
     GeneralUtilities.createButtons(rs, titleKeys, flowPane, HotBoxNavigator
             .MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIE_TITLE",
-        "MOVIE_IMAGE", "MOVIE_ID");
+        "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.MOVIE_GRID);
   }
 
   private void createChoiceBox(ResultSet genres) {
@@ -137,7 +137,8 @@ public class MovieGridController implements Initializable {
             // Create new grid with current selection of genre
             GeneralUtilities.createButtons(newSet, titleKeys, flowPane,
                 HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-                "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID");
+                "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
+                    .MOVIE_GRID);
           }
         });
   }
