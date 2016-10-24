@@ -62,7 +62,8 @@ public class GeneralUtilities {
                                    HashMap<String, String> keys,
                                    FlowPane localFlowPane, String pageToLoad,
                                    int targetWidth, int targetHeight,
-                                   String title, String image, String id) {
+                                   String title, String image, String id,
+                                   String currentPage) {
     try {
       // Moves the cursor to the last position to determine the number of
       // entries in the result set.
@@ -97,6 +98,7 @@ public class GeneralUtilities {
             Button button = (Button) event.getSource();
             String currentTitle = button.getText();
             HotBoxNavigator.lastClickedMovie = keys.get(currentTitle);
+            HotBoxNavigator.lastPageLoaded = currentPage;
             // Once the movie page is made, this line will load it.
             // Ideally the initialize() method of that page will read
             // lastClickedMovie and use that string to load the correct data
