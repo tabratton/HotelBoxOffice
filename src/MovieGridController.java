@@ -46,9 +46,9 @@ public class MovieGridController implements Initializable {
   // HashMap to store GENRE_NAME as a key and GENRE_ID as a value.
   private HashMap<String, String> genreKeys = new HashMap<String, String>();
   // Stores the current/last selected genre in the movie grid page.
-  public static String currentSelectedGenreName = "All";
+  private static String currentSelectedGenreName = "All";
   // Stores the id of the current/last selected genre.
-  public static int currentSelectedGenreId = 0;
+  private static int currentSelectedGenreId = 0;
 
   /**
    * Initializes the Move Grid page with data from the database.
