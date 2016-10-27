@@ -11,6 +11,7 @@ import javafx.scene.text.TextAlignment;
 import org.imgscalr.Scalr;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -19,6 +20,11 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 public class GeneralUtilities {
+
+  private static String OS = System.getProperty("os.name").toLowerCase();
+  private static String directoryPath = isWindows() ? System.getenv("APPDATA")
+      + File.separator + "HotelBoxOffice" + File.separator : System.getenv(
+          "user.home") + File.separator + ".HotelBoxOffice" + File.separator;
 
   /**
    * Utility method to get an image from a specified URL.
@@ -30,8 +36,12 @@ public class GeneralUtilities {
    */
   public static ImageView getImage(String imageUrl, int width, int height) {
     try {
-      URL url = new URL(imageUrl);
-      BufferedImage bf = ImageIO.read(url);
+      String fullpath = directoryPath + imageUrl.substring(20, 27) + ".png";
+      File imageFile = new File(fullpath);
+      if (!imageFile.exists()) {
+        downloadImage(fullpath, imageUrl);
+      }
+      BufferedImage bf = ImageIO.read(imageFile);
       bf = Scalr.resize(bf, width, height);
       Image image = SwingFXUtils.toFXImage(bf, null);
       return new ImageView(image);
@@ -121,5 +131,62 @@ public class GeneralUtilities {
     } catch (SQLException ex) {
       System.err.println(ex.getMessage());
     }
+  }
+
+  /**
+   * Calls downloadEntireSet on with the two ResultSets with Movie and Actor
+   * images in them.
+   */
+  public static void initializeLocalCache() {
+    ResultSet movieImageSet = HotelBox.dbConnection.searchStatement("MOVIES");
+    ResultSet actorImageSet = HotelBox.dbConnection.searchStatement("ACTORS");
+    downloadEntireSet(movieImageSet, "MOVIE");
+    downloadEntireSet(actorImageSet, "ACTOR");
+  }
+
+  private static void downloadEntireSet(ResultSet rs, String table) {
+    try {
+      rs.last();
+      int rows = rs.getRow();
+      rs.first();
+
+      for (int i = 0; i < rows; i++) {
+        String movieImage = rs.getString(table + "_IMAGE");
+        String fullpath = directoryPath + movieImage.substring(20, 27) + ".png";
+        downloadImage(fullpath, movieImage);
+        rs.next();
+      }
+    } catch (Exception ex) {
+      System.out.println(ex.getMessage());
+    }
+  }
+
+  private static void downloadImage(String fullPath, String imageLink) {
+    File image = new File(fullPath);
+    File parentDirectory = image.getParentFile();
+
+    try {
+      if (!parentDirectory.exists() && !parentDirectory.mkdirs()) {
+        throw new IllegalStateException("Couldn't create dir: "
+            + parentDirectory);
+      }
+    } catch (IllegalStateException ex) {
+      System.out.println(ex.getMessage());
+    }
+
+    try {
+      if (!image.exists()) {
+        URL url = new URL(imageLink);
+        BufferedImage bf = ImageIO.read(url);
+        ImageIO.write(bf, "png", image);
+        System.out.println(fullPath + " created!");
+      }
+    } catch (IOException ex) {
+      System.out.println(ex.getMessage());
+    }
+  }
+
+  private static boolean isWindows() {
+    return (OS.contains("win"));
   }
 }
