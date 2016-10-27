@@ -53,7 +53,7 @@ public class DatabaseConnection {
    *
    * @param table The table that you are selecting data from.
    * @return A ResultSet object that contains the information that you
-   *         requested.
+   * requested.
    */
   public ResultSet searchStatement(String table) {
     PreparedStatement stm;
@@ -167,6 +167,24 @@ public class DatabaseConnection {
               + " WHERE %s = %s", table1, table2, table1, field1, table2,
           field1, field2, value);
       stm = con.prepareStatement(search);
+      return stm.executeQuery();
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      return null;
+    }
+  }
+
+  /**
+   * Use if you just want to put in the SQL command yourself.
+   *
+   * @param entireCommand The full SQL statement/command.
+   * @param crazyPerson   Verifying that you are crazy.
+   * @return A ResultSet object that contains the information you requested.
+   */
+  public ResultSet searchStatement(String entireCommand, boolean crazyPerson) {
+    PreparedStatement stm;
+    try {
+      stm = con.prepareStatement(entireCommand);
       return stm.executeQuery();
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
