@@ -16,6 +16,7 @@ public class HotelBox extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+    GeneralUtilities.initializeLocalCache();
     stage.setTitle("Hotel Box Office");
     testStage = stage;
     stage.setScene(createScene(loadMainPane()));
