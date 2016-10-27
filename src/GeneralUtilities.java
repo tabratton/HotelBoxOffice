@@ -144,8 +144,10 @@ public class GeneralUtilities {
    * images in them.
    */
   public static void initializeLocalCache() {
-    ResultSet movieImageSet = HotelBox.dbConnection.searchStatement("MOVIES");
-    ResultSet actorImageSet = HotelBox.dbConnection.searchStatement("ACTORS");
+    ResultSet movieImageSet = HotelBox.dbConnection.searchStatement("SELECT"
+        + " MOVIE_IMAGE FROM MOVIES", true);
+    ResultSet actorImageSet = HotelBox.dbConnection.searchStatement("SELECT"
+        + " ACTOR_IMAGE FROM ACTORS", true);
     downloadEntireSet(movieImageSet, "MOVIE");
     downloadEntireSet(actorImageSet, "ACTOR");
   }
