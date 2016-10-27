@@ -1,5 +1,6 @@
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
@@ -32,8 +33,18 @@ public class HotBoxController {
    * Load the search results page.
    */
   public void loadSearchResults() {
-    HotBoxNavigator.lastSearchTerm = searchBox.getText();
-    HotBoxNavigator.loadPage(HotBoxNavigator.SEARCH_RESULTS);
+    String currentSearchText = searchBox.getText();
+    if (currentSearchText.length() == 0 || currentSearchText.matches("/\\s+/")) {
+      Alert alert = new Alert(Alert.AlertType.ERROR);
+      alert.setTitle("Empty Search");
+      alert.setHeaderText(null);
+      alert.setContentText("You must enter something besides spaces in your"
+          + " search.");
+      alert.showAndWait();
+    } else {
+      HotBoxNavigator.lastSearchTerm = searchBox.getText();
+      HotBoxNavigator.loadPage(HotBoxNavigator.SEARCH_RESULTS);
+    }
   }
 
   /**
