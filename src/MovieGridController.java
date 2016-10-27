@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
  * <p>Currently displays all movies in the database on one page with a scroll
  * bar.
  *
- * @author Tyler Bratton tylerbratton96 @ gmail.com
+ * @author Tyler Bratton
  */
 public class MovieGridController implements Initializable {
   // FlowPane object that allows us to modify the FlowPane defined in the

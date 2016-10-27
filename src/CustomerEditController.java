@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 /**
  * FXML Controller class.
  *
- * @author chad
+ * @author Chad Goodwin
  */
 
 public class CustomerEditController implements Initializable {

@@ -6,6 +6,8 @@ import javafx.scene.layout.StackPane;
 
 /**
  * HotelBox controller class for the entire layout.
+ *
+ * @author Tyler Bratton
  */
 public class HotBoxController {
 

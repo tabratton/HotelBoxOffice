@@ -7,6 +7,8 @@ import java.io.IOException;
  *
  * <p>All methods on the navigator are static to facilitate
  * simple access from anywhere in the application.
+ *
+ * @author Tyler Bratton
  */
 public class HotBoxNavigator {
 

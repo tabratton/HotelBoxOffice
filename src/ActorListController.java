@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 /**
  * FXML Controller class.
  *
- * @author Vilma
+ * @author Vilma Un Jan
  */
 public class ActorListController implements Initializable {
 

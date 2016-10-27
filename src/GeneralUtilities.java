@@ -19,6 +19,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 
+/**
+ * Provides various general utility methods, such as resizing images, create
+ * image buttons, and downloading images.
+ *
+ * @author Tyler Bratton
+ */
 public class GeneralUtilities {
 
   private static String OS = System.getProperty("os.name").toLowerCase();

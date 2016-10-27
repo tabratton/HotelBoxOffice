@@ -7,6 +7,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Main class of the program, starts the GUI
+ *
+ * @author Tyler Bratton
+ */
 public class HotelBox extends Application {
 
   // Initialize database connection

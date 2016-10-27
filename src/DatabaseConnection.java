@@ -4,8 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// TODO Add javadoc comments
-
+/**
+ * Provides a global database connection and various query methods.
+ *
+ * @author Chad Goodwin and Tyler Bratton
+ */
 public class DatabaseConnection {
 
   private static final String HOST = "jdbc:mysql://hotelboxoffice"
