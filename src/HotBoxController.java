@@ -34,13 +34,14 @@ public class HotBoxController {
    */
   public void loadSearchResults() {
     String currentSearchText = searchBox.getText();
-    if (currentSearchText.length() == 0 || currentSearchText.matches("/\\s+/")) {
+    if (currentSearchText.length() == 0 || currentSearchText.matches("\\s+")) {
       Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setTitle("Empty Search");
       alert.setHeaderText(null);
       alert.setContentText("You must enter something besides spaces in your"
           + " search.");
       alert.showAndWait();
+      searchBox.setText("");
     } else {
       HotBoxNavigator.lastSearchTerm = searchBox.getText();
       HotBoxNavigator.loadPage(HotBoxNavigator.SEARCH_RESULTS);
