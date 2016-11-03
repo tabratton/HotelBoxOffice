@@ -53,7 +53,7 @@ public class DatabaseConnection {
    *
    * @param table The table that you are selecting data from.
    * @return A ResultSet object that contains the information that you
-   * requested.
+   *         requested.
    */
   public ResultSet searchStatement(String table) {
     PreparedStatement stm;
@@ -164,8 +164,8 @@ public class DatabaseConnection {
     PreparedStatement stm;
     try {
       String search = String.format("SELECT * FROM %s JOIN %s ON %s.%s = %s.%s"
-              + " WHERE %s = %s", table1, table2, table1, field1, table2,
-          field1, field2, value);
+          + " WHERE %s = %s", table1, table2, table1, field1, table2, field1,
+          field2, value);
       stm = con.prepareStatement(search);
       return stm.executeQuery();
     } catch (SQLException ex) {
@@ -178,10 +178,10 @@ public class DatabaseConnection {
    * Use if you just want to put in the SQL command yourself.
    *
    * @param entireCommand The full SQL statement/command.
-   * @param crazyPerson   Verifying that you are crazy.
+   * @param fullControl   Verifying that you are crazy.
    * @return A ResultSet object that contains the information you requested.
    */
-  public ResultSet searchStatement(String entireCommand, boolean crazyPerson) {
+  public ResultSet searchStatement(String entireCommand, boolean fullControl) {
     PreparedStatement stm;
     try {
       stm = con.prepareStatement(entireCommand);

@@ -42,7 +42,7 @@ public class GeneralUtilities {
    */
   public static ImageView getImage(String imageUrl, int width, int height) {
     try {
-      String fullpath = directoryPath + imageUrl.substring(20, 27) + ".png";
+      String fullpath = getImagePath(imageUrl);
       File imageFile = new File(fullpath);
       if (!imageFile.exists()) {
         downloadImage(fullpath, imageUrl);
@@ -160,7 +160,7 @@ public class GeneralUtilities {
 
       for (int i = 0; i < rows; i++) {
         String movieImage = rs.getString(table + "_IMAGE");
-        String fullpath = directoryPath + movieImage.substring(20, 27) + ".png";
+        String fullpath = getImagePath(movieImage);
         downloadImage(fullpath, movieImage);
         rs.next();
       }
@@ -192,6 +192,10 @@ public class GeneralUtilities {
     } catch (IOException ex) {
       System.out.println(ex.getMessage());
     }
+  }
+
+  private static String getImagePath(String image) {
+    return directoryPath + image.substring(20, 27) + ".png";
   }
 
   private static boolean isWindows() {
