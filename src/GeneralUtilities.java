@@ -29,8 +29,9 @@ public class GeneralUtilities {
 
   private static String OS = System.getProperty("os.name").toLowerCase();
   private static String directoryPath = isWindows() ? System.getenv("APPDATA")
-      + File.separator + "HotelBoxOffice" + File.separator : System.getenv(
-          "user.home") + File.separator + ".HotelBoxOffice" + File.separator;
+      + File.separator + "HotelBoxOffice" + File.separator : System
+      .getProperty("user.home") + File.separator + ".HotelBoxOffice"
+      + File.separator;
 
   /**
    * Utility method to get an image from a specified URL.
