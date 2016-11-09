@@ -62,9 +62,9 @@
          </left>
       </BorderPane>
       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
-         <center>
+         <left>
             <Button fx:id="createButton" mnemonicParsing="false" text="Create" BorderPane.alignment="CENTER" />
-         </center>
+         </left>
       </BorderPane>
     </children>
     <opaqueInsets>
