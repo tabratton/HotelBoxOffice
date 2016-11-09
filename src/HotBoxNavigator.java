@@ -7,20 +7,23 @@ import java.io.IOException;
  *
  * <p>All methods on the navigator are static to facilitate
  * simple access from anywhere in the application.
+ *
+ * @author Tyler Bratton
  */
 public class HotBoxNavigator {
 
   /**
    * Convenience constants for fxml layouts managed by the navigator.
    */
-  public static final String MAIN = "HotelBox.fxml";
+  public static final String MAIN = "HotBox.fxml";
   public static final String MOVIE_GRID = "MovieGrid.fxml";
   public static final String MOVIE_PAGE = "MoviePage.fxml";
   public static final String CUSTOMER_EDIT = "CustomerEdit.fxml";
   public static final String SEARCH_RESULTS = "SearchResults.fxml";
   public static final String ACTOR_PAGE = "ActorPage.fxml";
-  public static final String ADMIN_NAV = "AdminPage.fxml";
   public static final String ACTOR_LIST = "ActorList.fxml";
+  public static final String ADMIN_PAGE = "AdminPage.fxml";
+
   /**
    * Convenience static fields to determine the last clicked buttons.
    */
