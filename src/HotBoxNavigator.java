@@ -20,6 +20,7 @@ public class HotBoxNavigator {
   public static final String SEARCH_RESULTS = "SearchResults.fxml";
   public static final String ACTOR_PAGE = "ActorPage.fxml";
   public static final String ADMIN_NAV = "AdminPage.fxml";
+  public static final String ACTOR_LIST = "ActorList.fxml";
   /**
    * Convenience static fields to determine the last clicked buttons.
    */
