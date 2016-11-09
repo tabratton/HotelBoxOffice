@@ -45,8 +45,8 @@ UPDATE ACTORS SET ACTOR_IMAGE = 'https://i.imgur.com/xXYWqrn.jpg' WHERE
 UPDATE ACTORS SET ACTOR_IMAGE = 'https://i.imgur.com/tEr10ut.jpg' WHERE
   ACTOR_ID = 3;
 
--- Update Joseph Gordan-Levitt's name to include the '-'.
-UPDATE ACTORS SET ACTOR_NAME = 'Joseph Gordan-Levitt' WHERE ACTOR_ID = 2;
+-- Update Joseph Gordon-Levitt's name to include the '-'.
+UPDATE ACTORS SET ACTOR_NAME = 'Joseph Gordon-Levitt' WHERE ACTOR_ID = 2;
 
 -- Insert actors
 INSERT INTO `ACTORS` (`ACTOR_NAME`,`ACTOR_IMAGE`,`ACTOR_BIO`)

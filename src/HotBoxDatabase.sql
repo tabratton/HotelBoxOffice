@@ -47,7 +47,7 @@ LOCK TABLES `ACTORS` WRITE;
   DISABLE KEYS */;
 INSERT INTO `ACTORS`
 VALUES (1, 'Will Smith', 'https://i.imgur.com/3xGWVcy.jpg', 'American actor'),
-  (2, 'Joseph Gordan-Levitt', 'https://i.imgur.com/xXYWqrn.jpg', 'American actor'),
+  (2, 'Joseph Gordon-Levitt', 'https://i.imgur.com/xXYWqrn.jpg', 'American actor'),
   (3, 'Brad Pitt', 'https://i.imgur.com/tEr10ut.jpg', 'American actor'),
   (4, 'Felicity Jones', 'https://i.imgur.com/2sa3kwY.jpg', 'English actress'),
   (5, 'Mads Mikkelsen', 'https://i.imgur.com/wntU1fk.jpg', 'Danish actor'),

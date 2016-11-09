@@ -7,6 +7,11 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+/**
+ * Displays search results.
+ *
+ * @author Tyler Bratton
+ */
 public class SearchResultsController implements Initializable {
 
   @FXML

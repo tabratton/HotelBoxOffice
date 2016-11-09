@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 /**
  * FXML Controller class.
  *
- * @author gabrielguillen
+ * @author Gabriel Guillen
  */
 public class MoviePageController implements Initializable {
 

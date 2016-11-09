@@ -1,11 +1,17 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Main class of the program, starts the GUI.
+ *
+ * @author Tyler Bratton
+ */
 public class HotelBox extends Application {
 
   // Initialize database connection
@@ -15,10 +21,12 @@ public class HotelBox extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+    GeneralUtilities.initializeLocalCache();
     stage.setTitle("Hotel Box Office");
     testStage = stage;
     stage.setScene(createScene(loadMainPane()));
-
+    stage.getIcons().add(new Image(HotelBox.class.getResourceAsStream(
+        "/images/icon.png")));
     stage.show();
 
   }

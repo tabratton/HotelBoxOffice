@@ -4,8 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// TODO Add javadoc comments
-
+/**
+ * Provides a global database connection and various query methods.
+ *
+ * @author Chad Goodwin and Tyler Bratton
+ */
 public class DatabaseConnection {
 
   private static final String HOST = "jdbc:mysql://hotelboxoffice"
@@ -161,9 +164,27 @@ public class DatabaseConnection {
     PreparedStatement stm;
     try {
       String search = String.format("SELECT * FROM %s JOIN %s ON %s.%s = %s.%s"
-              + " WHERE %s = %s", table1, table2, table1, field1, table2,
-          field1, field2, value);
+          + " WHERE %s = %s", table1, table2, table1, field1, table2, field1,
+          field2, value);
       stm = con.prepareStatement(search);
+      return stm.executeQuery();
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      return null;
+    }
+  }
+
+  /**
+   * Use if you just want to put in the SQL command yourself.
+   *
+   * @param entireCommand The full SQL statement/command.
+   * @param fullControl   Verifying that you are crazy.
+   * @return A ResultSet object that contains the information you requested.
+   */
+  public ResultSet searchStatement(String entireCommand, boolean fullControl) {
+    PreparedStatement stm;
+    try {
+      stm = con.prepareStatement(entireCommand);
       return stm.executeQuery();
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
