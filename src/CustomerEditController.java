@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -13,7 +15,7 @@ import java.util.ResourceBundle;
 /**
  * FXML Controller class.
  *
- * @author Chad Goodwin
+ * @author chad
  */
 
 public class CustomerEditController implements Initializable {
@@ -35,6 +37,10 @@ public class CustomerEditController implements Initializable {
   private TextField customerConfirm;
   @FXML
   private Button submitButton;
+  @FXML
+  private Button createButton;
+  @FXML
+  private Button cancelButton;
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
@@ -65,6 +71,49 @@ public class CustomerEditController implements Initializable {
             String upString = String.format("UPDATE CUSTOMER SET"
                 + " CUSTOMER_NAME=%s, CUSTOMER_BALANCE=%s, CUSTOMER_ROOMNUM=%s"
                 + " WHERE CUSTOMER_ID=%s", name, bal, room, id);
+            Connection con = HotelBox.dbConnection.getCon();
+            try {
+                PreparedStatement stm;
+                stm = con.prepareStatement(upString);
+                stm.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+          }
+        }
+    );
+    
+    createButton.setOnAction (
+    new EventHandler<ActionEvent>() {
+          public void handle(ActionEvent event) {
+            String name = customerName.getText();
+            String bal = customerBalance.getText();
+            String room = customerRoom.getText();
+            String id = customerId.getText();
+            String password = customerPassword.getText();
+            String upString = String.format("INSERT INTO CUSTOMER VALUES"
+                + " (null,%s,%s,%s,%s)", name, password, bal, room);
+            Connection con = HotelBox.dbConnection.getCon();
+            try {
+                PreparedStatement stm;
+                stm = con.prepareStatement(upString);
+                stm.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+          }
+        }
+    );
+    
+    cancelButton.setOnAction(
+        new EventHandler<ActionEvent>() {
+          public void handle(ActionEvent event) {
+            customerName.setText("");
+            customerBalance.setText("");
+            customerRoom.setText("");
+            customerId.setText("");
+            customerPassword.setText("");
+            customerConfirm.setText("");
           }
         }
     );
