@@ -68,7 +68,7 @@ public class GeneralUtilities {
    * @param pageToLoad    The page to load when a button is clicked.
    * @param targetWidth   The width of the image on the button.
    * @param targetHeight  The height of the image on the button.
-   * @param title         The name of the column in the database the stores the
+   * @param nameColumn    The name of the column in the database the stores the
    *                      title of the button.
    * @param image         The name of the column in the database that stores the
    *                      image to be used.
@@ -79,7 +79,7 @@ public class GeneralUtilities {
                                    HashMap<String, String> keys,
                                    FlowPane localFlowPane, String pageToLoad,
                                    int targetWidth, int targetHeight,
-                                   String title, String image, String id,
+                                   String nameColumn, String image, String id,
                                    String currentPage) {
     try {
       // Moves the cursor to the last position to determine the number of
@@ -90,7 +90,7 @@ public class GeneralUtilities {
 
       // Creates a new button for each entry in the result set.
       for (int i = 0; i < numRows; i++) {
-        final String buttonTitle = results.getString(title);
+        final String buttonTitle = results.getString(nameColumn);
         final String buttonImage = results.getString(image);
         final String buttonId = results.getString(id);
         keys.put(buttonTitle, buttonId);
@@ -114,7 +114,11 @@ public class GeneralUtilities {
           public void handle(ActionEvent event) {
             Button button = (Button) event.getSource();
             String currentTitle = button.getText();
-            HotBoxNavigator.lastClickedMovie = keys.get(currentTitle);
+            if (nameColumn.toLowerCase().contains("movie")) {
+              HotBoxNavigator.lastClickedMovie = keys.get(currentTitle);
+            } else {
+              HotBoxNavigator.lastClickedActor = keys.get(currentTitle);
+            }
             HotBoxNavigator.lastPageLoaded = currentPage;
             // Once the movie page is made, this line will load it.
             // Ideally the initialize() method of that page will read
