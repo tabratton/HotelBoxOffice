@@ -1,55 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane   prefHeight="600.0"
-            prefWidth="720.0"
+<AnchorPane id="AnchorPane"
+            prefHeight="651.0"
+            prefWidth="728.0"
             xmlns="http://javafx.com/javafx/8.0.102"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ActorPageController">
     
-    
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES"
-                           minWidth="10.0"
-                           prefWidth="100.0"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints maxHeight="200.0"
-                        minHeight="10.0"
-                        prefHeight="30.0"
-                        vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="570.0"
-                        minHeight="10.0"
-                        prefHeight="570.0"
-                        vgrow="SOMETIMES"/>
-    </rowConstraints>
-    
-    <children>
+   <children>
+      <ListView fx:id="listView"
+                layoutX="394.0"
+                layoutY="269.0"
+                prefHeight="296.0"
+                prefWidth="248.0" />
+      
+      <Label fx:id="actorBio"
+             layoutX="401.0"
+             layoutY="114.0"
+             text="Actor's Bio" />
+      
+      <Button fx:id="actorImageButton"
+              layoutX="45.0"
+              layoutY="97.0" 
+              mnemonicParsing="false"
+              prefHeight="223.0"
+              prefWidth="225.0" />
+      
+      <GridPane alignment="CENTER"
+                layoutX="88.0"
+                layoutY="14.0"
+                prefHeight="45.0"
+                prefWidth="620.0">
+          
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES"
+                             maxWidth="365.0"
+                             minWidth="10.0"
+                             prefWidth="297.0" />
+          
+          <ColumnConstraints hgrow="SOMETIMES"
+                             maxWidth="477.0"
+                             minWidth="10.0"
+                             prefWidth="477.0" />
+        </columnConstraints>
         
-        <Label     fx:id="actorName"
-                   alignment="CENTER"
+        <rowConstraints>
+          <RowConstraints minHeight="10.0"
+                          prefHeight="30.0"
+                          vgrow="SOMETIMES" />
+        </rowConstraints>
+        
+         <children>
+            <Label fx:id="actorName"
                    text="Actor's Name"
                    GridPane.halignment="CENTER"
-                   GridPane.valignment="CENTER"/>
-        
-        <Button fx:id="goBack"
-                mnemonicParsing="false"
-                text="Go Back"
-                GridPane.columnIndex="1"
-                GridPane.halignment="CENTER"
-                GridPane.valignment="CENTER">
-            <GridPane.margin>
-                <Insets top="100.0"/>
-            </GridPane.margin>
-        </Button>
-    </children>
-</GridPane>
+                   GridPane.valignment="CENTER">
+               
+            </Label>
+            
+            <Button fx:id="goBack"
+                    alignment="CENTER_RIGHT"
+                    contentDisplay="CENTER"
+                    mnemonicParsing="false"
+                    prefHeight="31.0"
+                    prefWidth="80.0"
+                    text="Go Back"
+                    GridPane.columnIndex="1" 
+                    GridPane.halignment="RIGHT"
+                    GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+      <Label fx:id="listMovieLabel"
+             layoutX="398.0"
+             layoutY="230.0"
+             prefHeight="21.0"
+             prefWidth="215.0"
+             text="List of movies:" />
+   </children>
+</AnchorPane>
