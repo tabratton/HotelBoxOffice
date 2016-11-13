@@ -146,6 +146,38 @@ public class DatabaseConnection {
     }
   }
 
+    /**
+   * USING THIS SEARCH TO GET THE LIST OF MOVIE FOR EACH ACTOR
+   * Automatically constructs search statement and executes it.
+   *
+   * @param field1 The field that you want to display (MOVIE_TITLE).
+   * @param table1 The table that has field1 (MOVIES).
+   * @param table2 The table that has info from table1 and table3 (CASTING).
+   * @param table3 The table that has the field2 used to look for field1 (ACTORS).
+   * @param field2 The field from table3 (ACTOR_NAME)
+   * @param value  The pattern that you are looking for
+   * @param field3 The field that is in table1 and table2 (MOVIE_ID).
+   * @param field4 The field that is in table2 and table3 (ACTOR_ID).
+   * @return A ResultSet object that contains the information you requested.
+   */
+  public ResultSet searchStatement(String field1, String table1, String table2,
+                                   String table3, String field2, String value,
+                                   String field3, String field4) {
+    PreparedStatement stm;
+    try {
+      String search = String.format("SELECT %s FROM %s,%s,%s WHERE %s = %s "
+          + "AND %s.%s = %s.%s AND %s.%s = %s.%s", field1, table1, table2, 
+          table3, field2, field1, value, table2, field3, table1, field3,
+          table2, field4, table3, field4);
+      stm = con.prepareStatement(search);
+      return stm.executeQuery();
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      return null;
+    }
+  }
+  
+  
   /**
    * NOT SURE IF THIS SEARCH STATEMENT SHOULD BE USED TO ADD THE GENRE IN
    * MOVIEPAGE, CASTING IS NOT INCLUDED
