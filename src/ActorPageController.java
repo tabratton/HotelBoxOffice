@@ -1,12 +1,3 @@
-import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,9 +5,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class.
@@ -27,21 +23,20 @@ public class ActorPageController implements Initializable {
 
   @FXML
   private Button goBack;
-
   @FXML
   private Button actorImageButton;
-
+  @FXML
+  private ImageView imageView;
   @FXML
   private Label actorName;
-
   @FXML
   private Label actorBio;
-
   @FXML
   private Label listMovieLabel;
-
   @FXML
   private ListView<String> listView;
+  private static final int IMAGE_WIDTH = 300;
+  private static final int IMAGE_HEIGHT = 450;
 
   /*
   * Initialize controller class
@@ -96,9 +91,8 @@ public class ActorPageController implements Initializable {
       listMovieLabel.setTextAlignment(TextAlignment.CENTER);
       listMovieLabel.setText(movieLabel);
 
-      actorImageButton.setGraphic(GeneralUtilities.getImage(actorImage, 300,
-          450));
-      actorImageButton.setStyle("-fx-background-color: transparent;");
+      imageView.setImage(GeneralUtilities.getImage(actorImage, IMAGE_WIDTH,
+          IMAGE_HEIGHT).getImage());
 
       goBack.setOnAction(new EventHandler<ActionEvent>() {
         @Override
