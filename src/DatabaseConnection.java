@@ -225,4 +225,19 @@ public class DatabaseConnection {
       return null;
     }
   }
+
+  /**
+   * A method to execute update statements on the database.
+   *
+   * @param entireStatement The statement that you wish to issue.
+   */
+  public void updateStatement(String entireStatement) {
+    PreparedStatement stm;
+    try {
+      stm = con.prepareStatement(entireStatement);
+      stm.executeUpdate();
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+  }
 }
