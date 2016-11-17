@@ -78,8 +78,9 @@ public class HotBoxController {
   }
 
   private void addSearchTerm(String term) {
-    HotelBox.dbConnection.updateStatement("INSERT INTO SEARCH_TERMS (TERM)"
-        + " VALUES (" + term + ") ON DUPLICATE KEY UPDATE FREQUENCY ="
-        + " FREQUENCY + 1");
+    String command = String.format("INSERT INTO SEARCH_TERMS (TERM)"
+        + " VALUES ('%s') ON DUPLICATE KEY UPDATE FREQUENCY ="
+        + " FREQUENCY + 1", term);
+    HotelBox.dbConnection.updateStatement(command);
   }
 }
