@@ -114,10 +114,17 @@ public class GeneralUtilities {
           public void handle(ActionEvent event) {
             Button button = (Button) event.getSource();
             String currentTitle = button.getText();
+            String currentId = keys.get(currentTitle);
             if (nameColumn.toLowerCase().contains("movie")) {
-              HotBoxNavigator.lastClickedMovie = keys.get(currentTitle);
+              HotBoxNavigator.lastClickedMovie = currentId;
+              HotelBox.dbConnection.updateStatement("UPDATE MOVIES SET MOVIES"
+                  + ".TIMES_VIEWED = MOVIES.TIMES_VIEWED + 1 WHERE MOVIES"
+                  + ".MOVIE_ID = " + currentId);
             } else {
-              HotBoxNavigator.lastClickedActor = keys.get(currentTitle);
+              HotBoxNavigator.lastClickedActor = currentId;
+              HotelBox.dbConnection.updateStatement("UPDATE ACTORS SET ACTORS"
+                  + ".TIMES_VIEWED = ACTORS.TIMES_VIEWED + 1 WHERE ACTORS"
+                  + ".ACTOR_ID = " + currentId);
             }
             HotBoxNavigator.lastPageLoaded = currentPage;
             // Once the movie page is made, this line will load it.
