@@ -1,7 +1,6 @@
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
@@ -15,8 +14,6 @@ public class HotBoxController {
   /** Holder of a switchable view. */
   @FXML
   private StackPane hotBoxHolder;
-  @FXML
-  private Label headerLabel;
   @FXML
   private TextField searchBox;
 
@@ -33,7 +30,7 @@ public class HotBoxController {
    * Load the search results page.
    */
   public void loadSearchResults() {
-    String currentSearchText = searchBox.getText();
+    String currentSearchText = searchBox.getText().toLowerCase().trim();
     if (currentSearchText.length() == 0 || currentSearchText.matches("\\s+")) {
       Alert alert = new Alert(Alert.AlertType.ERROR);
       alert.setTitle("Empty Search");
@@ -43,7 +40,8 @@ public class HotBoxController {
       alert.showAndWait();
       searchBox.setText("");
     } else {
-      HotBoxNavigator.lastSearchTerm = searchBox.getText();
+      HotBoxNavigator.lastSearchTerm = currentSearchText;
+      addSearchTerm(currentSearchText);
       HotBoxNavigator.loadPage(HotBoxNavigator.SEARCH_RESULTS);
     }
   }
@@ -77,5 +75,11 @@ public class HotBoxController {
 
   private void resetSearchBox() {
     searchBox.setText("");
+  }
+
+  private void addSearchTerm(String term) {
+    HotelBox.dbConnection.updateStatement("INSERT INTO SEARCH_TERMS (TERM)"
+        + " VALUES (" + term + ") ON DUPLICATE KEY UPDATE FREQUENCY ="
+        + " FREQUENCY + 1");
   }
 }
