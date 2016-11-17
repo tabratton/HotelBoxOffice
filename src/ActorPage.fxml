@@ -12,7 +12,7 @@
 <AnchorPane id="AnchorPane"
             prefHeight="651.0"
             prefWidth="728.0"
-            xmlns="http://javafx.com/javafx/8.0.112-ea"
+            xmlns="http://javafx.com/javafx/8.0.102"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ActorPageController">
 
@@ -21,16 +21,19 @@
               layoutX="394.0"
               layoutY="269.0"
               prefHeight="296.0"
-              prefWidth="248.0"/>
+              prefWidth="248.0" />
 
-    <Label fx:id="actorBio" layoutX="401.0" layoutY="114.0" text="Actor's Bio"/>
+    <Label fx:id="actorBio"
+           layoutX="401.0"
+           layoutY="114.0"
+           text="Actor's Bio" />
 
 
     <ImageView fx:id="imageView"
                layoutX="45.0"
                layoutY="97.0"
                pickOnBounds="true"
-               preserveRatio="true"/>
+               preserveRatio="true" />
 
     <GridPane alignment="CENTER"
               layoutX="88.0"
@@ -42,16 +45,18 @@
         <ColumnConstraints hgrow="SOMETIMES"
                            maxWidth="365.0"
                            minWidth="10.0"
-                           prefWidth="297.0"/>
+                           prefWidth="322.0" />
 
         <ColumnConstraints hgrow="SOMETIMES"
                            maxWidth="477.0"
                            minWidth="10.0"
-                           prefWidth="477.0"/>
+                           prefWidth="298.0" />
       </columnConstraints>
 
       <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0"
+                        prefHeight="30.0"
+                        vgrow="SOMETIMES" />
       </rowConstraints>
 
       <children>
@@ -71,7 +76,7 @@
                 GridPane.halignment="RIGHT"
                 GridPane.hgrow="NEVER"
                 GridPane.valignment="CENTER"
-                GridPane.vgrow="NEVER"/>
+                GridPane.vgrow="NEVER" />
       </children>
     </GridPane>
     <Label fx:id="listMovieLabel"
@@ -79,7 +84,7 @@
            layoutY="230.0"
            prefHeight="21.0"
            prefWidth="215.0"
-           text="List of movies:"/>
+           text="List of movies:" />
 
   </children>
 </AnchorPane>
