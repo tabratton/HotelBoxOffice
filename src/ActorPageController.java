@@ -12,7 +12,10 @@ import javafx.scene.text.TextAlignment;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 
 /**
  * FXML Controller class.
@@ -21,6 +24,8 @@ import java.util.ResourceBundle;
  */
 public class ActorPageController implements Initializable {
 
+  @FXML
+  private FlowPane flowPane;
   @FXML
   private Button goBack;
   @FXML
@@ -33,25 +38,29 @@ public class ActorPageController implements Initializable {
   private Label actorBio;
   @FXML
   private Label listMovieLabel;
-  @FXML
-  private ListView<String> listView;
+  
   private static final int IMAGE_WIDTH = 300;
   private static final int IMAGE_HEIGHT = 450;
+  
+  // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
+  private HashMap<String, String> titleKeys = new HashMap<String, String>();
 
   /*
   * Initialize controller class
   */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
+      
+    flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
+    flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
 
     ResultSet actorPage = HotelBox.dbConnection.searchStatement("ACTORS",
         "ACTOR_ID", HotBoxNavigator.lastClickedActor);
 
-
-    ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIE_TITLE",
-        "MOVIES", "CASTING", "ACTORS", "ACTOR_ID",
-        HotBoxNavigator.lastClickedActor, "MOVIE_ID", "ACTOR_ID");
-
+        ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
+                "CASTING", "ACTORS",HotBoxNavigator.lastClickedActor,
+                "MOVIE_ID", "ACTOR_ID");
+  
     try {
       actorPage.first();
       final String name = actorPage.getString("ACTOR_NAME");
@@ -59,20 +68,18 @@ public class ActorPageController implements Initializable {
       final String bio = "Biography: " + actorPage.getString(
           "ACTOR_BIO");
       final String movieLabel = actorPage.getString("ACTOR_NAME") + " movies:";
-
+      
+            
+      GeneralUtilities.createButtons(movieList, titleKeys, flowPane, HotBoxNavigator
+            .MOVIE_PAGE, 100, 150, "MOVIE_TITLE",
+            "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.ACTOR_PAGE);
+      
       /// final ArrayList<String> movies = new ArrayList<String>();
       //  try {
       movieList.last();
       int numRows = movieList.getRow();
       movieList.first();
 
-      //Add movies to the list
-      for (int i = 0; i < numRows; i++) {
-        String movieName = movieList.getString("MOVIE_TITLE");
-        //  movies.add(movieName);
-        listView.getItems().add(movieName);
-        movieList.next();
-      }
 
       //  }catch (SQLException ex){
       //      System.out.println(ex.getMessage());
