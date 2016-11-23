@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="RatePageController">
+   <children>
+      <AnchorPane layoutX="152.0" layoutY="80.0" prefHeight="192.0" prefWidth="305.0">
+         <children>
+            <RadioButton 
+                fx:id="one"
+                layoutX="34.0" 
+                layoutY="42.0"
+                mnemonicParsing="false"
+                text="1 - Bad" />
+            <RadioButton 
+                fx:id="two"
+                layoutX="34.0" 
+                layoutY="69.0" 
+                mnemonicParsing="false" 
+                text="2 - SO/SO" />
+            <RadioButton 
+                fx:id="three"
+                layoutX="34.0"
+                layoutY="96.0"
+                mnemonicParsing="false"
+                text="3 - Good" />
+            <RadioButton 
+                fx:id="four"
+                layoutX="34.0" 
+                layoutY="121.0" 
+                mnemonicParsing="false"
+                text="4 - Superb" />
+            <Label layoutX="124.0" layoutY="14.0" text="Rate" />
+            <Button 
+                fx:id="submit"
+                layoutX="220.0"
+                layoutY="139.0"
+                mnemonicParsing="false" 
+                text="Submit" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
