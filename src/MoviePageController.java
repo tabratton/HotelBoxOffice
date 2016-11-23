@@ -9,6 +9,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -53,7 +55,11 @@ public class MoviePageController implements Initializable {
     // table
     ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES", "MOVIE_ID",
         HotBoxNavigator.lastClickedMovie);
-
+    ResultSet cs = HotelBox.dbConnection.searchStatement("CASTING","CASTING_ID",
+        HotBoxNavigator.lastClickedMovie);
+    ResultSet bs = HotelBox.dbConnection.searchStatement("CUSTOMER","CUSTOMER_BALANCE",
+        "1");
+    Connection con = HotelBox.dbConnection.getCon();
     try {
       //set variables with data from the database
       rs.first();
@@ -64,6 +70,7 @@ public class MoviePageController implements Initializable {
       String releaseDate = rs.getString("MOVIE_RELEASE_DATE");
       final String movieImage = rs.getString("MOVIE_IMAGE");
 
+      
       //sets title for the page
       movieTitle.setWrapText(true);
       movieTitle.setTextAlignment(TextAlignment.CENTER);
@@ -82,7 +89,9 @@ public class MoviePageController implements Initializable {
       //sets image for the play movie button
       movieImageButton.setGraphic(GeneralUtilities.getImage(movieImage, 300, 450));
       movieImageButton.setStyle("-fx-background-color: transparent;");
+      
 
+      
       // Sets the text that will be each item of the list, and sets the text
       // wrapping property so that the scroll bar is not needed.
       Text text = new Text(director);
@@ -94,7 +103,13 @@ public class MoviePageController implements Initializable {
       text = new Text(releaseDate);
       text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
       listView.getItems().add(text);
+      
 
+      //set variables with data from the database
+      Float balance = bs.getFloat("CUSTOMER_BALANCE");
+      final Float price = rs.getFloat("MOVIE_PRICE"); 
+      
+      
       goBackButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -102,7 +117,33 @@ public class MoviePageController implements Initializable {
           HotBoxNavigator.loadPage(HotBoxNavigator.lastPageLoaded);
 
         }
+           
       });
+      
+      
+      //tried to set it to increase balance but failing 
+      // is also trying to go RATE_Page failing too.
+      playMovie.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          // Once pressed to rent a movie the balance of the movie gets
+          // substracted from the customer balance
+         
+          String upString = String.format("UPDATE CUSTOMER SET"
+                  + "CUSTOMER_BALANCE=%s",(balance+price));
+          HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
+          
+          try {
+                PreparedStatement stm;
+                stm = con.prepareStatement(upString);
+                stm.executeQuery();
+          }catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+           
+      });
+      
       // Commented out and not removed in case we want to change back to this
       // code.
       //Things for the ListView
