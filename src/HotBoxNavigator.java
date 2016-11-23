@@ -23,6 +23,8 @@ public class HotBoxNavigator {
   public static final String ACTOR_PAGE = "ActorPage.fxml";
   public static final String ACTOR_LIST = "ActorList.fxml";
   public static final String ADMIN_PAGE = "AdminPage.fxml";
+  public static final String RATE_PAGE = "RatePage.fxml";
+
 
   /**
    * Convenience static fields to determine the last clicked buttons.
