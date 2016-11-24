@@ -30,6 +30,8 @@ public class SearchResultsController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
+    HotBoxNavigator.clearStacks();
+
     movieFlowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     movieFlowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty(
         ));

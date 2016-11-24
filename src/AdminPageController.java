@@ -36,6 +36,8 @@ public class AdminPageController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
+    HotBoxNavigator.clearStacks();
+
     // TODO
     statisticsButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override

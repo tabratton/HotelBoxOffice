@@ -54,6 +54,8 @@ public class MovieGridController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle bundle) {
+    HotBoxNavigator.clearStacks();
+
     // Magic to set the preferred width and height to the current window size.
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());

@@ -30,6 +30,8 @@ public class ActorListController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
 
+    HotBoxNavigator.clearStacks();
+
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
 

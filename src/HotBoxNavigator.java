@@ -32,7 +32,7 @@ public class HotBoxNavigator {
    * Convenience static fields to determine the last clicked buttons.
    */
   //public static String lastClickedMovie;
-  public static String lastClickedActor;
+  //public static String lastClickedActor;
   //public static String lastPageLoaded;
   public static String lastSearchTerm;
   public static Stack<String> lastLoadedPageStack = new Stack<>();
@@ -77,6 +77,12 @@ public class HotBoxNavigator {
     } catch (IOException ex) {
       ex.printStackTrace();
     }
+  }
+
+  public static void clearStacks() {
+    lastClickedActorStack.clear();
+    lastClickedMovieStack.clear();
+    lastLoadedPageStack.clear();
   }
 
 }
