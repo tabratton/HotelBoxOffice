@@ -52,17 +52,14 @@ public class MoviePageController implements Initializable {
     // HashMap<String, String> actorKeys = new HashMap<String, String>();
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
     // table
-    String lastMove = HotBoxNavigator.lastClickedMovieStack.peek();
+    String lastMovie = HotBoxNavigator.lastClickedMovieStack.peek();
     ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES", "MOVIE_ID",
-        lastMove);
+        lastMovie);
     ResultSet cs = HotelBox.dbConnection.searchStatement("CASTING","CASTING_ID",
-        lastMove);
-    ResultSet bs = HotelBox.dbConnection.searchStatement("CUSTOMER",
-        "CUSTOMER_ID", HotelBox.getCurrentUserId());
+        lastMovie);
     try {
       //set variables with data from the database
       cs.first();
-      bs.first();
       rs.first();
       final String title = rs.getString("MOVIE_TITLE");
       final String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
@@ -103,15 +100,6 @@ public class MoviePageController implements Initializable {
       text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
       listView.getItems().add(text);
       
-
-
-      //set variables with data from the database
-      Double balance = Double.parseDouble(bs.getString("CUSTOMER_BALANCE"));
-      Double price = Double.parseDouble(rs.getString("MOVIE_PRICE"));
-      Double newBalanceIfRented = balance + price;
-      String newBalanceString = String.format("%.2f", newBalanceIfRented);
-      
-      
       goBackButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -130,9 +118,11 @@ public class MoviePageController implements Initializable {
         public void handle(ActionEvent event) {
           // Once pressed to rent a movie the balance of the movie gets
           // subtracted from the customer balance
-          String upString = String.format("UPDATE CUSTOMER SET " +
-                  "CUSTOMER_BALANCE = %s WHERE CUSTOMER_ID = %s",
-              newBalanceString, HotelBox.getCurrentUserId());
+          String upString = String.format("UPDATE CUSTOMER, MOVIES SET"
+              + " CUSTOMER.CUSTOMER_BALANCE = CUSTOMER.CUSTOMER_BALANCE +"
+              + " MOVIES.MOVIE_PRICE WHERE CUSTOMER.CUSTOMER_ID = %s AND"
+              + " MOVIES.MOVIE_ID = %s", HotelBox.getCurrentUserId(),
+              lastMovie);
           HotelBox.dbConnection.updateStatement(upString);
           HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
         }
