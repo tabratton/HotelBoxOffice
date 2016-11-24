@@ -70,7 +70,7 @@ public class HotBoxController {
     resetSearchBox();
     //HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
     //For now just load customer edit since it's the only admin tool we have.
-    HotBoxNavigator.loadPage(HotBoxNavigator.CUSTOMER_EDIT);
+    HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
   }
 
   private void resetSearchBox() {
