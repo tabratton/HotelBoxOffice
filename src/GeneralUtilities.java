@@ -116,12 +116,14 @@ public class GeneralUtilities {
             String currentTitle = button.getText();
             String currentId = keys.get(currentTitle);
             if (nameColumn.toLowerCase().contains("movie")) {
-              HotBoxNavigator.lastClickedMovie = currentId;
+              //HotBoxNavigator.lastClickedMovie = currentId;
+              HotBoxNavigator.lastClickedMovieStack.push(currentId);
               HotelBox.dbConnection.updateStatement("UPDATE MOVIES SET MOVIES"
                   + ".TIMES_VIEWED = MOVIES.TIMES_VIEWED + 1 WHERE MOVIES"
                   + ".MOVIE_ID = " + currentId);
             } else {
-              HotBoxNavigator.lastClickedActor = currentId;
+              //HotBoxNavigator.lastClickedActor = currentId;
+              HotBoxNavigator.lastClickedActorStack.push(currentId);
               HotelBox.dbConnection.updateStatement("UPDATE ACTORS SET ACTORS"
                   + ".TIMES_VIEWED = ACTORS.TIMES_VIEWED + 1 WHERE ACTORS"
                   + ".ACTOR_ID = " + currentId);

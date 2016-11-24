@@ -31,11 +31,13 @@ public class HotBoxNavigator {
   /**
    * Convenience static fields to determine the last clicked buttons.
    */
-  public static String lastClickedMovie;
+  //public static String lastClickedMovie;
   public static String lastClickedActor;
-  public static String lastPageLoaded;
+  //public static String lastPageLoaded;
   public static String lastSearchTerm;
   public static Stack<String> lastLoadedPageStack = new Stack<>();
+  public static Stack<String> lastClickedMovieStack = new Stack<>();
+  public static Stack<String> lastClickedActorStack = new Stack<>();
 
   /**
    * The main application layout controller.

@@ -10,7 +10,6 @@ import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -53,13 +52,13 @@ public class MoviePageController implements Initializable {
     // HashMap<String, String> actorKeys = new HashMap<String, String>();
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
     // table
+    String lastMove = HotBoxNavigator.lastClickedMovieStack.peek();
     ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES", "MOVIE_ID",
-        HotBoxNavigator.lastClickedMovie);
+        lastMove);
     ResultSet cs = HotelBox.dbConnection.searchStatement("CASTING","CASTING_ID",
-        HotBoxNavigator.lastClickedMovie);
+        lastMove);
     ResultSet bs = HotelBox.dbConnection.searchStatement("CUSTOMER",
         "CUSTOMER_ID", HotelBox.getCurrentUserId());
-    Connection con = HotelBox.dbConnection.getCon();
     try {
       //set variables with data from the database
       cs.first();

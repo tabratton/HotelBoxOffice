@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -14,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 
 /**
@@ -28,8 +26,6 @@ public class ActorPageController implements Initializable {
   private FlowPane flowPane;
   @FXML
   private Button goBack;
-  @FXML
-  private Button actorImageButton;
   @FXML
   private ImageView imageView;
   @FXML
@@ -53,12 +49,13 @@ public class ActorPageController implements Initializable {
       
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
+    String lastActor = HotBoxNavigator.lastClickedActorStack.peek();
 
     ResultSet actorPage = HotelBox.dbConnection.searchStatement("ACTORS",
-        "ACTOR_ID", HotBoxNavigator.lastClickedActor);
+        "ACTOR_ID", lastActor);
 
         ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
-                "CASTING", "ACTORS",HotBoxNavigator.lastClickedActor,
+                "CASTING", "ACTORS", lastActor,
                 "MOVIE_ID", "ACTOR_ID");
   
     try {
@@ -72,23 +69,12 @@ public class ActorPageController implements Initializable {
       int actorViewed = actorPage.getInt("TIMES_VIEWED");
       actorViewed +=1;
       String updateViewed = String.format("Update ACTORS SET TIMES_VIEWED = %s Where ACTOR_ID = %s"
-              , actorViewed,  HotBoxNavigator.lastClickedActor);
+              , actorViewed,  lastActor);
       HotelBox.dbConnection.updateStatement(updateViewed);
       
       GeneralUtilities.createButtons(movieList, titleKeys, flowPane, HotBoxNavigator
             .MOVIE_PAGE, 100, 150, "MOVIE_TITLE",
             "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.ACTOR_PAGE);
-      
-      /// final ArrayList<String> movies = new ArrayList<String>();
-      //  try {
-      movieList.last();
-      int numRows = movieList.getRow();
-      movieList.first();
-
-
-      //  }catch (SQLException ex){
-      //      System.out.println(ex.getMessage());
-      //  }
 
       actorName.setWrapText(true);
       actorName.setTextAlignment(TextAlignment.CENTER);
