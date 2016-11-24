@@ -57,11 +57,13 @@ public class MoviePageController implements Initializable {
         HotBoxNavigator.lastClickedMovie);
     ResultSet cs = HotelBox.dbConnection.searchStatement("CASTING","CASTING_ID",
         HotBoxNavigator.lastClickedMovie);
-    ResultSet bs = HotelBox.dbConnection.searchStatement("CUSTOMER","CUSTOMER_BALANCE",
-        "1");
+    ResultSet bs = HotelBox.dbConnection.searchStatement("CUSTOMER",
+        "CUSTOMER_ID", HotelBox.getCurrentUserId());
     Connection con = HotelBox.dbConnection.getCon();
     try {
       //set variables with data from the database
+      cs.first();
+      bs.first();
       rs.first();
       final String title = rs.getString("MOVIE_TITLE");
       final String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
@@ -90,8 +92,6 @@ public class MoviePageController implements Initializable {
       movieImageButton.setGraphic(GeneralUtilities.getImage(movieImage, 300, 450));
       movieImageButton.setStyle("-fx-background-color: transparent;");
       
-
-      
       // Sets the text that will be each item of the list, and sets the text
       // wrapping property so that the scroll bar is not needed.
       Text text = new Text(director);
@@ -105,9 +105,12 @@ public class MoviePageController implements Initializable {
       listView.getItems().add(text);
       
 
+
       //set variables with data from the database
-      Float balance = bs.getFloat("CUSTOMER_BALANCE");
-      final Float price = rs.getFloat("MOVIE_PRICE"); 
+      Double balance = Double.parseDouble(bs.getString("CUSTOMER_BALANCE"));
+      Double price = Double.parseDouble(rs.getString("MOVIE_PRICE"));
+      Double newBalanceIfRented = balance + price;
+      String newBalanceString = String.format("%.2f", newBalanceIfRented);
       
       
       goBackButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -120,28 +123,19 @@ public class MoviePageController implements Initializable {
            
       });
       
-      
       //tried to set it to increase balance but failing 
       // is also trying to go RATE_Page failing too.
       playMovie.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
           // Once pressed to rent a movie the balance of the movie gets
-          // substracted from the customer balance
-         
-          String upString = String.format("UPDATE CUSTOMER SET"
-                  + "CUSTOMER_BALANCE=%s",(balance+price));
+          // subtracted from the customer balance
+          String upString = String.format("UPDATE CUSTOMER SET " +
+                  "CUSTOMER_BALANCE = %s WHERE CUSTOMER_ID = %s",
+              newBalanceString, HotelBox.getCurrentUserId());
+          HotelBox.dbConnection.updateStatement(upString);
           HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
-          
-          try {
-                PreparedStatement stm;
-                stm = con.prepareStatement(upString);
-                stm.executeQuery();
-          }catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
         }
-           
       });
       
       // Commented out and not removed in case we want to change back to this

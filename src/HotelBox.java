@@ -18,6 +18,7 @@ public class HotelBox extends Application {
   public static DatabaseConnection dbConnection = new DatabaseConnection();
   // Allows MovieGridController to access the current window size.
   public static Stage testStage;
+  private static String currentUserId = "3";
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -70,5 +71,13 @@ public class HotelBox extends Application {
 
   public static void main(String[] args) {
     launch(args);
+  }
+
+  public static void setCurrentUserId(String id) {
+    currentUserId = id;
+  }
+
+  public static String getCurrentUserId() {
+    return currentUserId;
   }
 }
