@@ -117,7 +117,8 @@ public class MoviePageController implements Initializable {
         @Override
         public void handle(ActionEvent event) {
           // Once the Button is clicked it goes back to the MainGrid
-          HotBoxNavigator.loadPage(HotBoxNavigator.lastPageLoaded);
+          //HotBoxNavigator.loadPage(HotBoxNavigator.lastPageLoaded);
+          HotBoxNavigator.loadPage(HotBoxNavigator.lastLoadedPageStack.pop());
 
         }
            

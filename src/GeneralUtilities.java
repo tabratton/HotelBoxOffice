@@ -126,7 +126,8 @@ public class GeneralUtilities {
                   + ".TIMES_VIEWED = ACTORS.TIMES_VIEWED + 1 WHERE ACTORS"
                   + ".ACTOR_ID = " + currentId);
             }
-            HotBoxNavigator.lastPageLoaded = currentPage;
+            //HotBoxNavigator.lastPageLoaded = currentPage;
+            HotBoxNavigator.lastLoadedPageStack.push(currentPage);
             // Once the movie page is made, this line will load it.
             // Ideally the initialize() method of that page will read
             // lastClickedMovie and use that string to load the correct data

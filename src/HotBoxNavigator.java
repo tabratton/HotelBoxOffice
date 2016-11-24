@@ -1,6 +1,7 @@
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
+import java.util.Stack;
 
 /**
  * Utility class for controlling navigation between views.
@@ -34,6 +35,7 @@ public class HotBoxNavigator {
   public static String lastClickedActor;
   public static String lastPageLoaded;
   public static String lastSearchTerm;
+  public static Stack<String> lastLoadedPageStack = new Stack<>();
 
   /**
    * The main application layout controller.

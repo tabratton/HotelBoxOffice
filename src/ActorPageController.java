@@ -109,7 +109,8 @@ public class ActorPageController implements Initializable {
       goBack.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-          HotBoxNavigator.loadPage(HotBoxNavigator.lastPageLoaded);
+          //HotBoxNavigator.loadPage(HotBoxNavigator.lastPageLoaded);
+          HotBoxNavigator.loadPage(HotBoxNavigator.lastLoadedPageStack.pop());
         }
       });
 
