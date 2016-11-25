@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 
 /**
  * Controller for the MovieGrid.fxml.
@@ -31,6 +34,8 @@ public class MovieGridController implements Initializable {
   private FlowPane flowPane;
   @FXML
   private ChoiceBox choiceBox;
+  @FXML
+  private Button recentMovies;
   // Desired width of the image to be used for the buttons.
   private static final int TARGET_WIDTH = 150;
   // Calculates desired height based on the known aspect ratio of the images.
@@ -71,6 +76,14 @@ public class MovieGridController implements Initializable {
         + "ORDER BY GENRE_NAME");
     // Create the choice box
     createChoiceBox(databaseGenres);
+    
+    //Get data for recent movies.
+    ResultSet newReleases = HotelBox.dbConnection.searchStatement(
+            "SELECT * FROM MOVIES ORDER BY MOVIES.`MOVIE_RELEASE_DATE`"
+                    + " DESC LIMIT 10", true);
+    // Create button
+    createNewRelaseButton(newReleases);
+    
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
     // table
     ResultSet rs;
@@ -158,4 +171,21 @@ public class MovieGridController implements Initializable {
     // Remove all buttons from pane so they can be redrawn.
     flowPane.getChildren().clear();
   }
+
+  private void createNewRelaseButton(ResultSet newReleases) {
+    
+    recentMovies.setTooltip(new Tooltip("Filter by new releases"));
+    recentMovies.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            // Clear the display of movies
+            removeAllButtons();
+            // Create new grid with current selection of genre
+            GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
+                HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
+                "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
+                    .MOVIE_GRID);
+          }
+      });
+    }
 }
