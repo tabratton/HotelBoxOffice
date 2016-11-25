@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -48,5 +49,9 @@
     <ChoiceBox fx:id="choiceBox"
                prefWidth="150.0"
                GridPane.halignment="CENTER"/>
+    
+    <Button fx:id="recentMovies"
+                text="Recent Movies"
+                GridPane.halignment="RIGHT"/>
   </children>
 </GridPane>
