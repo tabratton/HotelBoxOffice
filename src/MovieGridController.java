@@ -16,6 +16,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
+// fix go back button and new releases behavior
+
 /**
  * Controller for the MovieGrid.fxml.
  *
@@ -49,7 +51,8 @@ public class MovieGridController implements Initializable {
   // Stores the id of the current/last selected genre.
   private static int currentSelectedGenreId = 0;
   // Determines if the page was loaded by the navigation bar.
-  public static boolean loadedByNavigation;
+  public static boolean loadedByNavigationBarButton;
+  public static boolean newReleasesLastLoaded;
 
   /**
    * Initializes the Move Grid page with data from the database.
@@ -65,10 +68,10 @@ public class MovieGridController implements Initializable {
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
 
-    if (loadedByNavigation) {
+    if (loadedByNavigationBarButton) {
       currentSelectedGenreName = "All";
       currentSelectedGenreId = 0;
-      loadedByNavigation = false;
+      loadedByNavigationBarButton = false;
     }
 
     // Gets the data for the GENRES table.
@@ -79,26 +82,33 @@ public class MovieGridController implements Initializable {
     
     //Get data for recent movies.
     ResultSet newReleases = HotelBox.dbConnection.searchStatement(
-            "SELECT * FROM MOVIES ORDER BY MOVIES.`MOVIE_RELEASE_DATE`"
+            "SELECT * FROM MOVIES ORDER BY MOVIES.MOVIE_RELEASE_DATE"
                     + " DESC LIMIT 10", true);
     // Create button
-    createNewRelaseButton(newReleases);
-    
-    // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
-    // table
-    ResultSet rs;
+    createNewReleasesButton(newReleases);
 
-    // If the genre isn't "All" load the correct one
-    if (currentSelectedGenreId != 0) {
-      rs = HotelBox.dbConnection.searchStatement("MOVIES",
-          "GENRE_ID", "" + currentSelectedGenreId);
+    // If the new releases view was what the user was on before clicking a
+    // movie button, return them back to it when they click go back.
+    if (newReleasesLastLoaded) {
+      GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
+          HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
+          "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", "MOVIES");
     } else {
-      rs = HotelBox.dbConnection.searchStatement("MOVIE_ID",
-          "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
+      // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
+      // table
+      ResultSet rs;
+      // If the genre isn't "All" load the correct one
+      if (currentSelectedGenreId != 0) {
+        rs = HotelBox.dbConnection.searchStatement("MOVIES",
+            "GENRE_ID", "" + currentSelectedGenreId);
+      } else {
+        rs = HotelBox.dbConnection.searchStatement("MOVIE_ID",
+            "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
+      }
+      GeneralUtilities.createButtons(rs, titleKeys, flowPane, HotBoxNavigator
+              .MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIE_TITLE",
+          "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.MOVIE_GRID);
     }
-    GeneralUtilities.createButtons(rs, titleKeys, flowPane, HotBoxNavigator
-            .MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIE_TITLE",
-        "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.MOVIE_GRID);
   }
 
   private void createChoiceBox(ResultSet genres) {
@@ -163,6 +173,7 @@ public class MovieGridController implements Initializable {
                 HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
                 "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
                     .MOVIE_GRID);
+            newReleasesLastLoaded = false;
           }
         });
   }
@@ -172,7 +183,7 @@ public class MovieGridController implements Initializable {
     flowPane.getChildren().clear();
   }
 
-  private void createNewRelaseButton(ResultSet newReleases) {
+  private void createNewReleasesButton(ResultSet newReleases) {
     
     recentMovies.setTooltip(new Tooltip("Filter by new releases"));
     recentMovies.setOnAction(new EventHandler<ActionEvent>() {
@@ -185,6 +196,7 @@ public class MovieGridController implements Initializable {
                 HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
                 "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
                     .MOVIE_GRID);
+            newReleasesLastLoaded = true;
           }
       });
     }

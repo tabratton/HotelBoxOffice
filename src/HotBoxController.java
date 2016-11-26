@@ -51,7 +51,8 @@ public class HotBoxController {
    */
   public void loadMovieGrid() {
     resetSearchBox();
-    MovieGridController.loadedByNavigation = true;
+    MovieGridController.loadedByNavigationBarButton = true;
+    MovieGridController.newReleasesLastLoaded = false;
     HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
   }
 
