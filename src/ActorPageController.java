@@ -21,7 +21,6 @@ import javafx.scene.layout.FlowPane;
  * @author Vilma Un Jan
  */
 public class ActorPageController implements Initializable {
-
   @FXML
   private FlowPane flowPane;
   @FXML
@@ -46,9 +45,8 @@ public class ActorPageController implements Initializable {
   */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-      
-    flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
-    flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
+    flowPane.prefWidth(250);
+
     String lastActor = HotBoxNavigator.lastClickedActorStack.peek();
 
     ResultSet actorPage = HotelBox.dbConnection.searchStatement("ACTORS",
