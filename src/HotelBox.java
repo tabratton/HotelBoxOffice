@@ -18,7 +18,8 @@ public class HotelBox extends Application {
   public static DatabaseConnection dbConnection = new DatabaseConnection();
   // Allows MovieGridController to access the current window size.
   public static Stage testStage;
-  private static String currentUserId = "3";
+  private static String currentUserId = "-1";
+  private static Boolean isAdmin = false;
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -49,7 +50,7 @@ public class HotelBox extends Application {
     HotBoxController mainController = loader.getController();
 
     HotBoxNavigator.setMainController(mainController);
-    HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
+    HotBoxNavigator.loadPage(HotBoxNavigator.LOGIN_PAGE);
 
     return mainPane;
   }
@@ -79,5 +80,13 @@ public class HotelBox extends Application {
 
   public static String getCurrentUserId() {
     return currentUserId;
+  }
+
+  public static void setIsAdmin(Boolean admin) {
+    isAdmin = admin;
+  }
+
+  public static Boolean getIsAdmin() {
+    return isAdmin;
   }
 }
