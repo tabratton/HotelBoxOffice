@@ -283,13 +283,7 @@ public class StatsPageController implements Initializable {
                         break;
                 }
             }
-            
-            
-            
-            
-            
-            
-            
+     
         }catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }   

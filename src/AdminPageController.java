@@ -38,13 +38,15 @@ public class AdminPageController implements Initializable {
   public void initialize(URL url, ResourceBundle rb) {
     HotBoxNavigator.clearStacks();
 
-    // TODO
+    // stats button loads stats page
     statisticsButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         HotBoxNavigator.loadPage(HotBoxNavigator.STATS_PAGE);
       }
     });
+    
+    // 
   }
 
 }

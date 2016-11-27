@@ -64,11 +64,6 @@ public class ActorPageController implements Initializable {
           "ACTOR_BIO");
       final String movieLabel = actorPage.getString("ACTOR_NAME") + " movies:";
       
-      int actorViewed = actorPage.getInt("TIMES_VIEWED");
-      actorViewed +=1;
-      String updateViewed = String.format("Update ACTORS SET TIMES_VIEWED = %s Where ACTOR_ID = %s"
-              , actorViewed,  lastActor);
-      HotelBox.dbConnection.updateStatement(updateViewed);
       
       GeneralUtilities.createButtons(movieList, titleKeys, flowPane, HotBoxNavigator
             .MOVIE_PAGE, 100, 150, "MOVIE_TITLE",
