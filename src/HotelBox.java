@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -19,7 +21,7 @@ public class HotelBox extends Application {
   // Allows MovieGridController to access the current window size.
   public static Stage testStage;
   private static String currentUserId = "-1";
-  private static Boolean isAdmin = false;
+  private static BooleanProperty isAdmin = new SimpleBooleanProperty(false);
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -82,11 +84,11 @@ public class HotelBox extends Application {
     return currentUserId;
   }
 
-  public static void setIsAdmin(Boolean admin) {
-    isAdmin = admin;
+  public static void setIsAdmin(boolean admin) {
+    isAdmin.set(admin);
   }
 
-  public static Boolean getIsAdmin() {
+  public static BooleanProperty getIsAdmin() {
     return isAdmin;
   }
 }

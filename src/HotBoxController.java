@@ -1,21 +1,32 @@
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * HotelBox controller class for the entire layout.
  *
  * @author Tyler Bratton
  */
-public class HotBoxController {
+public class HotBoxController implements Initializable {
 
   /** Holder of a switchable view. */
   @FXML
   private StackPane hotBoxHolder;
   @FXML
   private TextField searchBox;
+  @FXML
+  private Button adminButton;
+
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+    adminButton.visibleProperty().bind(HotelBox.getIsAdmin());
+  }
 
   /**
    * Replaces the view displayed in the view holder with a new view.

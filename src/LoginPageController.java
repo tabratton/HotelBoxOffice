@@ -1,3 +1,4 @@
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -69,7 +70,8 @@ public class LoginPageController implements Initializable {
   }
 
   private void setAdminStatus(ResultSet rs) throws SQLException {
-    String adminValue = rs.getString("CUSTOMER_ADMIN");
-    HotelBox.setIsAdmin(Boolean.parseBoolean(adminValue));
+    int adminValue = Integer.parseInt(rs.getString("CUSTOMER_ADMIN"));
+    boolean admin = (adminValue != 0);
+    HotelBox.setIsAdmin(admin);
   }
 }
