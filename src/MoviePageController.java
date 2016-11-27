@@ -124,6 +124,14 @@ public class MoviePageController implements Initializable {
               + " MOVIES.MOVIE_ID = %s", HotelBox.getCurrentUserId(),
               lastMovie);
           HotelBox.dbConnection.updateStatement(upString);
+          
+          // insert new line in customer rentals
+          DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+          Date date = new Date();
+          System.out.println(dateFormat.format(date));
+          upString = String.format("INSERT INTO `CUSTOMER_RENTALS` VALUES (4,%s,%s,%s)",
+                  HotelBox.getCurrentUserId(),lastMovie,dateFormat.format(date));
+          HotelBox.dbConnection.updateStatement(upString);
           HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
         }
       });
