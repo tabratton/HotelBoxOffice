@@ -26,6 +26,7 @@ public class HotBoxNavigator {
   public static final String ADMIN_PAGE = "AdminPage.fxml";
   public static final String RATE_PAGE = "RatePage.fxml";
   public static final String STATS_PAGE = "StatsPage.fxml";
+  public static final String LOGIN_PAGE = "LoginPage.fxml";
 
 
   /**

@@ -1,21 +1,33 @@
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * HotelBox controller class for the entire layout.
  *
  * @author Tyler Bratton
  */
-public class HotBoxController {
+public class HotBoxController implements Initializable {
 
   /** Holder of a switchable view. */
   @FXML
   private StackPane hotBoxHolder;
   @FXML
   private TextField searchBox;
+  @FXML
+  private AnchorPane menuBar;
+
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+    menuBar.visibleProperty().bind(HotelBox.getIsLoggedIn());
+  }
 
   /**
    * Replaces the view displayed in the view holder with a new view.
@@ -72,6 +84,13 @@ public class HotBoxController {
     //HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
     //For now just load customer edit since it's the only admin tool we have.
     HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
+  }
+
+  public void logoutPressed() {
+    HotelBox.setIsLoggedIn(false);
+    HotelBox.setIsAdmin(false);
+    HotelBox.setCurrentUserId("-1");
+    HotBoxNavigator.loadPage(HotBoxNavigator.LOGIN_PAGE);
   }
 
   private void resetSearchBox() {

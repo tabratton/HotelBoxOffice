@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -18,7 +20,9 @@ public class HotelBox extends Application {
   public static DatabaseConnection dbConnection = new DatabaseConnection();
   // Allows MovieGridController to access the current window size.
   public static Stage testStage;
-  private static String currentUserId = "3";
+  private static String currentUserId = "-1";
+  private static BooleanProperty isAdmin = new SimpleBooleanProperty(false);
+  private static BooleanProperty isLoggedIn = new SimpleBooleanProperty(false);
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -49,7 +53,7 @@ public class HotelBox extends Application {
     HotBoxController mainController = loader.getController();
 
     HotBoxNavigator.setMainController(mainController);
-    HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
+    HotBoxNavigator.loadPage(HotBoxNavigator.LOGIN_PAGE);
 
     return mainPane;
   }
@@ -79,5 +83,21 @@ public class HotelBox extends Application {
 
   public static String getCurrentUserId() {
     return currentUserId;
+  }
+
+  public static void setIsAdmin(boolean admin) {
+    isAdmin.set(admin);
+  }
+
+  public static BooleanProperty getIsAdmin() {
+    return isAdmin;
+  }
+
+  public static void setIsLoggedIn(boolean admin) {
+    isLoggedIn.set(admin);
+  }
+
+  public static BooleanProperty getIsLoggedIn() {
+    return isLoggedIn;
   }
 }
