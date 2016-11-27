@@ -194,7 +194,7 @@ public class StatsPageController implements Initializable {
         }
         
         try{
-            sqlStatement = String.format("SELECT MOVIE_ID, COUNT(*) as 'total' FROM CUSTOMER_RENTALS GROUP BY MOVIE_ID ORDER BY 'total' DESC LIMIT 5");
+            sqlStatement = String.format("SELECT MOVIE_ID, COUNT(MOVIE_ID) as 'total' FROM CUSTOMER_RENTALS GROUP BY MOVIE_ID ORDER BY COUNT(MOVIE_ID) DESC LIMIT 5");
             ResultSet uniqueWatched = HotelBox.dbConnection.searchStatement(sqlStatement, true);
             for (int i = 1; i <= 5; i++){
                 uniqueWatched.next();

@@ -27,6 +27,7 @@ public class HotBoxNavigator {
   public static final String RATE_PAGE = "RatePage.fxml";
   public static final String STATS_PAGE = "StatsPage.fxml";
   public static final String LOGIN_PAGE = "LoginPage.fxml";
+  public static final String EDIT_PAGE = "EditPage.fxml";
 
 
   /**
@@ -40,6 +41,11 @@ public class HotBoxNavigator {
   public static Stack<String> lastClickedMovieStack = new Stack<>();
   public static Stack<String> lastClickedActorStack = new Stack<>();
 
+  /**
+   * Convenience static fields for Admin editing
+   */
+  public static String editTable;
+  public static String editRecord;
   /**
    * The main application layout controller.
    */

@@ -33,6 +33,11 @@ public class AdminPageController implements Initializable {
   private Button statisticsButton;
   @FXML
   private Button editRatings;
+  @FXML
+  private Button castingButton;
+  @FXML
+  private Button editCasting;
+  
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
@@ -46,7 +51,37 @@ public class AdminPageController implements Initializable {
       }
     });
     
-    // 
+    // edit customer button
+    editCustomer.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = "CUSTOMER";
+           HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
+           
+       }
+    });
+    // edit movie button
+    editMovie.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = "MOVIES";
+           HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
+           
+       }
+    });
+    // edit genre button
+    editGenre.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = "GENRE";
+           HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
+           
+       }
+    });
+    
+    // note to self: 
+    // why didn't you do add / edit actor???
+    // working on it :-P
   }
 
 }

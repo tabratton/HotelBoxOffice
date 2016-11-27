@@ -239,4 +239,16 @@ public class DatabaseConnection {
       System.out.println(ex.getMessage());
     }
   }
+  
+  public void deleteStatement(String table, String primaryKeyName, String index){
+      PreparedStatement stm;
+    try {
+      String search = String.format("DELETE FROM %s WHERE %s = %s", 
+              table,primaryKeyName, index);
+      stm = con.prepareStatement(search);
+      stm.executeQuery();
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+  }
 }
