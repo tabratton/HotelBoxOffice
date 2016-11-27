@@ -128,9 +128,10 @@ public class MoviePageController implements Initializable {
           // insert new line in customer rentals
           DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
           Date date = new Date();
-          System.out.println(dateFormat.format(date));
-          upString = String.format("INSERT INTO `CUSTOMER_RENTALS` VALUES (4,%s,%s,%s)",
-                  HotelBox.getCurrentUserId(),lastMovie,dateFormat.format(date));
+          upString = String.format("INSERT INTO CUSTOMER_RENTALS"
+                  + " (CUSTOMER_ID, MOVIE_ID, RENTAL_DATE) VALUES (%s,%s,'%s')",
+                  HotelBox.getCurrentUserId(), lastMovie,dateFormat.format(
+                  date));
           HotelBox.dbConnection.updateStatement(upString);
           HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
         }
