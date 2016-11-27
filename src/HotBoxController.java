@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
@@ -22,13 +23,10 @@ public class HotBoxController implements Initializable {
   @FXML
   private TextField searchBox;
   @FXML
-  private Button adminButton;
-  @FXML
-  private Button logout;
+  private AnchorPane menuBar;
 
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    adminButton.visibleProperty().bind(HotelBox.getIsAdmin());
-    logout.visibleProperty().bind(HotelBox.getIsLoggedIn());
+    menuBar.visibleProperty().bind(HotelBox.getIsLoggedIn());
   }
 
   /**
