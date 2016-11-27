@@ -54,6 +54,7 @@ public class LoginPageController implements Initializable {
       if (rs.next()) {
         HotelBox.setCurrentUserId(rs.getString("CUSTOMER_ID"));
         setAdminStatus(rs);
+        HotelBox.setIsLoggedIn(true);
         HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
       } else {
         Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -22,6 +22,7 @@ public class HotelBox extends Application {
   public static Stage testStage;
   private static String currentUserId = "-1";
   private static BooleanProperty isAdmin = new SimpleBooleanProperty(false);
+  private static BooleanProperty isLoggedIn = new SimpleBooleanProperty(false);
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -90,5 +91,13 @@ public class HotelBox extends Application {
 
   public static BooleanProperty getIsAdmin() {
     return isAdmin;
+  }
+
+  public static void setIsLoggedIn(boolean admin) {
+    isLoggedIn.set(admin);
+  }
+
+  public static BooleanProperty getIsLoggedIn() {
+    return isLoggedIn;
   }
 }

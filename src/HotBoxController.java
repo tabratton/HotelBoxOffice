@@ -23,9 +23,12 @@ public class HotBoxController implements Initializable {
   private TextField searchBox;
   @FXML
   private Button adminButton;
+  @FXML
+  private Button logout;
 
   public void initialize(URL url, ResourceBundle resourceBundle) {
     adminButton.visibleProperty().bind(HotelBox.getIsAdmin());
+    logout.visibleProperty().bind(HotelBox.getIsLoggedIn());
   }
 
   /**
@@ -83,6 +86,13 @@ public class HotBoxController implements Initializable {
     //HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
     //For now just load customer edit since it's the only admin tool we have.
     HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
+  }
+
+  public void logoutPressed() {
+    HotelBox.setIsLoggedIn(false);
+    HotelBox.setIsAdmin(false);
+    HotelBox.setCurrentUserId("-1");
+    HotBoxNavigator.loadPage(HotBoxNavigator.LOGIN_PAGE);
   }
 
   private void resetSearchBox() {
