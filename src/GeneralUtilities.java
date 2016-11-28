@@ -220,67 +220,48 @@ public class GeneralUtilities {
   private static boolean isWindows() {
     return (OS.contains("win"));
   }
- 
-    public static void createEditResults(ResultSet results, 
-                                   FlowPane localFlowPane, String pageToLoad, 
-                                   String nameColumn, String primaryKey){
-        try{
-            while(results.next()){
-               Label nameLabel = new Label(results.getString(nameColumn));
-               nameLabel.setMinWidth(400);
-               Button editButton = new Button("Edit");
-               Button deleteButton = new Button("Delete");
-               String recordToEdit = results.getString(primaryKey);
-               editButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        try {
-                            HotBoxNavigator.editRecord = recordToEdit;
-                        } catch (Exception ex) {
-                            System.out.println(ex.getMessage());
-                        }
-                        HotBoxNavigator.loadPage(pageToLoad);
-                    }
-                });
-               deleteButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        try {
-                            HotelBox.dbConnection.deleteStatement(HotBoxNavigator.editTable, primaryKey, recordToEdit);
-                        } catch (Exception ex) {
-                            System.out.println(ex.getMessage());
-                        }
-                        HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-                    }
-                });
-               localFlowPane.getChildren().add(nameLabel);
-               localFlowPane.getChildren().add(editButton);
-               localFlowPane.getChildren().add(deleteButton);
+
+  public static void createEditResults(ResultSet results,
+                                       FlowPane localFlowPane, String
+                                           pageToLoad,
+                                       String nameColumn, String primaryKey) {
+    try {
+      while (results.next()) {
+        Label nameLabel = new Label(results.getString(nameColumn));
+        nameLabel.setMinWidth(400);
+        Button editButton = new Button("Edit");
+        Button deleteButton = new Button("Delete");
+        String recordToEdit = results.getString(primaryKey);
+        editButton.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            try {
+              HotBoxNavigator.editRecord = recordToEdit;
+            } catch (Exception ex) {
+              System.out.println(ex.getMessage());
             }
             HotBoxNavigator.loadPage(pageToLoad);
           }
         });
-
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
             try {
               HotelBox.dbConnection.deleteStatement(HotBoxNavigator
-                  .editTable, primaryKey, results.getString(primaryKey));
+                  .editTable, primaryKey, recordToEdit);
             } catch (Exception ex) {
               System.out.println(ex.getMessage());
             }
             HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
           }
         });
-        flowPane.getChildren().add(nameLabel);
-        flowPane.getChildren().add(editButton);
-        flowPane.getChildren().add(deleteButton);
+        localFlowPane.getChildren().add(nameLabel);
+        localFlowPane.getChildren().add(editButton);
+        localFlowPane.getChildren().add(deleteButton);
       }
-    } catch (Exception ex) {
+      HotBoxNavigator.loadPage(pageToLoad);
+    } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
-
   }
-
 }

@@ -62,13 +62,12 @@ public class CustomerEditController implements Initializable {
           rs.first();
           customerName.setText(rs.getString("CUSTOMER_NAME"));
           id = rs.getString("CUSTOMER_ID");
-          double fuck = rs.getBigDecimal("CUSTOMER_BALANCE").doubleValue();
+          Double fuck = Double.parseDouble(rs.getString("CUSTOMER_BALANCE"));
           System.out.println(fuck);
           
           customerRoom.setText(rs.getString("CUSTOMER_ROOMNUM"));
-          customerBalance.setText(String.format("%.2f",fuck));
+          customerBalance.setText(String.format("%.2f", fuck));
 
-    
       } catch (SQLException ex) {
         // error handling
          System.out.println(ex.getMessage());
