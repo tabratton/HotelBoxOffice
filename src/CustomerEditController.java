@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.scene.control.CheckBox;
 
 /**
  * FXML Controller class.
@@ -23,8 +24,7 @@ public class CustomerEditController implements Initializable {
   /**
    * Initializes the controller class.
    */
-  @FXML // initialize all named objects in fxml
-  private TextField customerId;
+  
   @FXML
   private TextField customerName;
   @FXML
@@ -34,74 +34,95 @@ public class CustomerEditController implements Initializable {
   @FXML
   private TextField customerPassword;
   @FXML
-  private TextField customerConfirm;
+  private TextField customerAddress;
+  @FXML
+  private TextField customerZipcode;
+  @FXML
+  private TextField customerCity;
+  @FXML
+  private CheckBox customerAdmin;
   @FXML
   private Button submitButton;
   @FXML
-  private Button createButton;
-  @FXML
   private Button cancelButton;
+
+  
+  private String id;
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-    String value = "1";
-    if (HotBoxNavigator.editRecord != null && HotBoxNavigator.editTable
-        .equals("CUSTOMER")) {
-      ResultSet rs = HotelBox.dbConnection.searchStatement("CUSTOMER",
-          "CUSTOMER_ID", HotBoxNavigator.editRecord);
-      try {
-        while (rs.next()) {
-          customerId.setText(rs.getString("CUSTOMER_ID"));
-          customerName.setText(rs.getString("CUSTOMER_NAME"));
-          customerBalance.setText(rs.getString("CUSTOMER_BALANCE"));
-          customerRoom.setText(rs.getString("CUSTOMER_ROOMNUM"));
 
-        }
+    
+      if (HotBoxNavigator.editRecord!=null) {
+      
+        ResultSet rs = HotelBox.dbConnection.searchStatement("CUSTOMER",
+          "CUSTOMER_ID", HotBoxNavigator.editRecord);
+        
+      try {
+          rs.first();
+          customerName.setText(rs.getString("CUSTOMER_NAME"));
+          id = rs.getString("CUSTOMER_ID");
+          double fuck = rs.getBigDecimal("CUSTOMER_BALANCE").doubleValue();
+          System.out.println(fuck);
+          
+          customerRoom.setText(rs.getString("CUSTOMER_ROOMNUM"));
+          customerBalance.setText(String.format("%.2f",fuck));
+
+    
       } catch (SQLException ex) {
         // error handling
+         System.out.println(ex.getMessage());
       }
 
-      submitButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-              String name = customerName.getText();
-              String bal = customerBalance.getText();
-              String room = customerRoom.getText();
-              String id = customerId.getText();
-              String upString = String.format("UPDATE CUSTOMER SET"
-                  + " CUSTOMER_NAME = '%s', CUSTOMER_BALANCE = %s,"
-                  + " CUSTOMER_ROOMNUM = %s WHERE CUSTOMER_ID = %s", name,
-                  bal, room, id);
-              HotelBox.dbConnection.updateStatement(upString);
+    
+        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+              public void handle(ActionEvent event) {
+                  if (HotBoxNavigator.editRecord.equals(null)){
+                    String name = customerName.getText();
+                    String bal = customerBalance.getText();
+                    String room = customerRoom.getText();
+                    String password = customerPassword.getText();
+                    String upString = String.format("INSERT INTO CUSTOMER VALUES"
+                        + " (null,%s,%s,%s,%s)", name, password, bal, room);
+                    Connection con = HotelBox.dbConnection.getCon();
+                    try {
+                        PreparedStatement stm;
+                        stm = con.prepareStatement(upString);
+                        stm.executeQuery();
+                    } catch (SQLException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                  } else {
+                        String name = customerName.getText();
+                        String bal = customerBalance.getText();
+                        String room = customerRoom.getText();
+                        String upString = String.format("UPDATE CUSTOMER SET"
+                            + " CUSTOMER_NAME=%s, CUSTOMER_BALANCE=%s, CUSTOMER_ROOMNUM=%s"
+                            + " WHERE CUSTOMER_ID=%s", name, bal, room, id);
+                        Connection con = HotelBox.dbConnection.getCon();
+                        try {
+                            PreparedStatement stm;
+                            stm = con.prepareStatement(upString);
+                            stm.executeQuery();
+                        } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                  }
+                
+              }
             }
-          }
       );
     }
-    createButton.setOnAction(new EventHandler<ActionEvent>() {
-          public void handle(ActionEvent event) {
-            String name = customerName.getText();
-            String bal = customerBalance.getText();
-            String room = customerRoom.getText();
-            String password = customerPassword.getText();
-            String upString = String.format("INSERT INTO CUSTOMER"
-                + " (CUSTOMER_NAME, CUSTOMER_PASSWORD, CUSTOMER_BALANCE,"
-                + " CUSTOMER_ROOMNUM) VALUES ('%s', '%s', %s, %s)", name,
-                password, bal, room);
-            HotelBox.dbConnection.updateStatement(upString);
-          }
-        }
-    );
 
-    cancelButton.setOnAction(
-        new EventHandler<ActionEvent>() {
+    
+    cancelButton.setOnAction( new EventHandler<ActionEvent>() {
           public void handle(ActionEvent event) {
             HotBoxNavigator.editRecord = null;
 
             customerName.setText("");
             customerBalance.setText("");
             customerRoom.setText("");
-            customerId.setText("");
             customerPassword.setText("");
-            customerConfirm.setText("");
           }
         }
     );

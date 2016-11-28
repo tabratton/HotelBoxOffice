@@ -1,104 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 
-<GridPane fx:id="bottomGrid"
-          maxHeight="-Infinity"
-          maxWidth="-Infinity"
-          minHeight="-Infinity"
-          minWidth="-Infinity"
-          prefHeight="400.0"
-          prefWidth="600.0"
-          xmlns="http://javafx.com/javafx/8"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="CustomerEditController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-  </rowConstraints>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="CustomerEditController">
   <children>
-    <Label text="Customer Name:" GridPane.rowIndex="1"/>
-    <Label text="Current Balance:" GridPane.rowIndex="2"/>
-    <Label text="Current Room Number:" GridPane.rowIndex="3"/>
-    <Label text="Customer ID:"/>
-    <TextField fx:id="customerId" GridPane.columnIndex="1"/>
-    <TextField fx:id="customerName"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="1"/>
-    <TextField fx:id="customerBalance"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="2"/>
-    <TextField fx:id="customerRoom"
-               GridPane.columnIndex="1"
-               GridPane.rowIndex="3"/>
-    <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+    <GridPane layoutX="14.0" layoutY="14.0" prefHeight="508.0" prefWidth="572.0">
+      <children>
+        <Label alignment="TOP_CENTER" prefWidth="286.0" text="Customer Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+          <left>
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
+          </left>
+          <right>
+            <Button fx:id="submitButton" mnemonicParsing="false" text="Submit" />
+          </right>
+        </BorderPane>
+        <Label alignment="TOP_CENTER" prefWidth="286.0" text="Room Number:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label alignment="TOP_CENTER" prefWidth="286.0" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label alignment="TOP_CENTER" prefWidth="286.0" text="Admin:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Label alignment="TOP_CENTER" prefWidth="286.0" text="Balance:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+          <bottom>
+            <Label alignment="TOP_CENTER" prefWidth="286.0" text="Zipcode:" />
+          </bottom>
+          <center>
+            <Label alignment="TOP_CENTER" prefWidth="286.0" text="City:" />
+          </center>
+          <top>
+            <Label alignment="TOP_CENTER" prefWidth="286.0" text="Address:" />
+          </top>
+        </BorderPane>
+        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+          <bottom>
+            <TextField fx:id="customerZipcode" prefWidth="200.0" />
+          </bottom>
+          <center>
+            <TextField fx:id="customerCity" prefWidth="200.0" />
+          </center>
+          <top>
+            <TextField fx:id="customerAddress" prefWidth="200.0" />
+          </top>
+        </BorderPane>
+        <TextField fx:id="customerName" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="customerRoom" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <TextField fx:id="customerPassword" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <CheckBox fx:id="customerAdmin" mnemonicParsing="false" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      </children>
       <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
       <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <children>
-        <TextField fx:id="customerPassword"/>
-        <TextField fx:id="customerConfirm" GridPane.rowIndex="1"/>
-      </children>
     </GridPane>
-    <GridPane GridPane.rowIndex="4">
-      <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-      </rowConstraints>
-      <children>
-        <Label text="Change Password:"/>
-        <Label text="Confirm Password:" GridPane.rowIndex="1"/>
-      </children>
-    </GridPane>
-    <BorderPane prefHeight="200.0"
-                prefWidth="200.0"
-                GridPane.columnIndex="1"
-                GridPane.rowIndex="5">
-      <right>
-        <Button fx:id="cancelButton"
-                alignment="CENTER"
-                cancelButton="true"
-                mnemonicParsing="false"
-                text="Cancel"
-                BorderPane.alignment="CENTER"/>
-      </right>
-      <left>
-        <Button fx:id="submitButton"
-                mnemonicParsing="false"
-                text="Submit"
-                BorderPane.alignment="CENTER"/>
-      </left>
-    </BorderPane>
-    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
-      <left>
-        <Button fx:id="createButton"
-                mnemonicParsing="false"
-                text="Create"
-                BorderPane.alignment="CENTER"/>
-      </left>
-    </BorderPane>
   </children>
-  <opaqueInsets>
-    <Insets/>
-  </opaqueInsets>
-  <padding>
-    <Insets left="50.0" right="25.0"/>
-  </padding>
-</GridPane>
+</AnchorPane>
