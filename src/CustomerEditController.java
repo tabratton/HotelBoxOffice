@@ -41,11 +41,12 @@ public class CustomerEditController implements Initializable {
   private Button createButton;
   @FXML
   private Button cancelButton;
-  
+
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     String value = "1";
-    if (HotBoxNavigator.editRecord!=null && HotBoxNavigator.editTable=="CUSTOMER") {
+    if (HotBoxNavigator.editRecord != null && HotBoxNavigator.editTable
+        .equals("CUSTOMER")) {
       ResultSet rs = HotelBox.dbConnection.searchStatement("CUSTOMER",
           "CUSTOMER_ID", HotBoxNavigator.editRecord);
       try {
@@ -59,57 +60,42 @@ public class CustomerEditController implements Initializable {
       } catch (SQLException ex) {
         // error handling
       }
-    
-        submitButton.setOnAction(
 
-            new EventHandler<ActionEvent>() {
-              public void handle(ActionEvent event) {
-                String name = customerName.getText();
-                String bal = customerBalance.getText();
-                String room = customerRoom.getText();
-                String id = customerId.getText();
-                String upString = String.format("UPDATE CUSTOMER SET"
-                    + " CUSTOMER_NAME=%s, CUSTOMER_BALANCE=%s, CUSTOMER_ROOMNUM=%s"
-                    + " WHERE CUSTOMER_ID=%s", name, bal, room, id);
-                Connection con = HotelBox.dbConnection.getCon();
-                try {
-                    PreparedStatement stm;
-                    stm = con.prepareStatement(upString);
-                    stm.executeQuery();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-              }
+      submitButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+              String name = customerName.getText();
+              String bal = customerBalance.getText();
+              String room = customerRoom.getText();
+              String id = customerId.getText();
+              String upString = String.format("UPDATE CUSTOMER SET"
+                  + " CUSTOMER_NAME = '%s', CUSTOMER_BALANCE = %s,"
+                  + " CUSTOMER_ROOMNUM = %s WHERE CUSTOMER_ID = %s", name,
+                  bal, room, id);
+              HotelBox.dbConnection.updateStatement(upString);
             }
-        );
+          }
+      );
     }
-    createButton.setOnAction (
-    new EventHandler<ActionEvent>() {
+    createButton.setOnAction(new EventHandler<ActionEvent>() {
           public void handle(ActionEvent event) {
             String name = customerName.getText();
             String bal = customerBalance.getText();
             String room = customerRoom.getText();
-            String id = customerId.getText();
             String password = customerPassword.getText();
-            String upString = String.format("INSERT INTO CUSTOMER VALUES"
-                + " (null,%s,%s,%s,%s)", name, password, bal, room);
-            Connection con = HotelBox.dbConnection.getCon();
-            try {
-                PreparedStatement stm;
-                stm = con.prepareStatement(upString);
-                stm.executeQuery();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
+            String upString = String.format("INSERT INTO CUSTOMER"
+                + " (CUSTOMER_NAME, CUSTOMER_PASSWORD, CUSTOMER_BALANCE,"
+                + " CUSTOMER_ROOMNUM) VALUES ('%s', '%s', %s, %s)", name,
+                password, bal, room);
+            HotelBox.dbConnection.updateStatement(upString);
           }
         }
     );
-    
+
     cancelButton.setOnAction(
         new EventHandler<ActionEvent>() {
           public void handle(ActionEvent event) {
             HotBoxNavigator.editRecord = null;
-            
+
             customerName.setText("");
             customerBalance.setText("");
             customerRoom.setText("");
