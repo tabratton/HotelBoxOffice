@@ -19,6 +19,73 @@
 -- Table structure for table `ACTORS`
 --
 
+DROP DATABASE IF EXISTS `HotelBoxOffice`;
+DROP DATABASE IF EXISTS `hotelboxoffice`;
+DROP DATABASE IF EXISTS `HOTELBOXOFFICE`;
+
+CREATE DATABASE IF NOT EXISTS `HotelBoxOffice`;
+
+USE `HotelBoxOffice`;
+
+--
+-- Table structure for table `GENRE`
+--
+
+DROP TABLE IF EXISTS `GENRE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `GENRE` (
+  `GENRE_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `GENRE_NAME` varchar(40) NOT NULL,
+  PRIMARY KEY (`GENRE_ID`),
+  UNIQUE KEY `GENRE_GENRE_ID_uindex` (`GENRE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `GENRE`
+--
+
+LOCK TABLES `GENRE` WRITE;
+/*!40000 ALTER TABLE `GENRE` DISABLE KEYS */;
+INSERT INTO `GENRE` VALUES (1,'Comedy'),(2,'Horror'),(3,'Action'),(4,'Animation'),(5,'Family'),(6,'Romance'),(7,'Drama'),(8,'Sports'),(9,'Science fiction'),(10,'Fiction');
+/*!40000 ALTER TABLE `GENRE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `MOVIES`
+--
+
+DROP TABLE IF EXISTS `MOVIES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `MOVIES` (
+  `MOVIE_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `MOVIE_TITLE` varchar(100) NOT NULL,
+  `MOVIE_DIRECTOR` varchar(40) NOT NULL,
+  `MOVIE_DESCRIPTION` varchar(255) NOT NULL,
+  `MOVIE_RELEASE_DATE` date NOT NULL,
+  `MOVIE_IMAGE` varchar(40) NOT NULL,
+  `GENRE_ID` int(11) unsigned DEFAULT NULL,
+  `MOVIE_PRICE` decimal(6,2) NOT NULL,
+  `TIMES_VIEWED` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`MOVIE_ID`),
+  UNIQUE KEY `MOVIES_MOVIE_ID_uindex` (`MOVIE_ID`),
+  KEY `MOVIES_GENRE_GENRE_ID_fk` (`GENRE_ID`),
+  CONSTRAINT `MOVIES_GENRE_GENRE_ID_fk` FOREIGN KEY (`GENRE_ID`) REFERENCES `GENRE` (`GENRE_ID`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MOVIES`
+--
+
+LOCK TABLES `MOVIES` WRITE;
+/*!40000 ALTER TABLE `MOVIES` DISABLE KEYS */;
+INSERT INTO `MOVIES` VALUES (1,'Rogue One: A Star Wars Story','Gareth Edwards','The Gang Gets the Death Star Plans','2016-12-16','https://i.imgur.com/fLgqSsR.jpg',9,1.00,62),(2,'Magnificent Seven','Antoine Fuqua','Remake of a western remake of a Japanese movie directed by Akira Kurosawa','2016-09-23','https://i.imgur.com/CDTXtPS.jpg',3,1.00,25),(3,'Captain America: Civil War','Joe Russo and Anthony Russo','Hail Hydra','2016-04-06','https://i.imgur.com/ZAlO2Eq.jpg',3,0.50,3),(4,'Star Wars: Episode VIII','Rian Johnson','STAR WARS','2017-12-15','https://i.imgur.com/jmQenR4.jpg',9,0.00,15),(5,'Snowden','Oliver Stone','A dramatization of a not very dramatic event','2016-09-16','https://i.imgur.com/bWBzsjD.jpg',7,0.00,6),(6,'Men in Black','Barry Sonnenfeld','The Fresh Prince fights aliens','1997-07-02','https://i.imgur.com/ev6eRey.jpg',3,0.00,6),(7,'Se7en','David Fincher','It was her head','1995-09-22','https://i.imgur.com/SltvaDv.jpg',7,0.00,6),(8,'Star Wars: Episode VII: The Force Awakens','J.J. Abrams','Dude Star Wars is back who cares what it\'s about','2015-12-18','https://i.imgur.com/sY6KAhj.jpg',9,0.00,2),(9,'The Shawshank Redemption','Frank Darabont','Get busy living or get busy dying','1994-10-14','https://i.imgur.com/ldKX4wu.jpg',7,0.00,5),(10,'The Godfather','Francis Ford Coppola','Better than the book','1972-05-24','https://i.imgur.com/a7wq5iQ.jpg',7,0.00,1),(11,'The Godfather: Part II','Francis Ford Coppola','The pre-sequel','1974-12-20','https://i.imgur.com/BQkqHGb.jpg',7,0.00,4),(12,'12 Angry Men','Sidney Lumet','12 angry men talk in a room for 1 hour and 36 minutes','1957-04-13','https://i.imgur.com/9iLXaRR.jpg',7,0.00,2),(13,'The Good, the Bad, and the Ugly','Sergio Leone','Pretty good standoff at the end','1967-12-29','https://i.imgur.com/RbvCZ09.jpg',3,0.00,0),(14,'Forrest Gump','Robert Zemeckis','Stupid is as stupid does','1994-07-06','https://i.imgur.com/VmO464D.jpg',1,0.00,2),(15,'One Flew Over the Cuckoo\'s Nest','Milos Forman','Doc from Back to the Future finally gets put in the loony bin','1975-11-19','https://i.imgur.com/dT1bPzC.jpg',1,0.00,0),(16,'Spirited Away','Hayao Miyazaki','Little girl fights the 7 deadly sins','2003-03-28','https://i.imgur.com/gfdSlRZ.jpg',4,0.00,2);
+/*!40000 ALTER TABLE `MOVIES` ENABLE KEYS */;
+UNLOCK TABLES;
+
 DROP TABLE IF EXISTS `ACTORS`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -135,65 +202,6 @@ LOCK TABLES `CUSTOMER_RENTALS` WRITE;
 /*!40000 ALTER TABLE `CUSTOMER_RENTALS` DISABLE KEYS */;
 INSERT INTO `CUSTOMER_RENTALS` VALUES (1,1,1,'2016-12-30'),(2,2,1,'2016-12-30'),(3,3,1,'2016-12-30'),(4,3,6,'2016-11-27'),(5,3,2,'2016-11-27'),(6,3,6,'2016-11-27'),(7,3,6,'2016-11-27'),(8,3,10,'2016-11-27'),(9,3,4,'2016-11-27'),(10,3,4,'2016-11-27'),(11,3,2,'2016-11-27'),(12,3,11,'2016-11-27'),(13,3,11,'2016-11-27'),(14,2,1,'2016-11-27'),(15,2,2,'2016-11-27');
 /*!40000 ALTER TABLE `CUSTOMER_RENTALS` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `GENRE`
---
-
-DROP TABLE IF EXISTS `GENRE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `GENRE` (
-  `GENRE_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `GENRE_NAME` varchar(40) NOT NULL,
-  PRIMARY KEY (`GENRE_ID`),
-  UNIQUE KEY `GENRE_GENRE_ID_uindex` (`GENRE_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `GENRE`
---
-
-LOCK TABLES `GENRE` WRITE;
-/*!40000 ALTER TABLE `GENRE` DISABLE KEYS */;
-INSERT INTO `GENRE` VALUES (1,'Comedy'),(2,'Horror'),(3,'Action'),(4,'Animation'),(5,'Family'),(6,'Romance'),(7,'Drama'),(8,'Sports'),(9,'Science fiction'),(10,'Fiction');
-/*!40000 ALTER TABLE `GENRE` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `MOVIES`
---
-
-DROP TABLE IF EXISTS `MOVIES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `MOVIES` (
-  `MOVIE_ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `MOVIE_TITLE` varchar(100) NOT NULL,
-  `MOVIE_DIRECTOR` varchar(40) NOT NULL,
-  `MOVIE_DESCRIPTION` varchar(255) NOT NULL,
-  `MOVIE_RELEASE_DATE` date NOT NULL,
-  `MOVIE_IMAGE` varchar(40) NOT NULL,
-  `GENRE_ID` int(11) unsigned DEFAULT NULL,
-  `MOVIE_PRICE` decimal(6,2) NOT NULL,
-  `TIMES_VIEWED` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`MOVIE_ID`),
-  UNIQUE KEY `MOVIES_MOVIE_ID_uindex` (`MOVIE_ID`),
-  KEY `MOVIES_GENRE_GENRE_ID_fk` (`GENRE_ID`),
-  CONSTRAINT `MOVIES_GENRE_GENRE_ID_fk` FOREIGN KEY (`GENRE_ID`) REFERENCES `GENRE` (`GENRE_ID`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `MOVIES`
---
-
-LOCK TABLES `MOVIES` WRITE;
-/*!40000 ALTER TABLE `MOVIES` DISABLE KEYS */;
-INSERT INTO `MOVIES` VALUES (1,'Rogue One: A Star Wars Story','Gareth Edwards','The Gang Gets the Death Star Plans','2016-12-16','https://i.imgur.com/fLgqSsR.jpg',9,1.00,62),(2,'Magnificent Seven','Antoine Fuqua','Remake of a western remake of a Japanese movie directed by Akira Kurosawa','2016-09-23','https://i.imgur.com/CDTXtPS.jpg',3,1.00,25),(3,'Captain America: Civil War','Joe Russo and Anthony Russo','Hail Hydra','2016-04-06','https://i.imgur.com/ZAlO2Eq.jpg',3,0.50,3),(4,'Star Wars: Episode VIII','Rian Johnson','STAR WARS','2017-12-15','https://i.imgur.com/jmQenR4.jpg',9,0.00,15),(5,'Snowden','Oliver Stone','A dramatization of a not very dramatic event','2016-09-16','https://i.imgur.com/bWBzsjD.jpg',7,0.00,6),(6,'Men in Black','Barry Sonnenfeld','The Fresh Prince fights aliens','1997-07-02','https://i.imgur.com/ev6eRey.jpg',3,0.00,6),(7,'Se7en','David Fincher','It was her head','1995-09-22','https://i.imgur.com/SltvaDv.jpg',7,0.00,6),(8,'Star Wars: Episode VII: The Force Awakens','J.J. Abrams','Dude Star Wars is back who cares what it\'s about','2015-12-18','https://i.imgur.com/sY6KAhj.jpg',9,0.00,2),(9,'The Shawshank Redemption','Frank Darabont','Get busy living or get busy dying','1994-10-14','https://i.imgur.com/ldKX4wu.jpg',7,0.00,5),(10,'The Godfather','Francis Ford Coppola','Better than the book','1972-05-24','https://i.imgur.com/a7wq5iQ.jpg',7,0.00,1),(11,'The Godfather: Part II','Francis Ford Coppola','The pre-sequel','1974-12-20','https://i.imgur.com/BQkqHGb.jpg',7,0.00,4),(12,'12 Angry Men','Sidney Lumet','12 angry men talk in a room for 1 hour and 36 minutes','1957-04-13','https://i.imgur.com/9iLXaRR.jpg',7,0.00,2),(13,'The Good, the Bad, and the Ugly','Sergio Leone','Pretty good standoff at the end','1967-12-29','https://i.imgur.com/RbvCZ09.jpg',3,0.00,0),(14,'Forrest Gump','Robert Zemeckis','Stupid is as stupid does','1994-07-06','https://i.imgur.com/VmO464D.jpg',1,0.00,2),(15,'One Flew Over the Cuckoo\'s Nest','Milos Forman','Doc from Back to the Future finally gets put in the loony bin','1975-11-19','https://i.imgur.com/dT1bPzC.jpg',1,0.00,0),(16,'Spirited Away','Hayao Miyazaki','Little girl fights the 7 deadly sins','2003-03-28','https://i.imgur.com/gfdSlRZ.jpg',4,0.00,2);
-/*!40000 ALTER TABLE `MOVIES` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
