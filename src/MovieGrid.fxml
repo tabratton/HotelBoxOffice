@@ -53,5 +53,8 @@
     <Button fx:id="recentMovies"
                 text="Recent Movies"
                 GridPane.halignment="RIGHT"/>
+    <Button fx:id="popularMovies"
+                text="Popular Movies"
+                GridPane.halignment="LEFT"/>
   </children>
 </GridPane>
