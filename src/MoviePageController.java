@@ -42,6 +42,9 @@ public class MoviePageController implements Initializable {
 
   @FXML
   private Button goBackButton;
+  
+  @FXML 
+  private  ListView<String> actorList;
 
   /**
    * Initializes the controller class.
@@ -55,11 +58,13 @@ public class MoviePageController implements Initializable {
     String lastMovie = HotBoxNavigator.lastClickedMovieStack.peek();
     ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES", "MOVIE_ID",
         lastMovie);
-    ResultSet cs = HotelBox.dbConnection.searchStatement("CASTING","CASTING_ID",
-        lastMovie);
+    
+    ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
+                "CASTING", "ACTORS", lastMovie,
+                "MOVIE_ID", "ACTOR_ID");
     try {
       //set variables with data from the database
-      cs.first();
+      movieList.first();
       rs.first();
       final String title = rs.getString("MOVIE_TITLE");
       final String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
@@ -87,6 +92,18 @@ public class MoviePageController implements Initializable {
       //sets image for the play movie button
       movieImageButton.setGraphic(GeneralUtilities.getImage(movieImage, 300, 450));
       movieImageButton.setStyle("-fx-background-color: transparent;");
+      
+      //For cast List
+      movieList.last();
+      int numRows = movieList.getRow();
+      movieList.first();
+      
+      //add actors to the list
+      for(int i=0; i<numRows; i++){
+          String actorName = movieList.getString("ACTOR_NAME");
+          actorList.getItems().add(actorName);
+          movieList.next();
+      }
       
       // Sets the text that will be each item of the list, and sets the text
       // wrapping property so that the scroll bar is not needed.
