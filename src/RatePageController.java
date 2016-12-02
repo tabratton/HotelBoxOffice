@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javax.swing.ButtonGroup;
 
 /**
  * FXML Controller class
@@ -18,16 +19,19 @@ import javafx.scene.control.*;
 public class RatePageController implements Initializable {
     
     @FXML
-    private RadioButton one;
+    private RadioButton one = new RadioButton(Integer.toString(1));
     
     @FXML
-    private RadioButton two;
+    private RadioButton two = new RadioButton(Integer.toString(2));;
     
     @FXML
-    private RadioButton three;
+    private RadioButton three = new RadioButton(Integer.toString(3));;
     
     @FXML
-    private RadioButton four;
+    private RadioButton four = new RadioButton(Integer.toString(4)); 
+    
+    @FXML
+    private RadioButton five = new RadioButton(Integer.toString(5));;
     
     @FXML
     private Button submit;
@@ -40,8 +44,17 @@ public class RatePageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
+          final ToggleGroup group = new ToggleGroup();
+          one.setToggleGroup(group);
+          two.setToggleGroup(group);
+          three.setToggleGroup(group);
+          four.setToggleGroup(group);
+          five.setToggleGroup(group);
+
+    
+    
     }    
     
+}
+
 }
