@@ -56,15 +56,17 @@ public class MoviePageController implements Initializable {
     // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
     // table
     String lastMovie = HotBoxNavigator.lastClickedMovieStack.peek();
+    
     ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES", "MOVIE_ID",
         lastMovie);
     
-    ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
-                "CASTING", "ACTORS", lastMovie,
-                "MOVIE_ID", "ACTOR_ID");
+    //search statement for listing casting for last clicked movie
+    ResultSet movieList = HotelBox.dbConnection.searchStatement("SELECT * FROM"
+            + " MOVIES, CASTING, ACTORS WHERE CASTING.MOVIE_ID = '" + lastMovie
+            +"' AND CASTING.MOVIE_ID = MOVIES.MOVIE_ID AND "
+            + "CASTING.ACTOR_ID = ACTORS.ACTOR_ID", true);
     try {
       //set variables with data from the database
-      movieList.first();
       rs.first();
       final String title = rs.getString("MOVIE_TITLE");
       final String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
@@ -73,7 +75,6 @@ public class MoviePageController implements Initializable {
       String releaseDate = rs.getString("MOVIE_RELEASE_DATE");
       final String movieImage = rs.getString("MOVIE_IMAGE");
 
-      
       //sets title for the page
       movieTitle.setWrapText(true);
       movieTitle.setTextAlignment(TextAlignment.CENTER);
@@ -92,19 +93,7 @@ public class MoviePageController implements Initializable {
       //sets image for the play movie button
       movieImageButton.setGraphic(GeneralUtilities.getImage(movieImage, 300, 450));
       movieImageButton.setStyle("-fx-background-color: transparent;");
-      
-      //For cast List
-      movieList.last();
-      int numRows = movieList.getRow();
-      movieList.first();
-      
-      //add actors to the list
-      for(int i=0; i<numRows; i++){
-          String actorName = movieList.getString("ACTOR_NAME");
-          actorList.getItems().add(actorName);
-          movieList.next();
-      }
-      
+     
       // Sets the text that will be each item of the list, and sets the text
       // wrapping property so that the scroll bar is not needed.
       Text text = new Text(director);
@@ -116,6 +105,19 @@ public class MoviePageController implements Initializable {
       text = new Text(releaseDate);
       text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
       listView.getItems().add(text);
+      
+      //For cast List
+      movieList.last();
+      int numRows = movieList.getRow();
+        
+      movieList.first();
+      actorList.getItems().add("Casting:");
+      //add actors to the list
+      for(int i=0; i<numRows; i++){
+          String actorName = movieList.getString("ACTOR_NAME");
+          actorList.getItems().add(actorName);
+          movieList.next();
+      }
       
       goBackButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
