@@ -246,9 +246,10 @@ public class DatabaseConnection {
       String search = String.format("DELETE FROM %s WHERE %s = %s", 
               table,primaryKeyName, index);
       stm = con.prepareStatement(search);
-      stm.executeQuery();
+      stm.execute();
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
-    }
+      
+    } 
   }
 }

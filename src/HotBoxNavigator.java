@@ -44,8 +44,9 @@ public class HotBoxNavigator {
   /**
    * Convenience static fields for Admin editing
    */
-  public static String editTable;
-  public static String editRecord;
+  public static String editTable = null;
+  public static String editRecord = null;
+  
   /**
    * The main application layout controller.
    */
