@@ -37,7 +37,7 @@ public class EditPageController implements Initializable {
             primaryKey = "MOVIE_ID";
         } else if (HotBoxNavigator.editTable.equals("GENRE")) {
             // change to Genre edit page
-            loadpage = HotBoxNavigator.CUSTOMER_EDIT;
+            loadpage = HotBoxNavigator.GENRE_EDIT;
             nameColumn = "GENRE_NAME";
             primaryKey = "GENRE_ID";
         } else {

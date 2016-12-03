@@ -37,6 +37,10 @@ public class AdminPageController implements Initializable {
   private Button castingButton;
   @FXML
   private Button editCasting;
+  @FXML
+  private Button editActor;
+  @FXML
+  private Button createActor;
   
 
   @Override
@@ -78,10 +82,36 @@ public class AdminPageController implements Initializable {
            
        }
     });
+    // edit actor button
+    editActor.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = "ACTORS";
+           HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
+           
+       }
+    });
     
-    // note to self: 
-    // why didn't you do add / edit actor???
-    // working on it :-P
+    // edit customer button
+    createCustomer.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = null;
+           HotBoxNavigator.editRecord = null;
+           HotBoxNavigator.loadPage(HotBoxNavigator.CUSTOMER_EDIT);
+           
+       }
+    });
+    
+    createGenre.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = null;
+           HotBoxNavigator.editRecord = null;
+           HotBoxNavigator.loadPage(HotBoxNavigator.GENRE_EDIT);
+           
+       }
+    });
   }
 
 }
