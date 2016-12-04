@@ -10,6 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -84,6 +85,13 @@ public class RatePageController implements Initializable {
               .peek(), currentRating, dateFormat.format(date));
     }
     HotelBox.dbConnection.updateStatement(upString);
+
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Submission Successful");
+    alert.setHeaderText(null);
+    alert.setContentText("Thank you for your rating!");
+    alert.showAndWait();
+    HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_PAGE);
   }
 
   private void setAlreadyRated() {
