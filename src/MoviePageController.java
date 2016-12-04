@@ -9,13 +9,13 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 
@@ -44,7 +44,9 @@ public class MoviePageController implements Initializable {
   private Button goBackButton;
   
   @FXML 
-  private  ListView<String> actorList;
+  private ListView<Button> actorList;
+
+  private HashMap<String, String> keys = new HashMap<>();
 
   /**
    * Initializes the controller class.
@@ -107,16 +109,51 @@ public class MoviePageController implements Initializable {
       listView.getItems().add(text);
       
       //For cast List
+//      movieList.last();
+//      int numRows = movieList.getRow();
+//
+//      movieList.first();
+//      actorList.getItems().add("Cast:");
+//      //add actors to the list
+//      for(int i=0; i<numRows; i++){
+//          String actorName = movieList.getString("ACTOR_NAME");
+//          actorList.getItems().add(actorName);
+//          movieList.next();
+//      }
+
       movieList.last();
       int numRows = movieList.getRow();
-        
       movieList.first();
-      actorList.getItems().add("Casting:");
-      //add actors to the list
-      for(int i=0; i<numRows; i++){
-          String actorName = movieList.getString("ACTOR_NAME");
-          actorList.getItems().add(actorName);
-          movieList.next();
+      for (int i = 0; i < numRows; i++) {
+        String name = movieList.getString("ACTOR_NAME");
+        String id = movieList.getString("ACTOR_ID");
+        keys.put(name, id);
+        Button currentActor = new Button(name);
+        currentActor.setStyle("-fx-background-color: transparent");
+        currentActor.setTextAlignment(TextAlignment.LEFT);
+        currentActor.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            Button button = (Button) event.getSource();
+            String currentTitle = button.getText();
+            String currentId = keys.get(currentTitle);
+            //HotBoxNavigator.lastClickedActor = currentId;
+            HotBoxNavigator.lastClickedActorStack.push(currentId);
+            HotelBox.dbConnection.updateStatement("UPDATE ACTORS SET ACTORS"
+                + ".TIMES_VIEWED = ACTORS.TIMES_VIEWED + 1 WHERE ACTORS"
+                + ".ACTOR_ID = " + currentId);
+            //HotBoxNavigator.lastPageLoaded = currentPage;
+            HotBoxNavigator.lastLoadedPageStack.push(HotBoxNavigator.MOVIE_PAGE);
+            // Once the movie page is made, this line will load it.
+            // Ideally the initialize() method of that page will read
+            // lastClickedMovie and use that string to load the correct data
+            // for the clicked movie.
+            HotBoxNavigator.loadPage(HotBoxNavigator.ACTOR_PAGE);
+            System.out.println(currentTitle);
+          }
+        });
+        actorList.getItems().add(currentActor);
+        movieList.next();
       }
       
       goBackButton.setOnAction(new EventHandler<ActionEvent>() {
