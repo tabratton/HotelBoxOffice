@@ -65,6 +65,7 @@ public class HotBoxController implements Initializable {
     resetSearchBox();
     MovieGridController.loadedByNavigationBarButton = true;
     MovieGridController.newReleasesLastLoaded = false;
+    MovieGridController.mostPopularLastLoaded = false;
     HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
   }
 
