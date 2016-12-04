@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 public class MoviePageController implements Initializable {
 
   @FXML
-  //private ListView<String> listView;
   private ListView<Text> listView;
 
   @FXML
@@ -44,6 +43,9 @@ public class MoviePageController implements Initializable {
 
   @FXML
   private ListView<Button> actorList;
+
+  @FXML
+  private Label movieRating;
 
   private HashMap<String, String> keys = new HashMap<>();
 
@@ -178,16 +180,38 @@ public class MoviePageController implements Initializable {
         }
       });
 
-      // Commented out and not removed in case we want to change back to this
-      // code.
-      //Things for the ListView
-      //ObservableList<String> data = FXCollections.observableArrayList
-      // (director,
-      //description, releaseDate);
-      //listView.setItems(data);
+      double rating = getMovieRating(lastMovie);
+      if (rating > 0.0) {
+        movieRating.setText(String.format("Average user score: %.1f", rating));
+      } else {
+        movieRating.setText("This movie does not have any user scores yet.");
+      }
+
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
+  }
+
+  private double getMovieRating(String movie) {
+    String search = String.format("SELECT RATING_NUM FROM RATING WHERE"
+        + " MOVIE_ID = %s", movie);
+    ResultSet ratings = HotelBox.dbConnection.searchStatement(search, true);
+    double ratingAverage = -10.0;
+    try {
+      if (ratings.next()) {
+        ratings.last();
+        int numRatings = ratings.getRow();
+        ratings.first();
+        int ratingsSum = 0;
+        for (int i = 0; i < numRatings; i++) {
+          ratingsSum += Integer.parseInt(ratings.getString("RATING_NUM"));
+        }
+        ratingAverage = ratingsSum / (numRatings * 1.0);
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+    return ratingAverage;
   }
 }
 
