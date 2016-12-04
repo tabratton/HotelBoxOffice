@@ -18,7 +18,20 @@
 
   <children>
 
-    <Label fx:id="actorBio" layoutX="401.0" layoutY="114.0" text="Actor's Bio"/>
+    <ScrollPane layoutX="401.0"
+                layoutY="114.0"
+                prefHeight="150"
+                prefWidth="320"
+                maxHeight="150.0"
+                maxWidth="320.0">
+      <content>
+
+        <Label fx:id="actorBio"
+               maxWidth="300.0"
+               text="Actor's Bio"
+               wrapText="true"/>
+      </content>
+    </ScrollPane>
 
     <ImageView fx:id="imageView"
                layoutX="45.0"
@@ -70,13 +83,13 @@
     </GridPane>
     <Label fx:id="listMovieLabel"
            layoutX="398.0"
-           layoutY="216.0"
+           layoutY="280.0"
            prefHeight="21.0"
            prefWidth="215.0"
            text="List of movies:"/>
     <ScrollPane hbarPolicy="NEVER"
                 layoutX="364.0"
-                layoutY="260.0"
+                layoutY="305.0"
                 minHeight="-Infinity"
                 minWidth="-Infinity"
                 prefHeight="312.0"

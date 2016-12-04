@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+
 import javafx.scene.layout.FlowPane;
 
 /**
@@ -33,10 +34,10 @@ public class ActorPageController implements Initializable {
   private Label actorBio;
   @FXML
   private Label listMovieLabel;
-  
+
   private static final int IMAGE_WIDTH = 300;
   private static final int IMAGE_HEIGHT = 450;
-  
+
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
   private HashMap<String, String> titleKeys = new HashMap<String, String>();
 
@@ -52,22 +53,19 @@ public class ActorPageController implements Initializable {
     ResultSet actorPage = HotelBox.dbConnection.searchStatement("ACTORS",
         "ACTOR_ID", lastActor);
 
-        ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
-                "CASTING", "ACTORS", lastActor,
-                "MOVIE_ID", "ACTOR_ID");
-  
+    ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
+        "CASTING", "ACTORS", lastActor,"MOVIE_ID", "ACTOR_ID");
+
     try {
       actorPage.first();
       final String name = actorPage.getString("ACTOR_NAME");
       final String actorImage = actorPage.getString("ACTOR_IMAGE");
-      final String bio = "Biography: " + actorPage.getString(
-          "ACTOR_BIO");
+      final String bio = "Biography: " + actorPage.getString("ACTOR_BIO");
       final String movieLabel = actorPage.getString("ACTOR_NAME") + " movies:";
-      
-      
-      GeneralUtilities.createButtons(movieList, titleKeys, flowPane, HotBoxNavigator
-            .MOVIE_PAGE, 100, 150, "MOVIE_TITLE",
-            "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.ACTOR_PAGE);
+
+      GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
+          HotBoxNavigator.MOVIE_PAGE, 100, 150, "MOVIE_TITLE",
+          "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.ACTOR_PAGE);
 
       actorName.setWrapText(true);
       actorName.setTextAlignment(TextAlignment.CENTER);
