@@ -45,14 +45,24 @@
               </rowConstraints>
               <children>
 
-                <Button fx:id="playMovie" mnemonicParsing="false" text="Rent Movie" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                <Button fx:id="playMovie" mnemonicParsing="false" text="Rent Movie" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets top="200.0" />
+                           </GridPane.margin></Button>
 
                 <Button fx:id="movieImageButton" mnemonicParsing="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                <Button fx:id="goBackButton" mnemonicParsing="false" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <Button fx:id="goBackButton" mnemonicParsing="false" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                   <GridPane.margin>
-                    <Insets top="100.0" />
+                    <Insets top="280.0" />
                   </GridPane.margin>
                 </Button>
+                        <Button onAction="#rateMovie" mnemonicParsing="false"
+                                text="Rate Movie"
+                                 GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets top="240.0" />
+                           </GridPane.margin>
+                        </Button>
               </children>
             </GridPane>
                   <Label fx:id="movieRating" text="Rating" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">

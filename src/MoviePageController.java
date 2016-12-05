@@ -2,6 +2,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -64,7 +65,7 @@ public class MoviePageController implements Initializable {
         lastMovie);
 
     //search statement for listing casting for last clicked movie
-    ResultSet movieList = HotelBox.dbConnection.searchStatement("SELECT * FROM"
+    ResultSet actorList = HotelBox.dbConnection.searchStatement("SELECT * FROM"
         + " MOVIES, CASTING, ACTORS WHERE CASTING.MOVIE_ID = '" + lastMovie
         + "' AND CASTING.MOVIE_ID = MOVIES.MOVIE_ID AND "
         + "CASTING.ACTOR_ID = ACTORS.ACTOR_ID", true);
@@ -110,12 +111,12 @@ public class MoviePageController implements Initializable {
       text.wrappingWidthProperty().bind(listView.widthProperty().subtract(30));
       listView.getItems().add(text);
 
-      movieList.last();
-      int numRows = movieList.getRow();
-      movieList.first();
+      actorList.last();
+      int numRows = actorList.getRow();
+      actorList.first();
       for (int i = 0; i < numRows; i++) {
-        String name = movieList.getString("ACTOR_NAME");
-        String id = movieList.getString("ACTOR_ID");
+        String name = actorList.getString("ACTOR_NAME");
+        String id = actorList.getString("ACTOR_ID");
         keys.put(name, id);
         Button currentActor = new Button(name);
         currentActor.setStyle("-fx-background-color: transparent");
@@ -142,8 +143,8 @@ public class MoviePageController implements Initializable {
             System.out.println(currentTitle);
           }
         });
-        actorList.getItems().add(currentActor);
-        movieList.next();
+        this.actorList.getItems().add(currentActor);
+        actorList.next();
       }
 
       goBackButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -155,13 +156,15 @@ public class MoviePageController implements Initializable {
         }
       });
 
-      //tried to set it to increase balance but failing 
-      // is also trying to go RATE_Page failing too.
+      double moviePrice = Double.parseDouble(rs.getString("MOVIE_PRICE"));
+      playMovie.setText(String.format("%s for: $%.2f", playMovie.getText(),
+          moviePrice));
+
       playMovie.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
           // Once pressed to rent a movie the balance of the movie gets
-          // subtracted from the customer balance
+          // added to the customer balance
           String upString = String.format("UPDATE CUSTOMER, MOVIES SET"
                   + " CUSTOMER.CUSTOMER_BALANCE = CUSTOMER.CUSTOMER_BALANCE +"
                   + " MOVIES.MOVIE_PRICE WHERE CUSTOMER.CUSTOMER_ID = %s AND"
@@ -212,6 +215,26 @@ public class MoviePageController implements Initializable {
       System.out.println(ex.getMessage());
     }
     return ratingAverage;
+  }
+
+  public void rateMovie() {
+    ResultSet customer = HotelBox.dbConnection.searchStatement(String.format
+        ("SELECT * FROM CUSTOMER_RENTALS WHERE CUSTOMER_ID = %s AND MOVIE_ID"
+                + " = %s", HotelBox.getCurrentUserId(), HotBoxNavigator
+            .lastClickedMovieStack.peek()), true);
+    try {
+      if (customer.next()) {
+        HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
+      } else {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Movie Not Rented");
+        alert.setHeaderText(null);
+        alert.setContentText("You must rent a movie before you can rate it.");
+        alert.showAndWait();
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
   }
 }
 
