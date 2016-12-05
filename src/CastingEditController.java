@@ -135,7 +135,7 @@ public class CastingEditController implements Initializable {
                     int actor=(int)actorName.get(actorPicker.getValue());
                     
                     System.out.println(movie + " : " + actor);
-                    String upString = String.format("INSERT INTO CASTING (ACTOR_ID, MOVIE_ID) VALUES (%s,%s)", movie, actor);
+                    String upString = String.format("INSERT INTO CASTING (ACTOR_ID, MOVIE_ID) VALUES (%s,%s)", actor , movie);
                     Connection con = HotelBox.dbConnection.getCon();
                     
             
