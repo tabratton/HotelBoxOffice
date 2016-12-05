@@ -42,11 +42,7 @@
         <Button fx:id="statisticsButton" mnemonicParsing="false" text="Statistics" BorderPane.alignment="CENTER" />
       </center>
     </BorderPane>
-    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-      <center>
-        <Button fx:id="editRatings" mnemonicParsing="false" text="Edit Ratings" BorderPane.alignment="CENTER" />
-      </center>
-    </BorderPane>
+    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
     <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
       <center>
         <Button id="createMovie" fx:id="createActor" mnemonicParsing="false" text="Create Actor" BorderPane.alignment="CENTER" />

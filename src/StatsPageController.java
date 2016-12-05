@@ -82,6 +82,12 @@ public class StatsPageController implements Initializable {
     private Label ViewedActor4;
     @FXML
     private Label ViewedActor5;
+    @FXML
+    private Label numMovies;
+    @FXML
+    private Label numActors;
+    @FXML
+    private Label numCustomers;
 
     private final Map actor= new HashMap();
     private final Map movie= new HashMap();
@@ -288,8 +294,49 @@ public class StatsPageController implements Initializable {
             System.out.println(ex.getMessage());
         }   
         
+        try{
+            // get ratings to put in their respective labels
+            sqlStatement = String.format("SELECT MOVIE_ID, COUNT(*) as 'number' FROM MOVIES");
+            ResultSet counter = HotelBox.dbConnection.searchStatement(sqlStatement, true);
+            
+                counter.next();
+                
+                int numbers = counter.getInt("number");
+                numMovies.setText(Integer.toString(numbers));
+            
+     
+        }catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }   
         
-        
+        try{
+            // get ratings to put in their respective labels
+            sqlStatement = String.format("SELECT CUSTOMER_ID, COUNT(*) as 'number' FROM CUSTOMER");
+            ResultSet counter = HotelBox.dbConnection.searchStatement(sqlStatement, true);
+            
+                counter.next();
+                
+                int numbers = counter.getInt("number");
+                numCustomers.setText(Integer.toString(numbers));
+            
+     
+        }catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }   
+        try{
+            // get ratings to put in their respective labels
+            sqlStatement = String.format("SELECT ACTOR_ID, COUNT(*) as 'number' FROM ACTORS");
+            ResultSet counter = HotelBox.dbConnection.searchStatement(sqlStatement, true);
+            
+                counter.next();
+                
+                int numbers = counter.getInt("number");
+                numActors.setText(Integer.toString(numbers));
+            
+     
+        }catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }   
         
     }    
     
