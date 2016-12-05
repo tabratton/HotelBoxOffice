@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,16 +40,21 @@ public class CastingEditController implements Initializable {
     private int countMovies=0;
     private int countActors = 0;
     private String id;
+    private Map actorName= new HashMap();
+    private Map movieTitle= new HashMap();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       
+        
         ResultSet movies = HotelBox.dbConnection.searchStatement("MOVIES");
         try{
             ObservableList<String> options = FXCollections.observableArrayList();
             while (movies.next()){
                 
+                movieTitle.put(movies.getString("MOVIE_TITLE"), movies.getInt("MOVIE_ID"));
                 String movieName = movies.getString("MOVIE_TITLE");
                 options.add(movieName);
                 countMovies++;
@@ -62,6 +69,7 @@ public class CastingEditController implements Initializable {
             ObservableList<String> options = FXCollections.observableArrayList();
             while (actors.next()){
                 
+                actorName.put(actors.getString("ACTOR_NAME"), actors.getInt("ACTOR_ID") );
                 String actorName = actors.getString("ACTOR_NAME");
                 options.add(actorName);
                 countActors++;
@@ -89,25 +97,15 @@ public class CastingEditController implements Initializable {
             submitButton.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                  
+                    int movie = (int)movieTitle.get(moviePicker.getValue());
                     
-                    int movie=1;
-                    for (int i = 1; i<=countMovies; i++){
-                        if (moviePicker.getSelectionModel().isSelected(i)){
-                            movie = i+1;
-                        }
-                    }
-                    
-                    int actor=1;
-                    for (int i = 1; i<=countActors; i++){
-                        if (actorPicker.getSelectionModel().isSelected(i)){
-                            actor = i+1;
-                        }
-                    }
+                    int actor=(int)actorName.get(actorPicker.getValue());
+
                     
                     
                     String upString = String.format("UPDATE CASTING SET"
                     + "  MOVIE_ID=%s, ACTOR_ID=%s"
-                    + " WHERE MOVIE_ID=%s", movie, actor, id);
+                    + " WHERE CASTING_ID=%s", movie, actor, id);
                 Connection con = HotelBox.dbConnection.getCon();
 
                 try {
@@ -132,25 +130,14 @@ public class CastingEditController implements Initializable {
                 public void handle(ActionEvent event) {
                  
                     
-                    int movie=1;
-                    for (int i = 1; i<=countMovies; i++){
-                        if (moviePicker.getSelectionModel().isSelected(i)){
-                            movie = i+1;
-                        }
-                    }
+                    int movie = (int)movieTitle.get(moviePicker.getValue());
                     
-                    int actor=1;
-                    for (int i = 1; i<=countActors; i++){
-                        if (actorPicker.getSelectionModel().isSelected(i)){
-                            actor = i+1;
-                        }
-                    }
+                    int actor=(int)actorName.get(actorPicker.getValue());
                     
-                    
-                    String upString = String.format("INSERT INTO CASTING VALUES"
-            + " (null,%s,%s)", movie, actor);
+                    System.out.println(movie + " : " + actor);
+                    String upString = String.format("INSERT INTO CASTING (ACTOR_ID, MOVIE_ID) VALUES (%s,%s)", movie, actor);
                     Connection con = HotelBox.dbConnection.getCon();
-
+                    
             
                     
                     try {
