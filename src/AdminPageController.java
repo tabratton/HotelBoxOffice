@@ -31,8 +31,7 @@ public class AdminPageController implements Initializable {
   private Button editGenre;
   @FXML
   private Button statisticsButton;
-  @FXML
-  private Button editRatings;
+  
   @FXML
   private Button castingButton;
   @FXML
