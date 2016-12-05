@@ -31,6 +31,7 @@ public class HotBoxNavigator {
   public static final String GENRE_EDIT = "GenreEdit.fxml";
   public static final String MOVIE_EDIT = "MovieEdit.fxml";
   public static final String CUSTOMER_INFORMATION = "CustomerInformation.fxml";
+  public static final String ACTOR_EDIT = "ActorEdit.fxml";
 
 
   /**

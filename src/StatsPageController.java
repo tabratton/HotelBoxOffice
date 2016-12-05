@@ -225,7 +225,7 @@ public class StatsPageController implements Initializable {
             
         try {    
             // get ratings to put in their respective labels
-            sqlStatement = String.format("SELECT MOVIE_ID, COUNT(*) as 'number', SUM(RATING_NUM) as 'total' FROM RATING GROUP BY MOVIE_ID ORDER BY 'total' DESC LIMIT 5");
+            sqlStatement = String.format("SELECT MOVIE_ID, COUNT(*) as 'number', SUM(RATING_NUM) as 'total' FROM RATING GROUP BY MOVIE_ID ORDER BY (SUM(RATING_NUM)/COUNT(*)) DESC LIMIT 5");
             ResultSet uniqueRating = HotelBox.dbConnection.searchStatement(sqlStatement, true);
             for (int i = 1; i <= 5; i++){
                 uniqueRating.next();
@@ -257,7 +257,7 @@ public class StatsPageController implements Initializable {
         }   
         try{
             // get ratings to put in their respective labels
-            sqlStatement = String.format("SELECT MOVIE_ID, COUNT(*) as 'number', SUM(RATING_NUM) as 'total' FROM RATING GROUP BY MOVIE_ID ORDER BY 'total' ASC LIMIT 5");
+            sqlStatement = String.format("SELECT MOVIE_ID, COUNT(*) as 'number', SUM(RATING_NUM) as 'total' FROM RATING GROUP BY MOVIE_ID ORDER BY (SUM(RATING_NUM)/COUNT(*)) ASC LIMIT 5");
             ResultSet bottomRating = HotelBox.dbConnection.searchStatement(sqlStatement, true);
             for (int i = 1; i <= 5; i++){
                 bottomRating.next();

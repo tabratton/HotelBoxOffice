@@ -32,7 +32,7 @@ public class EditPageController implements Initializable {
             primaryKey = "CUSTOMER_ID";
         } else if (HotBoxNavigator.editTable.equals("MOVIES")) {
             // change to movie edit page
-            loadpage = HotBoxNavigator.CUSTOMER_EDIT;
+            loadpage = HotBoxNavigator.MOVIE_EDIT;
             nameColumn = "MOVIE_TITLE";
             primaryKey = "MOVIE_ID";
         } else if (HotBoxNavigator.editTable.equals("GENRE")) {
@@ -43,7 +43,7 @@ public class EditPageController implements Initializable {
         } else {
             // Edit Actors
             
-            loadpage = HotBoxNavigator.CUSTOMER_EDIT;
+            loadpage = HotBoxNavigator.ACTOR_EDIT;
             nameColumn = "ACTOR_NAME";
             primaryKey = "ACTOR_ID";
         }

@@ -90,12 +90,12 @@ public class MovieEditController implements Initializable {
                 movieViewed.setText(Integer.toString(rs.getInt("TIMES_VIEWED")));
                 movieGenre.getSelectionModel().select(rs.getInt("GENRE_ID")-1);
                 
-                submitButton.setOnAction(new EventHandler<ActionEvent>() {
+            submitButton.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                  
                     String title = movieTitle.getText();
                     String director = movieTitle.getText();
-                    String description = movieDescription.getText();
+                    String description = movieDescription.getText().replace("'", "''");
                     String date = movieDate.getText();
                     String image = movieImage.getText();
                     String price = moviePrice.getText();
@@ -110,7 +110,7 @@ public class MovieEditController implements Initializable {
                     
                     String upString = String.format("UPDATE MOVIES SET"
                     + " MOVIE_TITLE='%s', MOVIE_DIRECTOR='%s', MOVIE_DESCRIPTION='%s',"
-                    + " MOVIE_RELEASE_DATE='%s', MOVIE_IMAGE='%s', MOVIE_PRICE='%s', TIMES_VIEWED=%s, GENRE_ID=%s"
+                    + " MOVIE_RELEASE_DATE='%s', MOVIE_IMAGE='%s', MOVIE_PRICE=%s, TIMES_VIEWED=%s, GENRE_ID=%s"
                     + " WHERE MOVIE_ID=%s", title, director, description, date, image, price, viewed, genre, id);
                 Connection con = HotelBox.dbConnection.getCon();
 
@@ -131,10 +131,12 @@ public class MovieEditController implements Initializable {
             }
         
         } else {
-            
+         
+            submitButton.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
             String title = movieTitle.getText();
             String director = movieTitle.getText();
-            String description = movieDescription.getText();
+            String description = movieDescription.getText().replace("'","''");
             String date = movieDate.getText();
             String image = movieImage.getText();
             String price = moviePrice.getText();
@@ -153,12 +155,15 @@ public class MovieEditController implements Initializable {
                         PreparedStatement stm;
                         stm = con.prepareStatement(upString);
                         stm.executeUpdate();
-                        
+                    HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);    
                         
                     } catch (SQLException ex) {
                         System.out.println(ex.getMessage());
                     }
-                    HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
+                }
+                });
+            
+                        
         }
         
         

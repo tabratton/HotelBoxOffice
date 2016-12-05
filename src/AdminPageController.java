@@ -122,6 +122,16 @@ public class AdminPageController implements Initializable {
            
        }
     });
+    
+    createActor.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = null;
+           HotBoxNavigator.editRecord = null;
+           HotBoxNavigator.loadPage(HotBoxNavigator.ACTOR_EDIT);
+           
+       }
+    });
   }
 
 }
