@@ -26,10 +26,13 @@ public class HotBoxController implements Initializable {
   private AnchorPane menuBar;
   @FXML
   private Button adminTools;
+  @FXML
+  private Button accountInformation;
 
   public void initialize(URL url, ResourceBundle resourceBundle) {
     adminTools.visibleProperty().bind(HotelBox.getIsAdmin());
     menuBar.visibleProperty().bind(HotelBox.getIsLoggedIn());
+    accountInformation.visibleProperty().bind(HotelBox.getIsAdmin().not());
   }
 
   /**
@@ -85,8 +88,6 @@ public class HotBoxController implements Initializable {
    */
   public void loadAdminPage() {
     resetSearchBox();
-    //HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
-    //For now just load customer edit since it's the only admin tool we have.
     HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
   }
 
@@ -95,6 +96,11 @@ public class HotBoxController implements Initializable {
     HotelBox.setIsAdmin(false);
     HotelBox.setCurrentUserId("-1");
     HotBoxNavigator.loadPage(HotBoxNavigator.LOGIN_PAGE);
+  }
+
+  public void loadAccountInformation() {
+    resetSearchBox();
+    HotBoxNavigator.loadPage(HotBoxNavigator.CUSTOMER_INFORMATION);
   }
 
   private void resetSearchBox() {
