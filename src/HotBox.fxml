@@ -25,6 +25,7 @@
                     onAction="#loadActorList"
                     text="Actor/Actress List"/>
             <Button mnemonicParsing="false"
+                    fx:id="adminTools"
                     onAction="#loadAdminPage"
                     text="Admin Tools"/>
           </children>

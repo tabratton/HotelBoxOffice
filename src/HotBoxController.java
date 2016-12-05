@@ -24,8 +24,11 @@ public class HotBoxController implements Initializable {
   private TextField searchBox;
   @FXML
   private AnchorPane menuBar;
+  @FXML
+  private Button adminTools;
 
   public void initialize(URL url, ResourceBundle resourceBundle) {
+    adminTools.visibleProperty().bind(HotelBox.getIsAdmin());
     menuBar.visibleProperty().bind(HotelBox.getIsLoggedIn());
   }
 
