@@ -33,7 +33,7 @@ public class AdminPageController implements Initializable {
   private Button statisticsButton;
   
   @FXML
-  private Button castingButton;
+  private Button createCasting;
   @FXML
   private Button editCasting;
   @FXML
@@ -59,6 +59,15 @@ public class AdminPageController implements Initializable {
        @Override
        public void handle(ActionEvent event) {
            HotBoxNavigator.editTable = "CUSTOMER";
+           HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
+           
+       }
+    });
+    // edit customer button
+    editCasting.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = "CASTING";
            HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
            
        }
@@ -98,6 +107,17 @@ public class AdminPageController implements Initializable {
            HotBoxNavigator.editTable = null;
            HotBoxNavigator.editRecord = null;
            HotBoxNavigator.loadPage(HotBoxNavigator.CUSTOMER_EDIT);
+           
+       }
+    });
+    
+    // edit customer button
+    createCasting.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent event) {
+           HotBoxNavigator.editTable = null;
+           HotBoxNavigator.editRecord = null;
+           HotBoxNavigator.loadPage(HotBoxNavigator.CASTING_EDIT);
            
        }
     });

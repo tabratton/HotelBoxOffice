@@ -37,12 +37,12 @@
         <Button fx:id="editGenre" mnemonicParsing="false" text="Edit Genre" BorderPane.alignment="CENTER" />
       </center>
     </BorderPane>
-    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
       <center>
         <Button fx:id="statisticsButton" mnemonicParsing="false" text="Statistics" BorderPane.alignment="CENTER" />
       </center>
     </BorderPane>
-    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
     <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
       <center>
         <Button id="createMovie" fx:id="createActor" mnemonicParsing="false" text="Create Actor" BorderPane.alignment="CENTER" />
@@ -51,6 +51,16 @@
     <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
       <center>
         <Button id="editMovie" fx:id="editActor" mnemonicParsing="false" text="Edit Actor" BorderPane.alignment="CENTER" />
+      </center>
+    </BorderPane>
+    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+      <center>
+        <Button id="createCustomer" fx:id="createCasting" mnemonicParsing="false" text="Create Casting" BorderPane.alignment="CENTER" />
+      </center>
+    </BorderPane>
+    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <center>
+        <Button id="editCustomer" fx:id="editCasting" mnemonicParsing="false" text="Edit Casting" BorderPane.alignment="CENTER" />
       </center>
     </BorderPane>
   </children>
@@ -62,6 +72,7 @@
     <Insets left="50.0" right="50.0" />
   </padding>
   <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

@@ -17,6 +17,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javafx.event.EventType;
 import javafx.scene.control.Label;
@@ -227,7 +228,28 @@ public class GeneralUtilities {
                                        String nameColumn, String primaryKey) {
     try {
       while (results.next()) {
-        Label nameLabel = new Label(results.getString(nameColumn));
+          Label nameLabel = new Label();
+          if (primaryKey.equals("CASTING_ID")){
+              int movie = results.getInt("MOVIE_ID");
+              int actor = results.getInt("ACTOR_ID");
+              Map actorName= new HashMap();
+              Map movieTitle= new HashMap();
+              ResultSet movies = HotelBox.dbConnection.searchStatement("MOVIES");
+              ResultSet actors = HotelBox.dbConnection.searchStatement("ACTORS");
+            try{
+                while(actors.next()){
+                    actorName.put(actors.getInt("ACTOR_ID"), actors.getString("ACTOR_NAME"));
+                }
+                while (movies.next()){
+                    movieTitle.put(movies.getInt("MOVIE_ID"), movies.getString("MOVIE_TITLE"));
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+            nameLabel.setText(movieTitle.get(movie) + " : " + actorName.get(actor));
+          } else {
+              nameLabel.setText(results.getString(nameColumn));
+          }
         nameLabel.setMinWidth(400);
         Button editButton = new Button("Edit");
         Button deleteButton = new Button("Delete");
