@@ -34,10 +34,10 @@ public class SearchResultsController implements Initializable {
 
     movieFlowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     movieFlowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty(
-        ));
+    ));
     actorFlowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     actorFlowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty(
-        ));
+    ));
 
     ResultSet movieResults = HotelBox.dbConnection.searchStatement("MOVIES",
         "MOVIE_TITLE", HotBoxNavigator.lastSearchTerm, true);

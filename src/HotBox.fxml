@@ -7,28 +7,47 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HotBoxController">
+<VBox prefHeight="200.0"
+      prefWidth="500.0"
+      xmlns="http://javafx.com/javafx/8.0.112"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="HotBoxController">
   <children>
     <AnchorPane fx:id="menuBar" prefHeight="30.0">
       <children>
 
         <HBox AnchorPane.leftAnchor="0.0" prefHeight="30.0">
           <children>
-            <Button mnemonicParsing="false" onAction="#loadMovieGrid" text="Movie List" />
-            <Button mnemonicParsing="false" onAction="#loadActorList" text="Actor/Actress List" />
-            <Button fx:id="adminTools" mnemonicParsing="false" onAction="#loadAdminPage" text="Admin Tools" />
+            <Button mnemonicParsing="false"
+                    onAction="#loadMovieGrid"
+                    text="Movie List"/>
+            <Button mnemonicParsing="false"
+                    onAction="#loadActorList"
+                    text="Actor/Actress List"/>
+            <Button fx:id="adminTools"
+                    mnemonicParsing="false"
+                    onAction="#loadAdminPage"
+                    text="Admin Tools"/>
           </children>
         </HBox>
         <HBox AnchorPane.rightAnchor="0.0" prefHeight="30.0">
           <children>
-            <Button fx:id="accountInformation" mnemonicParsing="false"
-                    onAction="#loadAccountInformation" text="Account Information" />
-            <Button mnemonicParsing="false" onAction="#logoutPressed" text="Logout" />
-            <TextField id="searchBox" fx:id="searchBox" onAction="#loadSearchResults" prefWidth="200.0" promptText="Search Movies and Actors" />
+            <Button fx:id="accountInformation"
+                    mnemonicParsing="false"
+                    onAction="#loadAccountInformation"
+                    text="Account Information"/>
+            <Button mnemonicParsing="false"
+                    onAction="#logoutPressed"
+                    text="Logout"/>
+            <TextField id="searchBox"
+                       fx:id="searchBox"
+                       onAction="#loadSearchResults"
+                       prefWidth="200.0"
+                       promptText="Search Movies and Actors"/>
           </children>
         </HBox>
       </children>
     </AnchorPane>
-    <StackPane fx:id="hotBoxHolder" VBox.vgrow="ALWAYS" />
+    <StackPane fx:id="hotBoxHolder" VBox.vgrow="ALWAYS"/>
   </children>
 </VBox>

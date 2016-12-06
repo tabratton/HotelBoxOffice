@@ -1,4 +1,3 @@
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,16 +7,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import org.imgscalr.Scalr;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javax.imageio.ImageIO;
 
 /**
- * Login page controller
+ * Login page controller.
  *
  * @author Tyler Bratton
  */
@@ -31,6 +30,7 @@ public class LoginPageController implements Initializable {
   private static final int HEIGHT = 282;
   private static final int WIDTH = (HEIGHT * 516) / 333;
 
+  @Override
   public void initialize(URL url, ResourceBundle rsBundle) {
     BufferedImage bf = null;
     try {
@@ -43,6 +43,9 @@ public class LoginPageController implements Initializable {
         null));
   }
 
+  /**
+   * Verify that the username and password entered are correct.
+   */
   public void verifyLoginCredentials() {
     String username = this.username.getText();
     String password = this.password.getText();

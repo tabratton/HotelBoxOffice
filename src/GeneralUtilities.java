@@ -2,8 +2,10 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -18,17 +20,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javafx.event.EventType;
-import javafx.scene.control.Label;
-
 import javax.imageio.ImageIO;
 
 /**
  * Provides various general utility methods, such as resizing images, create
  * image buttons, and downloading images.
  *
- * @author Tyler Bratton
+ * @author Tyler Bratton and Chad Goodwin
  */
 public class GeneralUtilities {
 
@@ -222,34 +220,46 @@ public class GeneralUtilities {
     return (OS.contains("win"));
   }
 
+  /**
+   * Creates the list of edit results for the specified result set.
+   *
+   * @param results       The result set to use.
+   * @param localFlowPane The flow pane tos tore the results in.
+   * @param pageToLoad    The page that will be loaded upon clicking edit.
+   * @param nameColumn    The name of the column you are finding data for.
+   * @param primaryKey    The primary key of the result set.
+   */
   public static void createEditResults(ResultSet results,
-                                       FlowPane localFlowPane, String
-                                           pageToLoad,
+                                       FlowPane localFlowPane,
+                                       String pageToLoad,
                                        String nameColumn, String primaryKey) {
     try {
       while (results.next()) {
-          Label nameLabel = new Label();
-          if (primaryKey.equals("CASTING_ID")){
-              int movie = results.getInt("MOVIE_ID");
-              int actor = results.getInt("ACTOR_ID");
-              Map actorName= new HashMap();
-              Map movieTitle= new HashMap();
-              ResultSet movies = HotelBox.dbConnection.searchStatement("MOVIES");
-              ResultSet actors = HotelBox.dbConnection.searchStatement("ACTORS");
-            try{
-                while(actors.next()){
-                    actorName.put(actors.getInt("ACTOR_ID"), actors.getString("ACTOR_NAME"));
-                }
-                while (movies.next()){
-                    movieTitle.put(movies.getInt("MOVIE_ID"), movies.getString("MOVIE_TITLE"));
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+        Label nameLabel = new Label();
+        if (primaryKey.equals("CASTING_ID")) {
+          int movie = results.getInt("MOVIE_ID");
+          int actor = results.getInt("ACTOR_ID");
+          Map actorName = new HashMap();
+          Map movieTitle = new HashMap();
+          ResultSet movies = HotelBox.dbConnection.searchStatement("MOVIES");
+          ResultSet actors = HotelBox.dbConnection.searchStatement("ACTORS");
+          try {
+            while (actors.next()) {
+              actorName.put(actors.getInt("ACTOR_ID"), actors.getString(
+                  "ACTOR_NAME"));
             }
-            nameLabel.setText(movieTitle.get(movie) + " : " + actorName.get(actor));
-          } else {
-              nameLabel.setText(results.getString(nameColumn));
+            while (movies.next()) {
+              movieTitle.put(movies.getInt("MOVIE_ID"), movies.getString(
+                  "MOVIE_TITLE"));
+            }
+          } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
           }
+          nameLabel.setText(movieTitle.get(movie) + " : " + actorName.get(
+              actor));
+        } else {
+          nameLabel.setText(results.getString(nameColumn));
+        }
         nameLabel.setMinWidth(400);
         Button editButton = new Button("Edit");
         Button deleteButton = new Button("Delete");
@@ -281,9 +291,19 @@ public class GeneralUtilities {
         localFlowPane.getChildren().add(editButton);
         localFlowPane.getChildren().add(deleteButton);
       }
-      HotBoxNavigator.loadPage(pageToLoad);
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
+  }
+
+  /**
+   * Show a message about database being updated successfully.
+   */
+  public static void showSuccessMessage() {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Success!");
+    alert.setHeaderText(null);
+    alert.setContentText("Database updated successfully!");
+    alert.showAndWait();
   }
 }

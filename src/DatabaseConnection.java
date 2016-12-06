@@ -42,10 +42,6 @@ public class DatabaseConnection {
     }
   }
 
-  public Connection getCon() {
-    return con;
-  }
-
   /**
    * Automatically constructs search statement and executes it.
    *
@@ -146,24 +142,21 @@ public class DatabaseConnection {
     }
   }
 
-
   /**
    * USING THIS SEARCH TO GET THE LIST OF MOVIE FOR EACH ACTOR.
    * Automatically constructs search statement and executes it.
    *
    * @param table1 The table that has field1 (MOVIES).
    * @param table2 The table that has info from table1 and table3 (CASTING).
-   * @param table3 The table that has the field2 used to look for field1 (ACTORS).
+   * @param table3 The table that has the field2 used to look for field1
+   *               (ACTORS).
    * @param field1 The field from table1 (MOVIE_ID)
    * @param field2 The field from table3 (ACTOR_ID)
-   *               
    * @param value  The pattern that you are looking for
    * @return A ResultSet object that contains the information you requested.
    */
-   
-   public ResultSet searchStatement (String table1, String table2, String table3,
-                                     String value, String field1, String field2){
-       
+  public ResultSet searchStatement(String table1, String table2, String table3,
+                                   String value, String field1, String field2) {
     PreparedStatement stm;
     try {
       String search = String.format("SELECT * FROM %s, %s, %s WHERE %s.%s ="
@@ -177,8 +170,7 @@ public class DatabaseConnection {
       return null;
     }
   }
-  
-  
+
   /**
    * NOT SURE IF THIS SEARCH STATEMENT SHOULD BE USED TO ADD THE GENRE IN
    * MOVIEPAGE, CASTING IS NOT INCLUDED
@@ -197,7 +189,8 @@ public class DatabaseConnection {
     PreparedStatement stm;
     try {
       String search = String.format("SELECT * FROM %s JOIN %s ON %s.%s = %s.%s"
-          + " WHERE %s = %s", table1, table2, table1, field1, table2, field1,
+              + " WHERE %s = %s", table1, table2, table1, field1, table2,
+          field1,
           field2, value);
       stm = con.prepareStatement(search);
       return stm.executeQuery();
@@ -239,17 +232,24 @@ public class DatabaseConnection {
       System.out.println(ex.getMessage());
     }
   }
-  
-  public void deleteStatement(String table, String primaryKeyName, String index){
-      PreparedStatement stm;
+
+  /**
+   * Deletes all entries from a table that match the condition.
+   *
+   * @param table           The table to delete from.
+   * @param primaryKeyName  The column used for the condition.
+   * @param index           The value of the column in the condition.
+   */
+  public void deleteStatement(String table, String primaryKeyName, String
+      index) {
+    PreparedStatement stm;
     try {
-      String search = String.format("DELETE FROM %s WHERE %s = %s", 
-              table,primaryKeyName, index);
+      String search = String.format("DELETE FROM %s WHERE %s = %s",
+          table, primaryKeyName, index);
       stm = con.prepareStatement(search);
       stm.execute();
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
-      
-    } 
+    }
   }
 }

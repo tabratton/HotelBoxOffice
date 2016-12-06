@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
- * Customer information controller class
+ * Customer information controller class.
  *
  * @author Tyler Bratton
  */
@@ -46,34 +46,33 @@ public class CustomerInformationController implements Initializable {
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
     createRentedList();
-    ResultSet customer = HotelBox.dbConnection.searchStatement(String
-        .format("SELECT * FROM CUSTOMER WHERE CUSTOMER_ID = %s",
-            HotelBox.getCurrentUserId()),true);
+    ResultSet customer = HotelBox.dbConnection.searchStatement(
+        String.format("SELECT * FROM CUSTOMER WHERE CUSTOMER_ID = %s",
+            HotelBox.getCurrentUserId()), true);
     try {
       customer.first();
       name.setText(customer.getString("CUSTOMER_NAME"));
       address.setText(customer.getString("CUSTOMER_ADDRESS"));
-      cityAndState.setText(customer.getString("CUSTOMER_CITY") + ", " +
-          customer.getString("CUSTOMER_STATE"));
+      cityAndState.setText(customer.getString("CUSTOMER_CITY")
+          + ", " + customer.getString("CUSTOMER_STATE"));
       zipcode.setText(customer.getString("CUSTOMER_ZIPCODE"));
-      double currentBalance = Double.parseDouble(customer.getString
-          ("CUSTOMER_BALANCE"));
+      double currentBalance = Double.parseDouble(customer.getString(
+          "CUSTOMER_BALANCE"));
       balance.setText(String.format("$%.2f", currentBalance));
       room.setText(customer.getString("CUSTOMER_ROOMNUM"));
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
-
   }
 
   private void createRentedList() {
-    ResultSet movieList = HotelBox.dbConnection.searchStatement(String.format
-        ("SELECT CUSTOMER_RENTALS.RENTAL_DATE, MOVIES.MOVIE_ID, MOVIES"
-                + ".MOVIE_TITLE, MOVIES.MOVIE_IMAGE FROM CUSTOMER_RENTALS INNER"
-                + " JOIN MOVIES ON CUSTOMER_RENTALS.MOVIE_ID = MOVIES"
-                + ".MOVIE_ID AND CUSTOMER_RENTALS.CUSTOMER_ID = %s ORDER BY"
-                + " CUSTOMER_RENTALS.RENTAL_DATE DESC",
-            HotelBox.getCurrentUserId()), true);
+    ResultSet movieList = HotelBox.dbConnection.searchStatement(
+        String.format("SELECT CUSTOMER_RENTALS.RENTAL_DATE, MOVIES.MOVIE_ID,"
+                + " MOVIES.MOVIE_TITLE, MOVIES.MOVIE_IMAGE FROM"
+                + " CUSTOMER_RENTALS INNER JOIN MOVIES ON CUSTOMER_RENTALS"
+                + ".MOVIE_ID = MOVIES.MOVIE_ID AND CUSTOMER_RENTALS"
+                + ".CUSTOMER_ID = %s ORDER BY CUSTOMER_RENTALS.RENTAL_DATE"
+                + " DESC", HotelBox.getCurrentUserId()), true);
     GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
         HotBoxNavigator.MOVIE_PAGE, IMAGE_WIDTH, IMAGE_HEIGHT, "MOVIE_TITLE",
         "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.MOVIE_PAGE);
@@ -85,9 +84,10 @@ public class CustomerInformationController implements Initializable {
           DateFormat isoDate = new SimpleDateFormat("yyyy-MM-dd");
           Date date = isoDate.parse(movieList.getString("RENTAL_DATE"));
           Button button = (Button) node;
-          button.setPrefSize(button.getPrefWidth(), button.getPrefHeight() +
-              50);
-          button.setText(button.getText() + "\nRented: " + isoDate.format(date));
+          button.setPrefSize(button.getPrefWidth(), button.getPrefHeight()
+              + 50);
+          button.setText(button.getText() + "\nRented: " + isoDate.format(
+              date));
         } catch (ParseException ex) {
           System.out.println(ex.getMessage());
         }

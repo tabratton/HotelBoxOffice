@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
@@ -13,8 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
-import javafx.scene.layout.FlowPane;
 
 /**
  * FXML Controller class.
@@ -47,15 +46,11 @@ public class ActorPageController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     flowPane.prefWidth(250);
-
     String lastActor = HotBoxNavigator.lastClickedActorStack.peek();
-
     ResultSet actorPage = HotelBox.dbConnection.searchStatement("ACTORS",
         "ACTOR_ID", lastActor);
-
     ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
-        "CASTING", "ACTORS", lastActor,"MOVIE_ID", "ACTOR_ID");
-
+        "CASTING", "ACTORS", lastActor, "MOVIE_ID", "ACTOR_ID");
     try {
       actorPage.first();
       final String name = actorPage.getString("ACTOR_NAME");
@@ -86,11 +81,9 @@ public class ActorPageController implements Initializable {
       goBack.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-          //HotBoxNavigator.loadPage(HotBoxNavigator.lastPageLoaded);
           HotBoxNavigator.loadPage(HotBoxNavigator.lastLoadedPageStack.pop());
         }
       });
-
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }

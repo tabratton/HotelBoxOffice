@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="EditPageController">
+<GridPane minHeight="-Infinity"
+          minWidth="-Infinity"
+          prefHeight="600.0"
+          prefWidth="720.0"
+          xmlns="http://javafx.com/javafx/8.0.112"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="EditPageController">
+  <columnConstraints>
+    <ColumnConstraints/>
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+  </rowConstraints>
   <children>
-    <ScrollPane id="editResultsScroll" hbarPolicy="NEVER" layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0" vbarPolicy="AS_NEEDED">
+    <ScrollPane id="editResultsScroll"
+                hbarPolicy="NEVER"
+                minHeight="-Infinity"
+                minWidth="-Infinity"
+                prefHeight="600.0"
+                prefWidth="710.0">
       <content>
-        <FlowPane fx:id="adminResults" prefHeight="399.0000999999975" prefWidth="585.0" />
+        <FlowPane fx:id="adminResults" prefHeight="600.0" prefWidth="700.0"/>
       </content>
+      <GridPane.margin>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+      </GridPane.margin>
     </ScrollPane>
   </children>
-</AnchorPane>
+</GridPane>

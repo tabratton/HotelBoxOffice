@@ -44,7 +44,7 @@ public class HotBoxNavigator {
   public static Stack<String> lastClickedActorStack = new Stack<>();
 
   /**
-   * Convenience static fields for Admin editing
+   * Convenience static fields for Admin editing.
    */
   public static String editTable = null;
   public static String editRecord = null;
@@ -89,6 +89,9 @@ public class HotBoxNavigator {
     }
   }
 
+  /**
+   * Clear out the stacks used to track previously loaded things.
+   */
   public static void clearStacks() {
     lastClickedActorStack.clear();
     lastClickedMovieStack.clear();

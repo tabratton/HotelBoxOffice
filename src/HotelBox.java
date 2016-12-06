@@ -17,7 +17,8 @@ import java.io.IOException;
 public class HotelBox extends Application {
 
   // Initialize database connection
-  public static DatabaseConnection dbConnection = new DatabaseConnection();
+  public static DatabaseConnection dbConnection = new
+      DatabaseConnection();
   // Allows MovieGridController to access the current window size.
   public static Stage testStage;
   private static String currentUserId = "-1";
@@ -33,7 +34,6 @@ public class HotelBox extends Application {
     stage.getIcons().add(new Image(HotelBox.class.getResourceAsStream(
         "/images/icon.png")));
     stage.show();
-
   }
 
   /**

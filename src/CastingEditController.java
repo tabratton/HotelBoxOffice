@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 /**
  * FXML Controller class.
  *
- * @author Chad Goodwin
+ * @author Chad Goodwin and Tyler Bratton
  */
 public class CastingEditController implements Initializable {
   @FXML
@@ -32,7 +32,6 @@ public class CastingEditController implements Initializable {
   @FXML
   private ComboBox<String> actorPicker;
 
-  private String id;
   private Map actorName = new HashMap();
   private Map movieTitle = new HashMap();
 
@@ -130,5 +129,4 @@ public class CastingEditController implements Initializable {
       }
     });
   }
-
 }

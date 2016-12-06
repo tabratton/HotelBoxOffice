@@ -1,7 +1,10 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
@@ -12,11 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 
-// fix go back button and new releases behavior
 
 /**
  * Controller for the MovieGrid.fxml.
@@ -57,12 +56,6 @@ public class MovieGridController implements Initializable {
   public static boolean newReleasesLastLoaded;
   public static boolean mostPopularLastLoaded;
 
-  /**
-   * Initializes the Move Grid page with data from the database.
-   *
-   * @param url    Not explicitly used in method.
-   * @param bundle Not explicitly used in method.
-   */
   @Override
   public void initialize(URL url, ResourceBundle bundle) {
     HotBoxNavigator.clearStacks();
@@ -82,19 +75,19 @@ public class MovieGridController implements Initializable {
         + "ORDER BY GENRE_NAME");
     // Create the choice box
     createChoiceBox(databaseGenres);
-        
+
     //Get data for recent movies.
     ResultSet newReleases = HotelBox.dbConnection.searchStatement(
-            "SELECT * FROM MOVIES ORDER BY MOVIES.MOVIE_RELEASE_DATE"
-                    + " DESC LIMIT 10", true);
+        "SELECT * FROM MOVIES ORDER BY MOVIES.MOVIE_RELEASE_DATE"
+            + " DESC LIMIT 10", true);
     // Create button
     createNewReleasesButton(newReleases);
-    
+
     //Get data for recent movies.
     ResultSet mostPopular = HotelBox.dbConnection.searchStatement(
-            "SELECT * FROM MOVIES ORDER BY MOVIES.TIMES_VIEWED DESC LIMIT 10",
-                    true);
-    
+        "SELECT * FROM MOVIES ORDER BY MOVIES.TIMES_VIEWED DESC LIMIT 10",
+        true);
+
     createMostPopularButton(mostPopular);
 
     // If the new releases view was what the user was on before clicking a
@@ -103,8 +96,8 @@ public class MovieGridController implements Initializable {
       GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
           HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
           "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", "MOVIES");
-    } else if(mostPopularLastLoaded) {
-        GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
+    } else if (mostPopularLastLoaded) {
+      GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
           HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
           "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", "MOVIES");
     } else {
@@ -199,38 +192,36 @@ public class MovieGridController implements Initializable {
   }
 
   private void createNewReleasesButton(ResultSet newReleases) {
-    
     recentMovies.setTooltip(new Tooltip("Filter by new releases"));
     recentMovies.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            // Clear the display of movies
-            removeAllButtons();
-            // Create new grid with current selection of genre
-            GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
-                HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-                "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
-                    .MOVIE_GRID);
-            newReleasesLastLoaded = true;
-          }
-      });
-    }
-  
+      @Override
+      public void handle(ActionEvent event) {
+        // Clear the display of movies
+        removeAllButtons();
+        // Create new grid with current selection of genre
+        GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
+            HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
+            "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
+                .MOVIE_GRID);
+        newReleasesLastLoaded = true;
+      }
+    });
+  }
+
   private void createMostPopularButton(ResultSet mostPopular) {
-    
     popularMovies.setTooltip(new Tooltip("Filter by most popular"));
     popularMovies.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            // Clear the display of movies
-            removeAllButtons();
-            // Create new grid with current selection of genre
-            GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
-                HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-                "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
-                    .MOVIE_GRID);
-            mostPopularLastLoaded = true;
-          }
-      });
-    }
+      @Override
+      public void handle(ActionEvent event) {
+        // Clear the display of movies
+        removeAllButtons();
+        // Create new grid with current selection of genre
+        GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
+            HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
+            "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
+                .MOVIE_GRID);
+        mostPopularLastLoaded = true;
+      }
+    });
+  }
 }

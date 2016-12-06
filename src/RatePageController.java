@@ -1,11 +1,3 @@
-import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -15,35 +7,35 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.ResourceBundle;
+
 /**
- * FXML Controller class
+ * FXML Controller class.
  *
- * @author Gabriel Guillen & Tyler Bratton
+ * @author Gabriel Guillen and Tyler Bratton
  */
 public class RatePageController implements Initializable {
 
   @FXML
   private RadioButton one;
-
   @FXML
   private RadioButton two;
-
   @FXML
   private RadioButton three;
-
   @FXML
   private RadioButton four;
-
   @FXML
   private RadioButton five;
 
   private String currentRating;
-
   private boolean alreadyRated;
 
-  /**
-   * Initializes the controller class.
-   */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     final ToggleGroup group = new ToggleGroup();
@@ -62,11 +54,13 @@ public class RatePageController implements Initializable {
         System.out.println(currentRating);
       }
     });
-
     three.setSelected(true);
-
   }
 
+  /**
+   * Updates the database with the user rating. Inserts a new rating if one
+   * does not exist, and modifies existing rating if movie already rated.
+   */
   public void submitRating() {
     setAlreadyRated();
 
@@ -95,9 +89,9 @@ public class RatePageController implements Initializable {
   }
 
   private void setAlreadyRated() {
-    ResultSet ratings = HotelBox.dbConnection.searchStatement(String.format
-        ("SELECT * FROM RATING WHERE CUSTOMER_ID = %s AND MOVIE_ID = %s",
-            HotelBox.getCurrentUserId(), HotBoxNavigator
+    ResultSet ratings = HotelBox.dbConnection.searchStatement(
+        String.format("SELECT * FROM RATING WHERE CUSTOMER_ID = %s AND"
+                + " MOVIE_ID = %s", HotelBox.getCurrentUserId(), HotBoxNavigator
                 .lastClickedMovieStack.peek()), true);
     try {
       alreadyRated = ratings.next();
@@ -105,6 +99,5 @@ public class RatePageController implements Initializable {
       System.out.println(ex.getMessage());
     }
   }
-
 }
 

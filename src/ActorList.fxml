@@ -2,24 +2,23 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane   minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="600.0"
-            prefWidth="720.0"
-            xmlns="http://javafx.com/javafx/8.0.102"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ActorListController">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES"
+<GridPane minHeight="-Infinity"
+          minWidth="-Infinity"
+          prefHeight="600.0"
+          prefWidth="720.0"
+          xmlns="http://javafx.com/javafx/8.0.102"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="ActorListController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES"
                        minWidth="10.0"
                        prefWidth="100.0"/>
-    </columnConstraints>
-    
-    <rowConstraints>
+  </columnConstraints>
+  <rowConstraints>
     <RowConstraints maxHeight="30.0"
                     minHeight="0.0"
                     prefHeight="30.0"
@@ -27,24 +26,23 @@
     <RowConstraints minHeight="10.0"
                     prefHeight="570.0"
                     vgrow="ALWAYS"/>
-    </rowConstraints>
-    
-    <children>
-        <ScrollPane hbarPolicy = "NEVER"
-                    minHeight="-Infinity"
-                    minWidth="-Infinity"
-                    prefHeight="570.0"
-                    prefWidth="720"
-                    GridPane.rowIndex="1">
-            <content>
-            <FlowPane fx:id="flowPane"
+  </rowConstraints>
+  <children>
+    <ScrollPane hbarPolicy="NEVER"
+                minHeight="-Infinity"
+                minWidth="-Infinity"
+                prefHeight="570.0"
+                prefWidth="720"
+                GridPane.rowIndex="1">
+      <content>
+        <FlowPane fx:id="flowPane"
                   alignment="TOP_CENTER"
                   columnHalignment="CENTER"
                   hgap="10.0"
                   prefHeight="570.0"
                   prefWidth="700.0"
                   vgap="10.0"/>
-            </content>   
-        </ScrollPane>            
-    </children>
+      </content>
+    </ScrollPane>
+  </children>
 </GridPane>

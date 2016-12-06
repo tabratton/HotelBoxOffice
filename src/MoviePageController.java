@@ -50,9 +50,6 @@ public class MoviePageController implements Initializable {
 
   private HashMap<String, String> keys = new HashMap<>();
 
-  /**
-   * Initializes the controller class.
-   */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value
@@ -65,10 +62,10 @@ public class MoviePageController implements Initializable {
         lastMovie);
 
     //search statement for listing casting for last clicked movie
-    ResultSet actorList = HotelBox.dbConnection.searchStatement("SELECT * FROM"
-        + " MOVIES, CASTING, ACTORS WHERE CASTING.MOVIE_ID = '" + lastMovie
-        + "' AND CASTING.MOVIE_ID = MOVIES.MOVIE_ID AND "
-        + "CASTING.ACTOR_ID = ACTORS.ACTOR_ID", true);
+    ResultSet actorList = HotelBox.dbConnection.searchStatement(
+        String.format("SELECT * FROM MOVIES, CASTING, ACTORS WHERE CASTING"
+            + ".MOVIE_ID = '%s' AND CASTING.MOVIE_ID = MOVIES.MOVIE_ID AND"
+            + " CASTING.ACTOR_ID = ACTORS.ACTOR_ID", lastMovie), true);
     try {
       //set variables with data from the database
       rs.first();
@@ -217,10 +214,14 @@ public class MoviePageController implements Initializable {
     return ratingAverage;
   }
 
+  /**
+   * Directly loads the rate page from the movie page without renting, only
+   * allows it to be loaded if the movie has been rented previously.
+   */
   public void rateMovie() {
-    ResultSet customer = HotelBox.dbConnection.searchStatement(String.format
-        ("SELECT * FROM CUSTOMER_RENTALS WHERE CUSTOMER_ID = %s AND MOVIE_ID"
-                + " = %s", HotelBox.getCurrentUserId(), HotBoxNavigator
+    ResultSet customer = HotelBox.dbConnection.searchStatement(
+        String.format("SELECT * FROM CUSTOMER_RENTALS WHERE CUSTOMER_ID = %s"
+            + " AND MOVIE_ID = %s", HotelBox.getCurrentUserId(), HotBoxNavigator
             .lastClickedMovieStack.peek()), true);
     try {
       if (customer.next()) {

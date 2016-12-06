@@ -29,6 +29,7 @@ public class HotBoxController implements Initializable {
   @FXML
   private Button accountInformation;
 
+  @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     adminTools.visibleProperty().bind(HotelBox.getIsAdmin());
     menuBar.visibleProperty().bind(HotelBox.getIsLoggedIn());
@@ -91,6 +92,9 @@ public class HotBoxController implements Initializable {
     HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
   }
 
+  /**
+   * Log user out of the program, and do some cleanup.
+   */
   public void logoutPressed() {
     HotelBox.setIsLoggedIn(false);
     HotelBox.setIsAdmin(false);
