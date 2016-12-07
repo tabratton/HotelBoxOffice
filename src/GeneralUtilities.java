@@ -117,6 +117,10 @@ public class GeneralUtilities {
           public void handle(ActionEvent event) {
             Button button = (Button) event.getSource();
             String currentTitle = button.getText();
+            if (currentTitle.contains("\n")) {
+              int cutOff = currentTitle.indexOf("\n");
+              currentTitle = currentTitle.substring(0, cutOff);
+            }
             String currentId = keys.get(currentTitle);
             if (nameColumn.toLowerCase().contains("movie")) {
               //HotBoxNavigator.lastClickedMovie = currentId;

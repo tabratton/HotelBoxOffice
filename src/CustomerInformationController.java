@@ -75,7 +75,7 @@ public class CustomerInformationController implements Initializable {
                 + " DESC", HotelBox.getCurrentUserId()), true);
     GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
         HotBoxNavigator.MOVIE_PAGE, IMAGE_WIDTH, IMAGE_HEIGHT, "MOVIE_TITLE",
-        "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.MOVIE_PAGE);
+        "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.CUSTOMER_INFORMATION);
     ObservableList<Node> list = flowPane.getChildren();
     try {
       movieList.first();
