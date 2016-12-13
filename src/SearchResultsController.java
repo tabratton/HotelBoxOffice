@@ -46,11 +46,9 @@ public class SearchResultsController implements Initializable {
 
     GeneralUtilities.createButtons(movieResults, movieKeys, movieFlowPane,
         HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-        "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
-            .SEARCH_RESULTS);
+        "MOVIES", HotBoxNavigator.SEARCH_RESULTS);
     GeneralUtilities.createButtons(actorResults, actorKeys, actorFlowPane,
         HotBoxNavigator.ACTOR_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-        "ACTOR_NAME", "ACTOR_IMAGE", "ACTOR_ID", HotBoxNavigator
-            .SEARCH_RESULTS);
+        "ACTORS", HotBoxNavigator.SEARCH_RESULTS);
   }
 }

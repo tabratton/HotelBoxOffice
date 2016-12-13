@@ -31,7 +31,7 @@ public class ActorListController implements Initializable {
     ResultSet actorsList = HotelBox.dbConnection.searchStatement("ACTOR_ID",
         "ACTOR_NAME", "ACTOR_IMAGE", "ACTORS");
     GeneralUtilities.createButtons(actorsList, nameKeys, flowPane,
-        HotBoxNavigator.ACTOR_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "ACTOR_NAME",
-        "ACTOR_IMAGE", "ACTOR_ID", HotBoxNavigator.ACTOR_LIST);
+        HotBoxNavigator.ACTOR_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "ACTORS",
+        HotBoxNavigator.ACTOR_LIST);
   }
 }

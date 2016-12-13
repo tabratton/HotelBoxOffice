@@ -44,21 +44,22 @@ public class GeneralUtilities {
    * @param height   The height that you want the image to be resized to.
    * @return An ImageView object that has the desired dimensions
    */
-  public static ImageView getImage(String imageUrl, int width, int height) {
-    try {
-      String fullpath = getImagePath(imageUrl);
-      File imageFile = new File(fullpath);
-      if (!imageFile.exists()) {
-        downloadImage(fullpath, imageUrl);
-      }
-      BufferedImage bf = ImageIO.read(imageFile);
-      bf = Scalr.resize(bf, width, height);
-      Image image = SwingFXUtils.toFXImage(bf, null);
-      return new ImageView(image);
-    } catch (IOException ex) {
-      System.out.println(ex.getMessage());
-      return null;
+  public static ImageView getImage(String imageUrl, int width, int height,
+                                   String table, String id) {
+    String fullpath = getImagePath(imageUrl, table);
+    File imageFile = new File(fullpath);
+    BufferedImage bf;
+    if (!imageFile.exists()) {
+      downloadImage(fullpath, imageUrl, table, id);
     }
+    if (table.equals("MOVIES")) {
+      bf = HotelBox.movieImages.get(id);
+    } else {
+      bf = HotelBox.actorImages.get(id);
+    }
+    bf = Scalr.resize(bf, width, height);
+    Image image = SwingFXUtils.toFXImage(bf, null);
+    return new ImageView(image);
   }
 
   /**
@@ -71,19 +72,19 @@ public class GeneralUtilities {
    * @param pageToLoad    The page to load when a button is clicked.
    * @param targetWidth   The width of the image on the button.
    * @param targetHeight  The height of the image on the button.
-   * @param nameColumn    The name of the column in the database the stores the
-   *                      title of the button.
-   * @param image         The name of the column in the database that stores the
-   *                      image to be used.
-   * @param id            The name of the column in the database that stores the
-   *                      ID of the row.
+   * @param table         The table that contains the data you are using.
    */
   public static void createButtons(ResultSet results,
                                    HashMap<String, String> keys,
                                    FlowPane localFlowPane, String pageToLoad,
                                    int targetWidth, int targetHeight,
-                                   String nameColumn, String image, String id,
-                                   String currentPage) {
+                                   String table, String currentPage) {
+
+    final boolean isMovies = table.equals("MOVIES");
+    final String nameColumn = isMovies ? "MOVIE_TITLE" : "ACTOR_NAME";
+    final String image = isMovies ? "MOVIE_IMAGE" : "ACTOR_IMAGE";
+    final String id = isMovies ? "MOVIE_ID" : "ACTOR_ID";
+
     try {
       // Moves the cursor to the last position to determine the number of
       // entries in the result set.
@@ -135,12 +136,7 @@ public class GeneralUtilities {
                   + ".TIMES_VIEWED = ACTORS.TIMES_VIEWED + 1 WHERE ACTORS"
                   + ".ACTOR_ID = " + currentId);
             }
-            //HotBoxNavigator.lastPageLoaded = currentPage;
             HotBoxNavigator.lastLoadedPageStack.push(currentPage);
-            // Once the movie page is made, this line will load it.
-            // Ideally the initialize() method of that page will read
-            // lastClickedMovie and use that string to load the correct data
-            // for the clicked movie.
             HotBoxNavigator.loadPage(pageToLoad);
             System.out.println(currentTitle);
           }
@@ -149,7 +145,7 @@ public class GeneralUtilities {
         // Sets the button graphic to the database image with specified
         // values for width and height.
         currentButton.setGraphic(GeneralUtilities.getImage(buttonImage,
-            targetWidth, targetHeight));
+            targetWidth, targetHeight, table, buttonId));
 
         // Add the button to the flow pane.
         localFlowPane.getChildren().add(currentButton);
@@ -167,9 +163,9 @@ public class GeneralUtilities {
    */
   public static void initializeLocalCache() {
     ResultSet movieImageSet = HotelBox.dbConnection.searchStatement("SELECT"
-        + " MOVIE_IMAGE FROM MOVIES", true);
+        + " MOVIE_IMAGE, MOVIE_ID FROM MOVIES", true);
     ResultSet actorImageSet = HotelBox.dbConnection.searchStatement("SELECT"
-        + " ACTOR_IMAGE FROM ACTORS", true);
+        + " ACTOR_IMAGE, ACTOR_ID FROM ACTORS", true);
     downloadEntireSet(movieImageSet, "MOVIE");
     downloadEntireSet(actorImageSet, "ACTOR");
   }
@@ -181,9 +177,10 @@ public class GeneralUtilities {
       rs.first();
 
       for (int i = 0; i < rows; i++) {
-        String movieImage = rs.getString(table + "_IMAGE");
-        String fullpath = getImagePath(movieImage);
-        downloadImage(fullpath, movieImage);
+        String image = rs.getString(table + "_IMAGE");
+        String fullpath = getImagePath(image, table + "S");
+        downloadImage(fullpath, image, table + "S", rs.getString(table
+            + "_ID"));
         rs.next();
       }
     } catch (Exception ex) {
@@ -191,7 +188,8 @@ public class GeneralUtilities {
     }
   }
 
-  private static void downloadImage(String fullPath, String imageLink) {
+  private static void downloadImage(String fullPath, String imageLink,
+                                    String table, String id) {
     File image = new File(fullPath);
     File parentDirectory = image.getParentFile();
 
@@ -208,16 +206,29 @@ public class GeneralUtilities {
       if (!image.exists()) {
         URL url = new URL(imageLink);
         BufferedImage bf = ImageIO.read(url);
+        addToMap(table, id, bf);
         ImageIO.write(bf, "png", image);
         System.out.println(fullPath + " created!");
+      } else {
+        BufferedImage bf = ImageIO.read(image);
+        addToMap(table, id, bf);
       }
     } catch (IOException ex) {
       System.out.println(ex.getMessage());
     }
   }
 
-  private static String getImagePath(String image) {
-    return directoryPath + image.substring(20, 27) + ".png";
+  private static void addToMap(String table, String id, BufferedImage bf) {
+    if (table.equals("MOVIES")) {
+      HotelBox.movieImages.put(id, bf);
+    } else {
+      HotelBox.actorImages.put(id, bf);
+    }
+  }
+
+  private static String getImagePath(String image, String table) {
+    return String.format("%s%s_%s.png", directoryPath, table,
+        image.substring(20, 27));
   }
 
   private static boolean isWindows() {
