@@ -95,11 +95,11 @@ public class MovieGridController implements Initializable {
     if (newReleasesLastLoaded) {
       GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
           HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-          "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", "MOVIES");
+          "MOVIES", HotBoxNavigator.MOVIE_GRID);
     } else if (mostPopularLastLoaded) {
       GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
           HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-          "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", "MOVIES");
+          "MOVIES", HotBoxNavigator.MOVIE_GRID);
     } else {
       // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
       // table
@@ -112,9 +112,9 @@ public class MovieGridController implements Initializable {
         rs = HotelBox.dbConnection.searchStatement("MOVIE_ID",
             "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
       }
-      GeneralUtilities.createButtons(rs, titleKeys, flowPane, HotBoxNavigator
-              .MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIE_TITLE",
-          "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.MOVIE_GRID);
+      GeneralUtilities.createButtons(rs, titleKeys, flowPane,
+          HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIES",
+          HotBoxNavigator.MOVIE_GRID);
     }
   }
 
@@ -178,8 +178,7 @@ public class MovieGridController implements Initializable {
             // Create new grid with current selection of genre
             GeneralUtilities.createButtons(newSet, titleKeys, flowPane,
                 HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-                "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
-                    .MOVIE_GRID);
+                "MOVIES", HotBoxNavigator.MOVIE_GRID);
             newReleasesLastLoaded = false;
             mostPopularLastLoaded = false;
           }
@@ -201,8 +200,7 @@ public class MovieGridController implements Initializable {
         // Create new grid with current selection of genre
         GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
             HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-            "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
-                .MOVIE_GRID);
+            "MOVIES", HotBoxNavigator.MOVIE_GRID);
         newReleasesLastLoaded = true;
       }
     });
@@ -218,8 +216,7 @@ public class MovieGridController implements Initializable {
         // Create new grid with current selection of genre
         GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
             HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-            "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator
-                .MOVIE_GRID);
+            "MOVIES", HotBoxNavigator.MOVIE_GRID);
         mostPopularLastLoaded = true;
       }
     });

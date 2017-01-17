@@ -93,7 +93,7 @@ public class MoviePageController implements Initializable {
       }
       //sets image for the play movie button
       movieImageButton.setGraphic(GeneralUtilities.getImage(movieImage, 300,
-          450));
+          450, "MOVIES", lastMovie));
       movieImageButton.setStyle("-fx-background-color: transparent;");
 
       // Sets the text that will be each item of the list, and sets the text

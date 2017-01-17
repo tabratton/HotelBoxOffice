@@ -59,8 +59,8 @@ public class ActorPageController implements Initializable {
       final String movieLabel = actorPage.getString("ACTOR_NAME") + " movies:";
 
       GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
-          HotBoxNavigator.MOVIE_PAGE, 100, 150, "MOVIE_TITLE",
-          "MOVIE_IMAGE", "MOVIE_ID", HotBoxNavigator.ACTOR_PAGE);
+          HotBoxNavigator.MOVIE_PAGE, 100, 150, "MOVIES",
+          HotBoxNavigator.ACTOR_PAGE);
 
       actorName.setWrapText(true);
       actorName.setTextAlignment(TextAlignment.CENTER);
@@ -76,7 +76,7 @@ public class ActorPageController implements Initializable {
       listMovieLabel.setText(movieLabel);
 
       imageView.setImage(GeneralUtilities.getImage(actorImage, IMAGE_WIDTH,
-          IMAGE_HEIGHT).getImage());
+          IMAGE_HEIGHT, "ACTORS", lastActor).getImage());
 
       goBack.setOnAction(new EventHandler<ActionEvent>() {
         @Override

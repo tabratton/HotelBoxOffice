@@ -7,7 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Main class of the program, starts the GUI.
@@ -21,6 +23,8 @@ public class HotelBox extends Application {
       DatabaseConnection();
   // Allows MovieGridController to access the current window size.
   public static Stage testStage;
+  public static HashMap<String, BufferedImage> movieImages = new HashMap<>();
+  public static HashMap<String, BufferedImage> actorImages = new HashMap<>();
   private static String currentUserId = "-1";
   private static BooleanProperty isAdmin = new SimpleBooleanProperty(false);
   private static BooleanProperty isLoggedIn = new SimpleBooleanProperty(false);
