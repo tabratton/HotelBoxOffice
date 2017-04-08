@@ -43,94 +43,62 @@ public class AdminPageController implements Initializable {
     HotBoxNavigator.clearStacks();
 
     // stats button loads stats page
-    statisticsButton.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.loadPage(HotBoxNavigator.STATS_PAGE);
-      }
-    });
+    statisticsButton.setOnAction(event -> HotBoxNavigator.loadPage(HotBoxNavigator.STATS_PAGE));
 
     // edit customer button
-    editCustomer.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = "CUSTOMER";
-        HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-      }
+    editCustomer.setOnAction(event -> {
+      HotBoxNavigator.editTable = "CUSTOMER";
+      HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
     });
 
     // edit movie button
-    editMovie.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = "MOVIES";
-        HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-      }
+    editMovie.setOnAction(event -> {
+      HotBoxNavigator.editTable = "MOVIES";
+      HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
     });
 
     // edit genre button
-    editGenre.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = "GENRE";
-        HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-      }
+    editGenre.setOnAction(event -> {
+      HotBoxNavigator.editTable = "GENRE";
+      HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
     });
 
     // edit actor button
-    editActor.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = "ACTORS";
-        HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-      }
+    editActor.setOnAction(event -> {
+      HotBoxNavigator.editTable = "ACTORS";
+      HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
     });
 
     // edit customer button
-    createCustomer.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = null;
-        HotBoxNavigator.editRecord = null;
-        HotBoxNavigator.loadPage(HotBoxNavigator.CUSTOMER_EDIT);
-      }
+    createCustomer.setOnAction(event -> {
+      HotBoxNavigator.editTable = null;
+      HotBoxNavigator.editRecord = null;
+      HotBoxNavigator.loadPage(HotBoxNavigator.CUSTOMER_EDIT);
     });
 
     // edit customer button
-    createCasting.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = null;
-        HotBoxNavigator.editRecord = null;
-        HotBoxNavigator.loadPage(HotBoxNavigator.CASTING_EDIT);
-      }
+    createCasting.setOnAction(event -> {
+      HotBoxNavigator.editTable = null;
+      HotBoxNavigator.editRecord = null;
+      HotBoxNavigator.loadPage(HotBoxNavigator.CASTING_EDIT);
     });
 
-    createGenre.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = null;
-        HotBoxNavigator.editRecord = null;
-        HotBoxNavigator.loadPage(HotBoxNavigator.GENRE_EDIT);
-      }
+    createGenre.setOnAction(event -> {
+      HotBoxNavigator.editTable = null;
+      HotBoxNavigator.editRecord = null;
+      HotBoxNavigator.loadPage(HotBoxNavigator.GENRE_EDIT);
     });
 
-    createMovie.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = null;
-        HotBoxNavigator.editRecord = null;
-        HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_EDIT);
-      }
+    createMovie.setOnAction(event -> {
+      HotBoxNavigator.editTable = null;
+      HotBoxNavigator.editRecord = null;
+      HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_EDIT);
     });
 
-    createActor.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.editTable = null;
-        HotBoxNavigator.editRecord = null;
-        HotBoxNavigator.loadPage(HotBoxNavigator.ACTOR_EDIT);
-      }
+    createActor.setOnAction(event -> {
+      HotBoxNavigator.editTable = null;
+      HotBoxNavigator.editRecord = null;
+      HotBoxNavigator.loadPage(HotBoxNavigator.ACTOR_EDIT);
     });
   }
 
