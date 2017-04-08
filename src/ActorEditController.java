@@ -36,16 +36,16 @@ public class ActorEditController implements Initializable {
   public void initialize(URL url, ResourceBundle rb) {
 
     if (HotBoxNavigator.editRecord != null) {
-      String search = String.format("SELECT * FROM ACTORS WHERE ACTOR_ID = %s",
+      String search = String.format("SELECT * FROM actors WHERE actor_id = %s",
           HotBoxNavigator.editRecord);
       ResultSet rs = HotelBox.dbConnection.searchStatement(search);
       try {
         rs.first();
-        actorName.setText(rs.getString("ACTOR_NAME"));
-        id = rs.getString("ACTOR_ID");
-        actorImage.setText(rs.getString("ACTOR_IMAGE"));
-        actorBio.setText(rs.getString("ACTOR_BIO"));
-        timesViewed.setText(rs.getString("TIMES_VIEWED"));
+        actorName.setText(rs.getString("actor_name"));
+        id = rs.getString("actor_id");
+        actorImage.setText(rs.getString("actor_image"));
+        actorBio.setText(rs.getString("actor_bio"));
+        timesViewed.setText(rs.getString("times_viewed"));
       } catch (SQLException ex) {
         System.out.println(ex.getMessage());
       }
@@ -54,9 +54,9 @@ public class ActorEditController implements Initializable {
         String image = actorImage.getText();
         String bio = actorBio.getText().replace("'", "''");
         String viewed = timesViewed.getText();
-        String update = String.format("UPDATE ACTORS SET ACTOR_NAME = '%s',"
-            + " ACTOR_IMAGE = '%s', ACTOR_BIO = '%s', TIMES_VIEWED = %s"
-            + " WHERE ACTOR_ID = %s", name, image, bio, viewed, id);
+        String update = String.format("UPDATE actors SET actor_name = '%s',"
+            + " actor_image = '%s', actor_bio = '%s', times_viewed = %s"
+            + " WHERE actor_id = %s", name, image, bio, viewed, id);
         HotelBox.dbConnection.updateStatement(update);
         GeneralUtilities.showSuccessMessage();
         HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
@@ -67,8 +67,8 @@ public class ActorEditController implements Initializable {
         String image = actorImage.getText();
         String bio = actorBio.getText().replace("'", "''");
         String viewed = timesViewed.getText();
-        String update = String.format("INSERT INTO ACTORS (ACTOR_NAME,"
-            + " ACTOR_IMAGE, ACTOR_BIO, TIMES_VIEWED) VALUES ('%s','%s',"
+        String update = String.format("INSERT INTO actors (actor_name,"
+            + " actor_image, actor_bio, times_viewed) VALUES ('%s','%s',"
             + "'%s',%s)", name, image, bio, viewed);
         HotelBox.dbConnection.updateStatement(update);
         GeneralUtilities.showSuccessMessage();
