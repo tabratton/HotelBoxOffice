@@ -21,15 +21,15 @@ public class ActorListController implements Initializable {
   // Calculates desired height based on the known aspect ratio of the images.
   private static final int TARGET_HEIGHT = (TARGET_WIDTH * 3) / 2;
   // HashMap to store ACTOR_NAME as a key and ACTOR_ID as a value.
-  private HashMap<String, String> nameKeys = new HashMap<String, String>();
+  private HashMap<String, String> nameKeys = new HashMap<>();
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     HotBoxNavigator.clearStacks();
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
-    ResultSet actorsList = HotelBox.dbConnection.searchStatement("ACTOR_ID",
-        "ACTOR_NAME", "ACTOR_IMAGE", "ACTORS");
+    String search = "SELECT ACTOR_ID, ACTOR_NAME, ACTOR_IMAGE FROM ACTORS";
+    ResultSet actorsList = HotelBox.dbConnection.searchStatement(search);
     GeneralUtilities.createButtons(actorsList, nameKeys, flowPane,
         HotBoxNavigator.ACTOR_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "ACTORS",
         HotBoxNavigator.ACTOR_LIST);
