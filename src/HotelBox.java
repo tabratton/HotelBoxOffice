@@ -19,8 +19,7 @@ import java.util.HashMap;
 public class HotelBox extends Application {
 
   // Initialize database connection
-  public static DatabaseConnection dbConnection = new
-      DatabaseConnection();
+  public static DatabaseConnection dbConnection;
   // Allows MovieGridController to access the current window size.
   public static Stage testStage;
   public static HashMap<String, BufferedImage> movieImages = new HashMap<>();
@@ -78,6 +77,7 @@ public class HotelBox extends Application {
   }
 
   public static void main(String[] args) {
+    dbConnection = new DatabaseConnection(args);
     launch(args);
   }
 

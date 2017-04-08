@@ -7,38 +7,25 @@ import java.sql.SQLException;
 /**
  * Provides a global database connection and various query methods.
  *
- * @author Chad Goodwin and Tyler Bratton
+ * @author Tyler Bratton
+ * @author Chad Goodwin
  */
 public class DatabaseConnection {
 
-  private static final String HOST = "jdbc:mysql://hotelboxoffice"
-      + ".cornjso48dgu.us-east-1.rds.amazonaws"
-      + ".com:3306/HotelBoxOffice?verifyServerCertificate=false&useSSL=true"
-      + "&requireSSL=true";
-  private static final String USERNAME = "masterRoot";
-  private static final String PASSWORD = "masterRoot";
+  private static final String HOST = "jdbc:mysql://localhost:3306/HotelBoxOffice";
   private Connection con;
 
   /**
    * Constructor for DatabaseConnection. Initializes a Connection object for
    * SQL queries.
    */
-  public DatabaseConnection() {
+  public DatabaseConnection(String[] args) {
     try {
-      con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
-      System.out.println("Connected to online database");
+      con = DriverManager.getConnection(HOST, args[0], args[1]);
+      System.out.println("Connected to local database");
     } catch (SQLException ex) {
-      String localHost = "jdbc:mysql://localhost:3306/HotelBoxOffice";
-      String localUser = "root";
-      String localPass = "root";
-      System.out.println("Cannot connect to online database.");
+      System.out.println("Cannot connect to local database.");
       System.out.println(ex.getMessage());
-      try {
-        con = DriverManager.getConnection(localHost, localUser, localPass);
-      } catch (SQLException exp) {
-        System.out.println("Cannot connect to local database.");
-        System.out.println(exp.getMessage());
-      }
     }
   }
 
