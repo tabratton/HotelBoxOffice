@@ -28,10 +28,10 @@ public class ActorListController implements Initializable {
     HotBoxNavigator.clearStacks();
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
-    String search = "SELECT ACTOR_ID, ACTOR_NAME, ACTOR_IMAGE FROM ACTORS";
+    String search = "SELECT actor_id, actor_name, actor_image FROM actors";
     ResultSet actorsList = HotelBox.dbConnection.searchStatement(search);
     GeneralUtilities.createButtons(actorsList, nameKeys, flowPane,
-        HotBoxNavigator.ACTOR_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "ACTORS",
+        HotBoxNavigator.ACTOR_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "actors",
         HotBoxNavigator.ACTOR_LIST);
   }
 }
