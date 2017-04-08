@@ -36,8 +36,9 @@ public class ActorEditController implements Initializable {
   public void initialize(URL url, ResourceBundle rb) {
 
     if (HotBoxNavigator.editRecord != null) {
-      ResultSet rs = HotelBox.dbConnection.searchStatement("ACTORS",
-          "ACTOR_ID", HotBoxNavigator.editRecord);
+      String search = String.format("SELECT * FROM ACTORS WHERE ACTOR_ID = %s",
+          HotBoxNavigator.editRecord);
+      ResultSet rs = HotelBox.dbConnection.searchStatement(search);
       try {
         rs.first();
         actorName.setText(rs.getString("ACTOR_NAME"));
@@ -48,41 +49,33 @@ public class ActorEditController implements Initializable {
       } catch (SQLException ex) {
         System.out.println(ex.getMessage());
       }
-      submitButton.setOnAction(new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent event) {
-          String name = actorName.getText();
-          String image = actorImage.getText();
-          String bio = actorBio.getText().replace("'", "''");
-          String viewed = timesViewed.getText();
-          String upString = String.format("UPDATE ACTORS SET ACTOR_NAME = '%s',"
-              + " ACTOR_IMAGE = '%s', ACTOR_BIO = '%s', TIMES_VIEWED = %s"
-              + " WHERE ACTOR_ID = %s", name, image, bio, viewed, id);
-          HotelBox.dbConnection.updateStatement(upString);
-          GeneralUtilities.showSuccessMessage();
-          HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-        }
+      submitButton.setOnAction(event -> {
+        String name = actorName.getText();
+        String image = actorImage.getText();
+        String bio = actorBio.getText().replace("'", "''");
+        String viewed = timesViewed.getText();
+        String update = String.format("UPDATE ACTORS SET ACTOR_NAME = '%s',"
+            + " ACTOR_IMAGE = '%s', ACTOR_BIO = '%s', TIMES_VIEWED = %s"
+            + " WHERE ACTOR_ID = %s", name, image, bio, viewed, id);
+        HotelBox.dbConnection.updateStatement(update);
+        GeneralUtilities.showSuccessMessage();
+        HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
       });
     } else {
-      submitButton.setOnAction(new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent event) {
-          String name = actorName.getText();
-          String image = actorImage.getText();
-          String bio = actorBio.getText().replace("'", "''");
-          String viewed = timesViewed.getText();
-          String upString = String.format("INSERT INTO ACTORS (ACTOR_NAME,"
-              + " ACTOR_IMAGE, ACTOR_BIO, TIMES_VIEWED) VALUES ('%s','%s',"
-              + "'%s',%s)", name, image, bio, viewed);
-          HotelBox.dbConnection.updateStatement(upString);
-          GeneralUtilities.showSuccessMessage();
-          HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
-        }
+      submitButton.setOnAction(event -> {
+        String name = actorName.getText();
+        String image = actorImage.getText();
+        String bio = actorBio.getText().replace("'", "''");
+        String viewed = timesViewed.getText();
+        String update = String.format("INSERT INTO ACTORS (ACTOR_NAME,"
+            + " ACTOR_IMAGE, ACTOR_BIO, TIMES_VIEWED) VALUES ('%s','%s',"
+            + "'%s',%s)", name, image, bio, viewed);
+        HotelBox.dbConnection.updateStatement(update);
+        GeneralUtilities.showSuccessMessage();
+        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
       });
     }
-    cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
-      }
-    });
+    cancelButton.setOnAction(event -> HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE));
   }
 }
     
