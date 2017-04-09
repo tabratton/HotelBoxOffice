@@ -12,7 +12,6 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
 
-  private static final String HOST = "jdbc:mysql://localhost:3306/HotelBoxOffice";
   private Connection con;
 
   /**
@@ -21,7 +20,8 @@ public class DatabaseConnection {
    */
   public DatabaseConnection(String[] args) {
     try {
-      con = DriverManager.getConnection(HOST, args[0], args[1]);
+      con = DriverManager.getConnection(String.format(
+          "jdbc:mysql://%s/HotelBoxOffice", args[0]), args[1], args[2]);
       System.out.println("Connected to local database");
     } catch (SQLException ex) {
       System.out.println("Cannot connect to local database.");
