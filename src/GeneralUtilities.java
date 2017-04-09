@@ -34,31 +34,28 @@ public class GeneralUtilities {
       .getProperty("user.home") + File.separator + ".HotelBoxOffice"
       + File.separator;
 
-  // TODO: Standardize image sizes. Possibly cache a large and regular size.
-  // TODO: Resize on download
-
   /**
    * Utility method to get an image from a specified URL.
    *
-   * @param imageUrl The URL of the image to get.
-   * @param width    The width that you want the image to be resized to.
-   * @param height   The height that you want the image to be resized to.
+   * @param imageUrl   The URL of the image to get.
+   * @param dimensions A Dimensions object with the desired dimensions of the
+   *                   image.
    * @return An ImageView object that has the desired dimensions
    */
-  public static ImageView getImage(String imageUrl, int width, int height,
+  public static ImageView getImage(String imageUrl, Dimensions dimensions,
                                    String table, String id) {
-    String fullPath = getImagePath(imageUrl, table);
+    String fullPath = getImagePath(imageUrl, table, dimensions);
     File imageFile = new File(fullPath);
     BufferedImage bf;
     if (!imageFile.exists()) {
-      downloadImage(fullPath, imageUrl, table, id);
+      downloadImage(fullPath, imageUrl, table, id, dimensions);
     }
     if (table.equals("MOVIES")) {
-      bf = HotelBox.movieImages.get(id);
+      bf = HotelBox.movieImages.get(dimensions + id);
     } else {
-      bf = HotelBox.actorImages.get(id);
+      bf = HotelBox.actorImages.get(dimensions + id);
     }
-    bf = Scalr.resize(bf, width, height);
+    bf = Scalr.resize(bf, dimensions.getWidth(), dimensions.getHeight());
     Image image = SwingFXUtils.toFXImage(bf, null);
     return new ImageView(image);
   }
@@ -71,14 +68,14 @@ public class GeneralUtilities {
    * @param keys          The HashMap used to store key values.
    * @param localFlowPane The flow pane to add the buttons to.
    * @param pageToLoad    The page to load when a button is clicked.
-   * @param targetWidth   The width of the image on the button.
-   * @param targetHeight  The height of the image on the button.
+   * @param dimensions    A Dimensions object with the desired dimensions of
+   *                      the image.
    * @param table         The table that contains the data you are using.
    */
   public static void createButtons(ResultSet results,
                                    HashMap<String, String> keys,
                                    FlowPane localFlowPane, String pageToLoad,
-                                   int targetWidth, int targetHeight,
+                                   Dimensions dimensions,
                                    String table, String currentPage) {
 
     final boolean isMovies = table.equals("MOVIES");
@@ -106,7 +103,8 @@ public class GeneralUtilities {
         currentButton.setContentDisplay(ContentDisplay.TOP);
         // Sets size of the button, solves headaches related to text wrapping
         // of long movie titles. +50 to allow for longer titles
-        currentButton.setPrefSize(targetWidth + 50, targetHeight + 50);
+        currentButton.setPrefSize(dimensions.getWidth() + 50,
+            dimensions.getHeight() + 50);
         // No Ellipses for us.
         currentButton.setWrapText(true);
         // Aligns the contents of the button to be centered on the top.
@@ -140,7 +138,7 @@ public class GeneralUtilities {
         // Sets the button graphic to the database image with specified
         // values for width and height.
         currentButton.setGraphic(GeneralUtilities.getImage(buttonImage,
-            targetWidth, targetHeight, table, buttonId));
+            dimensions, table, buttonId));
 
         // Add the button to the flow pane.
         localFlowPane.getChildren().add(currentButton);
@@ -171,10 +169,19 @@ public class GeneralUtilities {
       int rows = rs.getRow();
       rs.first();
 
+      Dimensions small = new Dimensions(Dimensions.DimensionTypes.SMALL);
+      Dimensions medium = new Dimensions(Dimensions.DimensionTypes.MEDIUM);
+      Dimensions large = new Dimensions(Dimensions.DimensionTypes.LARGE);
+
+      Dimensions[] dimensions = { small, medium, large };
+
       for (int i = 0; i < rows; i++) {
-        String image = rs.getString(table + "_image");
-        String path = getImagePath(image, table + "S");
-        downloadImage(path, image, table + "s", rs.getString(table + "_id"));
+        for (int j = 0; j < 3; j++) {
+          String image = rs.getString(table + "_image");
+          String path = getImagePath(image, table + "s", dimensions[j]);
+          downloadImage(path, image, table + "s", rs.getString(table + "_id"),
+              dimensions[j]);
+        }
         rs.next();
       }
     } catch (SQLException ex) {
@@ -183,7 +190,7 @@ public class GeneralUtilities {
   }
 
   private static void downloadImage(String fullPath, String imageLink,
-                                    String table, String id) {
+                                    String table, String id, Dimensions dimensions) {
     File image = new File(fullPath);
     File parentDirectory = image.getParentFile();
 
@@ -200,28 +207,31 @@ public class GeneralUtilities {
       if (!image.exists()) {
         URL url = new URL(imageLink);
         BufferedImage bf = ImageIO.read(url);
-        addToMap(table, id, bf);
+        bf = Scalr.resize(bf, dimensions.getWidth(), dimensions.getHeight());
+        addToMap(table, id, bf, dimensions);
         ImageIO.write(bf, "png", image);
         System.out.println(fullPath + " created!");
       } else {
         BufferedImage bf = ImageIO.read(image);
-        addToMap(table, id, bf);
+        addToMap(table, id, bf, dimensions);
       }
     } catch (IOException ex) {
       System.out.println(ex.getMessage());
     }
   }
 
-  private static void addToMap(String table, String id, BufferedImage bf) {
+  private static void addToMap(String table, String id, BufferedImage bf,
+                               Dimensions dimensions) {
     if (table.equals("movies")) {
-      HotelBox.movieImages.put(id, bf);
+      HotelBox.movieImages.put(dimensions + id, bf);
     } else {
-      HotelBox.actorImages.put(id, bf);
+      HotelBox.actorImages.put(dimensions + id, bf);
     }
   }
 
-  private static String getImagePath(String image, String table) {
-    return String.format("%s%s_%s.png", directoryPath, table,
+  private static String getImagePath(String image, String table, Dimensions
+      dimensions) {
+    return String.format("%s%s_%s_%s.png", directoryPath, dimensions, table,
         image.substring(20, 27));
   }
 

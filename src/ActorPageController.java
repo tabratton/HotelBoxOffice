@@ -32,9 +32,6 @@ public class ActorPageController implements Initializable {
   @FXML
   private Label listMovieLabel;
 
-  private static final int IMAGE_WIDTH = 300;
-  private static final int IMAGE_HEIGHT = 450;
-
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
   private HashMap<String, String> titleKeys = new HashMap<>();
 
@@ -62,7 +59,8 @@ public class ActorPageController implements Initializable {
       final String movieLabel = actorPage.getString("actor_name") + " movies:";
 
       GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
-          HotBoxNavigator.MOVIE_PAGE, 100, 150, "MOVIES",
+          HotBoxNavigator.MOVIE_PAGE,
+          new Dimensions(Dimensions.DimensionTypes.SMALL), "MOVIES",
           HotBoxNavigator.ACTOR_PAGE);
 
       actorName.setWrapText(true);
@@ -78,8 +76,9 @@ public class ActorPageController implements Initializable {
       listMovieLabel.setTextAlignment(TextAlignment.CENTER);
       listMovieLabel.setText(movieLabel);
 
-      imageView.setImage(GeneralUtilities.getImage(actorImage, IMAGE_WIDTH,
-          IMAGE_HEIGHT, "ACTORS", lastActor).getImage());
+      imageView.setImage(GeneralUtilities.getImage(actorImage,
+          new Dimensions(Dimensions.DimensionTypes.LARGE),"ACTORS",
+          lastActor).getImage());
 
       goBack.setOnAction(event -> {
         HotBoxNavigator.lastClickedActorStack.pop();

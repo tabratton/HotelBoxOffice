@@ -32,10 +32,6 @@ public class MovieGridController implements Initializable {
   private Button recentMovies;
   @FXML
   private Button popularMovies;
-  // Desired width of the image to be used for the buttons.
-  private static final int TARGET_WIDTH = 150;
-  // Calculates desired height based on the known aspect ratio of the images.
-  private static final int TARGET_HEIGHT = (TARGET_WIDTH * 3) / 2;
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
   private HashMap<String, String> titleKeys = new HashMap<>();
   // HashMap to store GENRE_NAME as a key and GENRE_ID as a value.
@@ -87,12 +83,14 @@ public class MovieGridController implements Initializable {
     // movie button, return them back to it when they click go back.
     if (newReleasesLastLoaded) {
       GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
-          HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-          "MOVIES", HotBoxNavigator.MOVIE_GRID);
+          HotBoxNavigator.MOVIE_PAGE,
+          new Dimensions(Dimensions.DimensionTypes.MEDIUM),"MOVIES",
+          HotBoxNavigator.MOVIE_GRID);
     } else if (mostPopularLastLoaded) {
       GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
-          HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-          "MOVIES", HotBoxNavigator.MOVIE_GRID);
+          HotBoxNavigator.MOVIE_PAGE,
+          new Dimensions(Dimensions.DimensionTypes.MEDIUM),"MOVIES",
+          HotBoxNavigator.MOVIE_GRID);
     } else {
       // Get the MOVIE_ID, MOVIE_TITLE, and MOVIE_IMAGE columns from the MOVIES
       // table
@@ -107,7 +105,8 @@ public class MovieGridController implements Initializable {
         rs = HotelBox.dbConnection.searchStatement(search);
       }
       GeneralUtilities.createButtons(rs, titleKeys, flowPane,
-          HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIES",
+          HotBoxNavigator.MOVIE_PAGE,
+          new Dimensions(Dimensions.DimensionTypes.MEDIUM), "MOVIES",
           HotBoxNavigator.MOVIE_GRID);
     }
   }
@@ -169,8 +168,9 @@ public class MovieGridController implements Initializable {
           removeAllButtons();
           // Create new grid with current selection of genre
           GeneralUtilities.createButtons(newSet, titleKeys, flowPane,
-              HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-              "MOVIES", HotBoxNavigator.MOVIE_GRID);
+              HotBoxNavigator.MOVIE_PAGE,
+              new Dimensions(Dimensions.DimensionTypes.MEDIUM), "MOVIES",
+              HotBoxNavigator.MOVIE_GRID);
           newReleasesLastLoaded = false;
           mostPopularLastLoaded = false;
         });
@@ -204,7 +204,8 @@ public class MovieGridController implements Initializable {
     removeAllButtons();
     // Create new grid with current selection of genre
     GeneralUtilities.createButtons(rs, titleKeys, flowPane,
-        HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-        "MOVIES", HotBoxNavigator.MOVIE_GRID);
+        HotBoxNavigator.MOVIE_PAGE,
+        new Dimensions(Dimensions.DimensionTypes.MEDIUM), "MOVIES",
+        HotBoxNavigator.MOVIE_GRID);
   }
 }

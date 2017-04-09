@@ -22,8 +22,6 @@ import java.util.ResourceBundle;
  * @author Tyler Bratton
  */
 public class CustomerInformationController implements Initializable {
-  private static final int IMAGE_HEIGHT = 150;
-  private static final int IMAGE_WIDTH = 100;
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
   private HashMap<String, String> titleKeys = new HashMap<>();
   @FXML
@@ -74,7 +72,8 @@ public class CustomerInformationController implements Initializable {
         HotelBox.getCurrentUserId());
     ResultSet movieList = HotelBox.dbConnection.searchStatement(search);
     GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
-        HotBoxNavigator.MOVIE_PAGE, IMAGE_WIDTH, IMAGE_HEIGHT, "MOVIES",
+        HotBoxNavigator.MOVIE_PAGE,
+        new Dimensions(Dimensions.DimensionTypes.SMALL), "MOVIES",
         HotBoxNavigator.CUSTOMER_INFORMATION);
     ObservableList<Node> list = flowPane.getChildren();
     try {
