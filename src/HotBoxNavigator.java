@@ -71,13 +71,6 @@ public class HotBoxNavigator {
    * The fxml is loaded anew and a new view node hierarchy generated
    * every time this method is invoked.
    *
-   * <p>A more sophisticated load function could potentially add some
-   * enhancements or optimizations, for example:
-   * cache FXMLLoaders
-   * cache loaded view nodes, so they can be recalled or reused
-   * allow a user to specify view node reuse or new creation
-   * allow back and forward history like a browser
-   *
    * @param fxml the fxml file to be loaded.
    */
   public static void loadPage(String fxml) {
