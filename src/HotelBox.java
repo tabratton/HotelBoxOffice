@@ -50,7 +50,7 @@ public class HotelBox extends Application {
   private Pane loadMainPane() throws IOException {
     FXMLLoader loader = new FXMLLoader();
 
-    Pane mainPane = (Pane) loader.load(getClass().getResourceAsStream(
+    Pane mainPane = loader.load(getClass().getResourceAsStream(
         HotBoxNavigator.MAIN));
 
     HotBoxController mainController = loader.getController();
