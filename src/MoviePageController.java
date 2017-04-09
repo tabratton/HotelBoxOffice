@@ -1,5 +1,3 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -58,23 +56,25 @@ public class MoviePageController implements Initializable {
     // table
     String lastMovie = HotBoxNavigator.lastClickedMovieStack.peek();
 
-    ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES", "MOVIE_ID",
+    String search = String.format("SELECT * FROM movies WHERE movie_id=%s",
         lastMovie);
+    ResultSet rs = HotelBox.dbConnection.searchStatement(search);
 
-    //search statement for listing casting for last clicked movie
-    ResultSet actorList = HotelBox.dbConnection.searchStatement(
-        String.format("SELECT * FROM MOVIES, CASTING, ACTORS WHERE CASTING"
-            + ".MOVIE_ID = '%s' AND CASTING.MOVIE_ID = MOVIES.MOVIE_ID AND"
-            + " CASTING.ACTOR_ID = ACTORS.ACTOR_ID", lastMovie), true);
+    // search statement for listing casting for last clicked movie
+    search = String.format("SELECT actors.actor_id, actors.actor_name FROM"
+        + " actors INNER JOIN (SELECT casting.actor_id FROM casting INNER JOIN"
+        + " MOVIES on casting.MOVIE_ID = movies.MOVIE_ID WHERE movies"
+        + ".movie_id=%s) cast ON actors.actor_id=cast.actor_id", lastMovie);
+    ResultSet actorList = HotelBox.dbConnection.searchStatement(search);
     try {
-      //set variables with data from the database
+      // set variables with data from the database
       rs.first();
-      final String title = rs.getString("MOVIE_TITLE");
-      final String director = "Director: " + rs.getString("MOVIE_DIRECTOR");
-      final String description = "Description: " + rs.getString("MOVIE_"
-          + "DESCRIPTION");
-      String releaseDate = rs.getString("MOVIE_RELEASE_DATE");
-      final String movieImage = rs.getString("MOVIE_IMAGE");
+      final String title = rs.getString("movie_title");
+      final String director = "Director: " + rs.getString("movie_director");
+      final String description = "Description: " + rs.getString(
+          "movie_description");
+      String releaseDate = rs.getString("movie_release_date");
+      final String movieImage = rs.getString("movie_image");
 
       //sets title for the page
       movieTitle.setWrapText(true);
@@ -112,71 +112,55 @@ public class MoviePageController implements Initializable {
       int numRows = actorList.getRow();
       actorList.first();
       for (int i = 0; i < numRows; i++) {
-        String name = actorList.getString("ACTOR_NAME");
-        String id = actorList.getString("ACTOR_ID");
+        String name = actorList.getString("actor_name");
+        String id = actorList.getString("actor_id");
         keys.put(name, id);
         Button currentActor = new Button(name);
         currentActor.setStyle("-fx-background-color: transparent");
         currentActor.setTextAlignment(TextAlignment.LEFT);
-        currentActor.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            Button button = (Button) event.getSource();
-            String currentTitle = button.getText();
-            String currentId = keys.get(currentTitle);
-            //HotBoxNavigator.lastClickedActor = currentId;
-            HotBoxNavigator.lastClickedActorStack.push(currentId);
-            HotelBox.dbConnection.updateStatement("UPDATE ACTORS SET ACTORS"
-                + ".TIMES_VIEWED = ACTORS.TIMES_VIEWED + 1 WHERE ACTORS"
-                + ".ACTOR_ID = " + currentId);
-            //HotBoxNavigator.lastPageLoaded = currentPage;
-            HotBoxNavigator.lastLoadedPageStack.push(HotBoxNavigator
-                .MOVIE_PAGE);
-            // Once the movie page is made, this line will load it.
-            // Ideally the initialize() method of that page will read
-            // lastClickedMovie and use that string to load the correct data
-            // for the clicked movie.
-            HotBoxNavigator.loadPage(HotBoxNavigator.ACTOR_PAGE);
-            System.out.println(currentTitle);
-          }
+        currentActor.setOnAction(event -> {
+          Button button = (Button) event.getSource();
+          String currentTitle = button.getText();
+          String currentId = keys.get(currentTitle);
+          HotBoxNavigator.lastClickedActorStack.push(currentId);
+          String update = String.format("UPDATE actors SET actors"
+                  + ".times_viewed=actors.times_viewed+1 WHERE actors"
+                  + ".actor_id=%s", currentId);
+          HotelBox.dbConnection.updateStatement(update);
+          HotBoxNavigator.lastLoadedPageStack.push(HotBoxNavigator.MOVIE_PAGE);
+          HotBoxNavigator.loadPage(HotBoxNavigator.ACTOR_PAGE);
+          System.out.println(currentTitle);
         });
         this.actorList.getItems().add(currentActor);
         actorList.next();
       }
 
-      goBackButton.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-          HotBoxNavigator.lastClickedMovieStack.pop();
-          HotBoxNavigator.loadPage(HotBoxNavigator.lastLoadedPageStack.pop());
-        }
+      goBackButton.setOnAction(event -> {
+        HotBoxNavigator.lastClickedMovieStack.pop();
+        HotBoxNavigator.loadPage(HotBoxNavigator.lastLoadedPageStack.pop());
       });
 
-      double moviePrice = Double.parseDouble(rs.getString("MOVIE_PRICE"));
+      double moviePrice = Double.parseDouble(rs.getString("movie_price"));
       playMovie.setText(String.format("%s for: $%.2f", playMovie.getText(),
           moviePrice));
 
-      playMovie.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-          // Once pressed to rent a movie the balance of the movie gets
-          // added to the customer balance
-          String upString = String.format("UPDATE CUSTOMER, MOVIES SET"
-                  + " CUSTOMER.CUSTOMER_BALANCE = CUSTOMER.CUSTOMER_BALANCE +"
-                  + " MOVIES.MOVIE_PRICE WHERE CUSTOMER.CUSTOMER_ID = %s AND"
-                  + " MOVIES.MOVIE_ID = %s", HotelBox.getCurrentUserId(),
-              lastMovie);
-          HotelBox.dbConnection.updateStatement(upString);
+      playMovie.setOnAction(event -> {
+        // Once pressed to rent a movie the balance of the movie gets
+        // added to the customer balance
+        String update = String.format("UPDATE customer, movies SET customer."
+            + " customer_balance=customer.customer_balance+movies.movie_price"
+            + " WHERE customer.customer_id=%s AND movies.movie_id=%s",
+            HotelBox.getCurrentUserId(), lastMovie);
+        HotelBox.dbConnection.updateStatement(update);
 
-          // insert new line in customer rentals
-          DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-          Date date = new Date();
-          upString = String.format("INSERT INTO CUSTOMER_RENTALS"
-                  + " (CUSTOMER_ID, MOVIE_ID, RENTAL_DATE) VALUES (%s,%s,'%s')",
-              HotelBox.getCurrentUserId(), lastMovie, dateFormat.format(date));
-          HotelBox.dbConnection.updateStatement(upString);
-          HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
-        }
+        // insert new line in customer rentals
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        update = String.format("INSERT INTO customer_rentals (customer_id,"
+                + " movie_id, rental_date) VALUES (%s,%s,'%s')",
+            HotelBox.getCurrentUserId(), lastMovie, dateFormat.format(date));
+        HotelBox.dbConnection.updateStatement(update);
+        HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);
       });
 
       double rating = getMovieRating(lastMovie);
@@ -192,21 +176,13 @@ public class MoviePageController implements Initializable {
   }
 
   private double getMovieRating(String movie) {
-    String search = String.format("SELECT RATING_NUM FROM RATING WHERE"
-        + " MOVIE_ID = %s", movie);
-    ResultSet ratings = HotelBox.dbConnection.searchStatement(search, true);
+    String search = String.format("SELECT SUM(rating_num)/COUNT(rating_num) avg"
+        + " FROM rating WHERE movie_id=%s", movie);
+    ResultSet ratings = HotelBox.dbConnection.searchStatement(search);
     double ratingAverage = -10.0;
     try {
-      if (ratings.next()) {
-        ratings.last();
-        int numRatings = ratings.getRow();
-        ratings.first();
-        int ratingsSum = 0;
-        for (int i = 0; i < numRatings; i++) {
-          ratingsSum += Integer.parseInt(ratings.getString("RATING_NUM"));
-        }
-        ratingAverage = ratingsSum / (numRatings * 1.0);
-      }
+      ratings.first();
+      ratingAverage = ratings.getDouble("avg");
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
@@ -218,10 +194,11 @@ public class MoviePageController implements Initializable {
    * allows it to be loaded if the movie has been rented previously.
    */
   public void rateMovie() {
-    ResultSet customer = HotelBox.dbConnection.searchStatement(
-        String.format("SELECT * FROM CUSTOMER_RENTALS WHERE CUSTOMER_ID = %s"
-            + " AND MOVIE_ID = %s", HotelBox.getCurrentUserId(), HotBoxNavigator
-            .lastClickedMovieStack.peek()), true);
+    String search = String.format("SELECT customer_id FROM customer_rentals"
+            + " WHERE customer_id=%s AND movie_id=%s",
+        HotelBox.getCurrentUserId(),
+        HotBoxNavigator.lastClickedMovieStack.peek());
+    ResultSet customer = HotelBox.dbConnection.searchStatement(search);
     try {
       if (customer.next()) {
         HotBoxNavigator.loadPage(HotBoxNavigator.RATE_PAGE);

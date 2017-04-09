@@ -87,153 +87,70 @@ public class StatsPageController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-    ResultSet movies = HotelBox.dbConnection.searchStatement("MOVIES");
-    String sqlStatement;
-
+    String search = "SELECT movie_id, movie_title FROM movies";
+    ResultSet movies = HotelBox.dbConnection.searchStatement(search);
     try {
       while (movies.next()) {
-        movie.put(movies.getInt("MOVIE_ID"), movies.getString("MOVIE_TITLE"));
+        movie.put(movies.getInt("movie_id"), movies.getString("movie_title"));
       }
 
       // put top 5 search terms into their respective labels
-      sqlStatement = "SELECT * FROM SEARCH_TERMS ORDER BY FREQUENCY DESC"
-          + " LIMIT 5";
-      ResultSet searches = HotelBox.dbConnection.searchStatement(sqlStatement,
-          true);
-      for (int i = 0; i < 5; i++) {
+      search = "SELECT * FROM search_terms ORDER BY frequency DESC LIMIT 5";
+      ResultSet searches = HotelBox.dbConnection.searchStatement(search);
+      Label[] labels = { searchTermOne, searchTermTwo, searchTermThree,
+          searchTermFour, searchTermFive };
+      for (Label label : labels) {
         searches.next();
-        switch (i) {
-          case 0:
-            searchTermOne.setText(searches.getString("TERM") + " (" + searches
-                .getInt("FREQUENCY") + ")");
-            break;
-          case 1:
-            searchTermTwo.setText(searches.getString("TERM") + " (" + searches
-                .getInt("FREQUENCY") + ")");
-            break;
-          case 2:
-            searchTermThree.setText(searches.getString("TERM") + " (" + searches
-                .getInt("FREQUENCY") + ")");
-            break;
-          case 3:
-            searchTermFour.setText(searches.getString("TERM") + " (" + searches
-                .getInt("FREQUENCY") + ")");
-            break;
-          case 4:
-            searchTermFive.setText(searches.getString("TERM") + " (" + searches
-                .getInt("FREQUENCY") + ")");
-            break;
-          default:
-            break;
-        }
+        label.setText(String.format("%s (%d)", searches.getString("term"),
+            searches.getInt("frequency")));
       }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
 
     try {
-      sqlStatement = "SELECT * FROM MOVIES ORDER BY TIMES_VIEWED DESC LIMIT 5";
-      ResultSet lookedMovie = HotelBox.dbConnection.searchStatement(
-          sqlStatement, true);
-      for (int i = 1; i <= 5; i++) {
+      search = "SELECT movie_title, times_viewed FROM movies ORDER BY"
+          + " times_viewed DESC LIMIT 5";
+      ResultSet lookedMovie = HotelBox.dbConnection.searchStatement(search);
+      Label[] labels = { viewedMovieOne, viewedMovieTwo, viewedMovieThree,
+          viewedMovieFour, viewedMovieFive };
+      for (Label label : labels) {
         lookedMovie.next();
-        switch (i) {
-          case 1:
-            viewedMovieOne.setText(lookedMovie.getString("MOVIE_TITLE") + " ("
-                + lookedMovie.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 2:
-            viewedMovieTwo.setText(lookedMovie.getString("MOVIE_TITLE") + " ("
-                + lookedMovie.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 3:
-            viewedMovieThree.setText(lookedMovie.getString("MOVIE_TITLE") + " ("
-                + lookedMovie.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 4:
-            viewedMovieFour.setText(lookedMovie.getString("MOVIE_TITLE") + " ("
-                + lookedMovie.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 5:
-            viewedMovieFive.setText(lookedMovie.getString("MOVIE_TITLE") + " ("
-                + lookedMovie.getInt("TIMES_VIEWED") + ")");
-            break;
-          default:
-            break;
-        }
+        label.setText(String.format("%s (%d)",
+            lookedMovie.getString("movie_title"),
+            lookedMovie.getInt("times_viewed")));
       }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
 
     try {
-      sqlStatement = "SELECT * FROM ACTORS ORDER BY TIMES_VIEWED DESC LIMIT 5";
-      ResultSet viewedActors = HotelBox.dbConnection.searchStatement(
-          sqlStatement, true);
-      for (int i = 1; i <= 5; i++) {
+      search = "SELECT actor_name, times_viewed FROM actors ORDER BY"
+          + " times_viewed DESC LIMIT 5";
+      ResultSet viewedActors = HotelBox.dbConnection.searchStatement(search);
+      Label[] labels = { viewedActorOne, viewedActorTwo, viewedActorThree,
+          viewedActorFour, viewedActorFive };
+      for (Label label : labels) {
         viewedActors.next();
-        switch (i) {
-          case 1:
-            viewedActorOne.setText(viewedActors.getString("ACTOR_NAME") + " ("
-                + viewedActors.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 2:
-            viewedActorTwo.setText(viewedActors.getString("ACTOR_NAME") + " ("
-                + viewedActors.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 3:
-            viewedActorThree.setText(viewedActors.getString("ACTOR_NAME") + " ("
-                + viewedActors.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 4:
-            viewedActorFour.setText(viewedActors.getString("ACTOR_NAME") + " ("
-                + viewedActors.getInt("TIMES_VIEWED") + ")");
-            break;
-          case 5:
-            viewedActorFive.setText(viewedActors.getString("ACTOR_NAME") + " ("
-                + viewedActors.getInt("TIMES_VIEWED") + ")");
-            break;
-          default:
-            break;
-        }
+        label.setText(String.format("%s (%d)",
+            viewedActors.getString("actor_name"),
+            viewedActors.getInt("times_viewed")));
       }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
 
     try {
-      sqlStatement = "SELECT MOVIE_ID, COUNT(MOVIE_ID) as 'total' FROM"
-          + " CUSTOMER_RENTALS GROUP BY MOVIE_ID ORDER BY COUNT(MOVIE_ID)"
-          + " DESC LIMIT 5";
-      ResultSet uniqueWatched = HotelBox.dbConnection.searchStatement(
-          sqlStatement, true);
-      for (int i = 1; i <= 5; i++) {
+      search = "SELECT movie_id, COUNT(movie_id) total FROM customer_rentals"
+          + " GROUP BY movie_id ORDER BY COUNT(movie_id) DESC LIMIT 5";
+      ResultSet uniqueWatched = HotelBox.dbConnection.searchStatement(search);
+      Label[] labels = { watchedMovieOne, watchedMovieTwo, watchedMovieThree,
+          watchedMovieFour, watchedMovieFive };
+      for (Label label : labels) {
         uniqueWatched.next();
         int movieId = Integer.parseInt(uniqueWatched.getString("MOVIE_ID"));
-        switch (i) {
-          case 1:
-            watchedMovieOne.setText(movie.get(movieId) + " (" + uniqueWatched
-                .getInt("total") + ")");
-            break;
-          case 2:
-            watchedMovieTwo.setText(movie.get(movieId) + " (" + uniqueWatched
-                .getInt("total") + ")");
-            break;
-          case 3:
-            watchedMovieThree.setText(movie.get(movieId) + " (" + uniqueWatched
-                .getInt("total") + ")");
-            break;
-          case 4:
-            watchedMovieFour.setText(movie.get(movieId) + " (" + uniqueWatched
-                .getInt("total") + ")");
-            break;
-          case 5:
-            watchedMovieFive.setText(movie.get(movieId) + " (" + uniqueWatched
-                .getInt("total") + ")");
-            break;
-          default:
-            break;
-        }
+        label.setText(String.format("%s (%d)", movie.get(movieId),
+            uniqueWatched.getInt("total")));
       }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
@@ -241,39 +158,44 @@ public class StatsPageController implements Initializable {
 
     try {
       // get ratings to put in their respective labels
-      sqlStatement = "SELECT MOVIE_ID, COUNT(*) as 'number', SUM(RATING_NUM)"
-          + " as 'total' FROM RATING GROUP BY MOVIE_ID ORDER BY (SUM"
-          + "(RATING_NUM)/COUNT(*)) DESC LIMIT 5";
-      ResultSet topRating = HotelBox.dbConnection.searchStatement(
-          sqlStatement, true);
-      topRating.first();
+      search = "SELECT movie_id, SUM(rating_num)/COUNT(movie_id) avg FROM"
+          + " rating GROUP BY movie_id ORDER BY (SUM(rating_num)/COUNT(*))"
+          + " DESC LIMIT 5";
+      ResultSet topRating = HotelBox.dbConnection.searchStatement(search);
       Label[] topLabels = { ratedMovieOne, ratedMovieTwo, ratedMovieThree,
           ratedMovieFour, ratedMovieFive };
-      findMovieRatings(topRating, topLabels);
+      for (Label label : topLabels) {
+        topRating.next();
+        label.setText(String.format("%s (%.1f)",
+            movie.get(Integer.parseInt(topRating.getString("movie_id"))),
+            topRating.getDouble("avg")));
+      }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
 
     try {
       // get ratings to put in their respective labels
-      sqlStatement = "SELECT MOVIE_ID, COUNT(*) as 'number', SUM(RATING_NUM)"
-          + " as 'total' FROM RATING GROUP BY MOVIE_ID ORDER BY (SUM"
-          + "(RATING_NUM)/COUNT(*)) ASC LIMIT 5";
-      ResultSet bottomRating = HotelBox.dbConnection.searchStatement(
-          sqlStatement, true);
-      bottomRating.first();
-      Label[] bottomLabels = { bottomRatedOne, bottomRatedTwo,
-          bottomRatedThree, bottomRatedFour, bottomRatedFive };
-      findMovieRatings(bottomRating, bottomLabels);
+      search = "SELECT movie_id, SUM(rating_num)/COUNT(movie_id) avg FROM"
+          + " rating GROUP BY movie_id ORDER BY (SUM(rating_num)/COUNT(*))"
+          + " ASC LIMIT 5";
+      ResultSet bottomRating = HotelBox.dbConnection.searchStatement(search);
+      Label[] bottomLabels = { bottomRatedOne, bottomRatedTwo, bottomRatedThree,
+          bottomRatedFour, bottomRatedFive };
+      for (Label label : bottomLabels) {
+        bottomRating.next();
+        label.setText(String.format("%s (%.1f)",
+            movie.get(Integer.parseInt(bottomRating.getString("movie_id"))),
+            bottomRating.getDouble("avg")));
+      }
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
 
     try {
       // get ratings to put in their respective labels
-      sqlStatement = "SELECT MOVIE_ID, COUNT(*) as 'number' FROM MOVIES";
-      ResultSet counter = HotelBox.dbConnection.searchStatement(sqlStatement,
-          true);
+      search = "SELECT COUNT(*) number FROM movies";
+      ResultSet counter = HotelBox.dbConnection.searchStatement(search);
       counter.next();
 
       int numbers = counter.getInt("number");
@@ -284,9 +206,8 @@ public class StatsPageController implements Initializable {
 
     try {
       // get ratings to put in their respective labels
-      sqlStatement = "SELECT CUSTOMER_ID, COUNT(*) as 'number' FROM CUSTOMER";
-      ResultSet counter = HotelBox.dbConnection.searchStatement(sqlStatement,
-          true);
+      search = "SELECT COUNT(*) number FROM customer";
+      ResultSet counter = HotelBox.dbConnection.searchStatement(search);
       counter.next();
 
       int numbers = counter.getInt("number");
@@ -297,26 +218,14 @@ public class StatsPageController implements Initializable {
 
     try {
       // get ratings to put in their respective labels
-      sqlStatement = "SELECT ACTOR_ID, COUNT(*) as 'number' FROM ACTORS";
-      ResultSet counter = HotelBox.dbConnection.searchStatement(sqlStatement,
-          true);
+      search = "SELECT COUNT(*) number FROM actors";
+      ResultSet counter = HotelBox.dbConnection.searchStatement(search);
       counter.next();
 
       int numbers = counter.getInt("number");
       numActors.setText(Integer.toString(numbers));
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
-    }
-  }
-
-  private void findMovieRatings(ResultSet ratings, Label[] labels) throws
-      SQLException {
-    for (Label label : labels) {
-      int movieId = Integer.parseInt(ratings.getString("MOVIE_ID"));
-      float avgRating = (float) (ratings.getInt("total"))
-          / ratings.getInt("number");
-      label.setText(String.format("%s (%.1f)", movie.get(movieId), avgRating));
-      ratings.next();
     }
   }
 }

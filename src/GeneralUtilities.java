@@ -1,6 +1,4 @@
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -19,14 +17,14 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 import javax.imageio.ImageIO;
 
 /**
  * Provides various general utility methods, such as resizing images, create
  * image buttons, and downloading images.
  *
- * @author Tyler Bratton and Chad Goodwin
+ * @author Tyler Bratton
+ * @author Chad Goodwin
  */
 public class GeneralUtilities {
 
@@ -35,6 +33,9 @@ public class GeneralUtilities {
       + File.separator + "HotelBoxOffice" + File.separator : System
       .getProperty("user.home") + File.separator + ".HotelBoxOffice"
       + File.separator;
+
+  // TODO: Standardize image sizes. Possibly cache a large and regular size.
+  // TODO: Resize on download
 
   /**
    * Utility method to get an image from a specified URL.
@@ -46,11 +47,11 @@ public class GeneralUtilities {
    */
   public static ImageView getImage(String imageUrl, int width, int height,
                                    String table, String id) {
-    String fullpath = getImagePath(imageUrl, table);
-    File imageFile = new File(fullpath);
+    String fullPath = getImagePath(imageUrl, table);
+    File imageFile = new File(fullPath);
     BufferedImage bf;
     if (!imageFile.exists()) {
-      downloadImage(fullpath, imageUrl, table, id);
+      downloadImage(fullPath, imageUrl, table, id);
     }
     if (table.equals("MOVIES")) {
       bf = HotelBox.movieImages.get(id);
@@ -81,9 +82,9 @@ public class GeneralUtilities {
                                    String table, String currentPage) {
 
     final boolean isMovies = table.equals("MOVIES");
-    final String nameColumn = isMovies ? "MOVIE_TITLE" : "ACTOR_NAME";
-    final String image = isMovies ? "MOVIE_IMAGE" : "ACTOR_IMAGE";
-    final String id = isMovies ? "MOVIE_ID" : "ACTOR_ID";
+    final String nameColumn = isMovies ? "movie_title" : "actor_name";
+    final String image = isMovies ? "movie_image" : "actor_image";
+    final String id = isMovies ? "movie_id" : "actor_id";
 
     try {
       // Moves the cursor to the last position to determine the number of
@@ -113,33 +114,27 @@ public class GeneralUtilities {
         // Text is centered when it wraps.
         currentButton.setTextAlignment(TextAlignment.CENTER);
         // Defines an anonymous event handler for the button.
-        currentButton.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            Button button = (Button) event.getSource();
-            String currentTitle = button.getText();
-            if (currentTitle.contains("\n")) {
-              int cutOff = currentTitle.indexOf("\n");
-              currentTitle = currentTitle.substring(0, cutOff);
-            }
-            String currentId = keys.get(currentTitle);
-            if (nameColumn.toLowerCase().contains("movie")) {
-              //HotBoxNavigator.lastClickedMovie = currentId;
-              HotBoxNavigator.lastClickedMovieStack.push(currentId);
-              HotelBox.dbConnection.updateStatement("UPDATE MOVIES SET MOVIES"
-                  + ".TIMES_VIEWED = MOVIES.TIMES_VIEWED + 1 WHERE MOVIES"
-                  + ".MOVIE_ID = " + currentId);
-            } else {
-              //HotBoxNavigator.lastClickedActor = currentId;
-              HotBoxNavigator.lastClickedActorStack.push(currentId);
-              HotelBox.dbConnection.updateStatement("UPDATE ACTORS SET ACTORS"
-                  + ".TIMES_VIEWED = ACTORS.TIMES_VIEWED + 1 WHERE ACTORS"
-                  + ".ACTOR_ID = " + currentId);
-            }
-            HotBoxNavigator.lastLoadedPageStack.push(currentPage);
-            HotBoxNavigator.loadPage(pageToLoad);
-            System.out.println(currentTitle);
+        currentButton.setOnAction(event -> {
+          Button button = (Button) event.getSource();
+          String currentTitle = button.getText();
+          if (currentTitle.contains("\n")) {
+            int cutOff = currentTitle.indexOf("\n");
+            currentTitle = currentTitle.substring(0, cutOff);
           }
+          String currentId = keys.get(currentTitle);
+          String columBeginning = table.substring(0, table.length() - 1);
+          String update = String.format("UPDATE %s SET %s.times_viewed=%s"
+                  + ".times_viewed+1 WHERE %s.%s_id=%s", table, table, table,
+              table, columBeginning, currentId);
+          HotelBox.dbConnection.updateStatement(update);
+          if (isMovies) {
+            HotBoxNavigator.lastClickedMovieStack.push(currentId);
+          } else {
+            HotBoxNavigator.lastClickedActorStack.push(currentId);
+          }
+          HotBoxNavigator.lastLoadedPageStack.push(currentPage);
+          HotBoxNavigator.loadPage(pageToLoad);
+          System.out.println(currentTitle);
         });
 
         // Sets the button graphic to the database image with specified
@@ -162,12 +157,12 @@ public class GeneralUtilities {
    * images in them.
    */
   public static void initializeLocalCache() {
-    ResultSet movieImageSet = HotelBox.dbConnection.searchStatement("SELECT"
-        + " MOVIE_IMAGE, MOVIE_ID FROM MOVIES", true);
-    ResultSet actorImageSet = HotelBox.dbConnection.searchStatement("SELECT"
-        + " ACTOR_IMAGE, ACTOR_ID FROM ACTORS", true);
-    downloadEntireSet(movieImageSet, "MOVIE");
-    downloadEntireSet(actorImageSet, "ACTOR");
+    String search = "SELECT movie_id, movie_image FROM movies";
+    ResultSet movieImageSet = HotelBox.dbConnection.searchStatement(search);
+    search = "SELECT actor_id, actor_image FROM actors";
+    ResultSet actorImageSet = HotelBox.dbConnection.searchStatement(search);
+    downloadEntireSet(movieImageSet, "movie");
+    downloadEntireSet(actorImageSet, "actor");
   }
 
   private static void downloadEntireSet(ResultSet rs, String table) {
@@ -177,13 +172,12 @@ public class GeneralUtilities {
       rs.first();
 
       for (int i = 0; i < rows; i++) {
-        String image = rs.getString(table + "_IMAGE");
-        String fullpath = getImagePath(image, table + "S");
-        downloadImage(fullpath, image, table + "S", rs.getString(table
-            + "_ID"));
+        String image = rs.getString(table + "_image");
+        String path = getImagePath(image, table + "S");
+        downloadImage(path, image, table + "s", rs.getString(table + "_id"));
         rs.next();
       }
-    } catch (Exception ex) {
+    } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
   }
@@ -219,7 +213,7 @@ public class GeneralUtilities {
   }
 
   private static void addToMap(String table, String id, BufferedImage bf) {
-    if (table.equals("MOVIES")) {
+    if (table.equals("movies")) {
       HotelBox.movieImages.put(id, bf);
     } else {
       HotelBox.actorImages.put(id, bf);
@@ -251,56 +245,20 @@ public class GeneralUtilities {
     try {
       while (results.next()) {
         Label nameLabel = new Label();
-        if (primaryKey.equals("CASTING_ID")) {
-          int movie = results.getInt("MOVIE_ID");
-          int actor = results.getInt("ACTOR_ID");
-          Map actorName = new HashMap();
-          Map movieTitle = new HashMap();
-          ResultSet movies = HotelBox.dbConnection.searchStatement("MOVIES");
-          ResultSet actors = HotelBox.dbConnection.searchStatement("ACTORS");
-          try {
-            while (actors.next()) {
-              actorName.put(actors.getInt("ACTOR_ID"), actors.getString(
-                  "ACTOR_NAME"));
-            }
-            while (movies.next()) {
-              movieTitle.put(movies.getInt("MOVIE_ID"), movies.getString(
-                  "MOVIE_TITLE"));
-            }
-          } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-          }
-          nameLabel.setText(movieTitle.get(movie) + " : " + actorName.get(
-              actor));
-        } else {
-          nameLabel.setText(results.getString(nameColumn));
-        }
+        nameLabel.setText(results.getString(nameColumn));
         nameLabel.setMinWidth(400);
         Button editButton = new Button("Edit");
         Button deleteButton = new Button("Delete");
         String recordToEdit = results.getString(primaryKey);
-        editButton.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            try {
-              HotBoxNavigator.editRecord = recordToEdit;
-            } catch (Exception ex) {
-              System.out.println(ex.getMessage());
-            }
-            HotBoxNavigator.loadPage(pageToLoad);
-          }
+        editButton.setOnAction(event -> {
+          HotBoxNavigator.editRecord = recordToEdit;
+          HotBoxNavigator.loadPage(pageToLoad);
         });
-        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            try {
-              HotelBox.dbConnection.deleteStatement(HotBoxNavigator
-                  .editTable, primaryKey, recordToEdit);
-            } catch (Exception ex) {
-              System.out.println(ex.getMessage());
-            }
-            HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-          }
+        deleteButton.setOnAction(event -> {
+          String delete = String.format("DELETE FROM %s WHERE %s=%s",
+              HotBoxNavigator.editTable, primaryKey, recordToEdit);
+          HotelBox.dbConnection.deleteStatement(delete);
+          HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
         });
         localFlowPane.getChildren().add(nameLabel);
         localFlowPane.getChildren().add(editButton);

@@ -23,8 +23,8 @@ public class EditPageController implements Initializable {
     String loadpage = "";
     String nameColumn = "";
     String primaryKey = "";
-    ResultSet editResults = HotelBox.dbConnection.searchStatement(
-        HotBoxNavigator.editTable);
+    String search = String.format("SELECT * FROM %s", HotBoxNavigator.editTable);
+    ResultSet editResults = HotelBox.dbConnection.searchStatement(search);
     switch (HotBoxNavigator.editTable) {
       case "CUSTOMER":
         // change to customer edit page

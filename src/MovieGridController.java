@@ -1,7 +1,3 @@
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -23,9 +19,6 @@ import java.util.ResourceBundle;
  * <p>Gets list of all movies from the database and then constructs buttons
  * that load an individual information page for each movie.
  *
- * <p>Currently displays all movies in the database on one page with a scroll
- * bar.
- *
  * @author Tyler Bratton
  */
 public class MovieGridController implements Initializable {
@@ -34,7 +27,7 @@ public class MovieGridController implements Initializable {
   @FXML
   private FlowPane flowPane;
   @FXML
-  private ChoiceBox choiceBox;
+  private ChoiceBox<String> choiceBox;
   @FXML
   private Button recentMovies;
   @FXML
@@ -44,9 +37,9 @@ public class MovieGridController implements Initializable {
   // Calculates desired height based on the known aspect ratio of the images.
   private static final int TARGET_HEIGHT = (TARGET_WIDTH * 3) / 2;
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
-  private HashMap<String, String> titleKeys = new HashMap<String, String>();
+  private HashMap<String, String> titleKeys = new HashMap<>();
   // HashMap to store GENRE_NAME as a key and GENRE_ID as a value.
-  private HashMap<String, String> genreKeys = new HashMap<String, String>();
+  private HashMap<String, String> genreKeys = new HashMap<>();
   // Stores the current/last selected genre in the movie grid page.
   private static String currentSelectedGenreName = "All";
   // Stores the id of the current/last selected genre.
@@ -71,22 +64,22 @@ public class MovieGridController implements Initializable {
     }
 
     // Gets the data for the GENRES table.
-    ResultSet databaseGenres = HotelBox.dbConnection.searchStatement("GENRE "
-        + "ORDER BY GENRE_NAME");
+    String search = "SELECT * FROM genre ORDER BY genre_name";
+    ResultSet genres = HotelBox.dbConnection.searchStatement(search);
     // Create the choice box
-    createChoiceBox(databaseGenres);
+    createChoiceBox(genres);
 
     //Get data for recent movies.
-    ResultSet newReleases = HotelBox.dbConnection.searchStatement(
-        "SELECT * FROM MOVIES ORDER BY MOVIES.MOVIE_RELEASE_DATE"
-            + " DESC LIMIT 10", true);
+    search = "SELECT movie_id, movie_title, movie_image FROM movies ORDER BY"
+        + " movies.movie_release_date DESC LIMIT 10";
+    ResultSet newReleases = HotelBox.dbConnection.searchStatement(search);
     // Create button
     createNewReleasesButton(newReleases);
 
     //Get data for recent movies.
-    ResultSet mostPopular = HotelBox.dbConnection.searchStatement(
-        "SELECT * FROM MOVIES ORDER BY MOVIES.TIMES_VIEWED DESC LIMIT 10",
-        true);
+    search = "SELECT movie_id, movie_title, movie_image FROM movies ORDER BY"
+        + " movies.times_viewed DESC LIMIT 10";
+    ResultSet mostPopular = HotelBox.dbConnection.searchStatement(search);
 
     createMostPopularButton(mostPopular);
 
@@ -106,11 +99,12 @@ public class MovieGridController implements Initializable {
       ResultSet rs;
       // If the genre isn't "All" load the correct one
       if (currentSelectedGenreId != 0) {
-        rs = HotelBox.dbConnection.searchStatement("MOVIES",
-            "GENRE_ID", "" + currentSelectedGenreId);
+        search = String.format("SELECT movie_id, movie_title, movie_image"
+                + " FROM movies WHERE genre_id=%d", currentSelectedGenreId);
+        rs = HotelBox.dbConnection.searchStatement(search);
       } else {
-        rs = HotelBox.dbConnection.searchStatement("MOVIE_ID",
-            "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
+        search = "SELECT movie_id, movie_title, movie_image FROM movies";
+        rs = HotelBox.dbConnection.searchStatement(search);
       }
       GeneralUtilities.createButtons(rs, titleKeys, flowPane,
           HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT, "MOVIES",
@@ -124,7 +118,7 @@ public class MovieGridController implements Initializable {
     // Add default All selection
     choiceBox.getItems().add("All");
     // Stores the genre names in the order they appear in the choice box
-    ArrayList<String> genreList = new ArrayList<String>();
+    ArrayList<String> genreList = new ArrayList<>();
     genreList.add("All");
     try {
       genres.last();
@@ -133,8 +127,8 @@ public class MovieGridController implements Initializable {
 
       // Add all genres to the choice box.
       for (int i = 0; i < numRows; i++) {
-        String genreName = genres.getString("GENRE_NAME");
-        String genreId = genres.getString("GENRE_ID");
+        String genreName = genres.getString("genre_name");
+        String genreId = genres.getString("genre_id");
         genreList.add(genreName);
         // Associate genre name and genre id
         genreKeys.put(genreName, genreId);
@@ -148,40 +142,37 @@ public class MovieGridController implements Initializable {
     choiceBox.getSelectionModel().select(genreList.indexOf(
         currentSelectedGenreName));
     choiceBox.getSelectionModel().selectedIndexProperty().addListener(
-        new ChangeListener<Number>() {
-          @Override
-          public void changed(ObservableValue observable,
-                              Number oldValue, Number newValue) {
-            // Get current selection
-            int currentSelection = newValue.intValue();
-            // Find the genre name in the array list.
-            String currentGenre = genreList.get(currentSelection);
-            // Use genre title as key to find original genre ID.
-            String currentId = genreKeys.get(currentGenre);
-            // Saves the id of the genre that was just selected.
-            currentSelectedGenreId = Integer.parseInt(
-                currentId);
-            // Saves the name of the genre that was just selected.
-            currentSelectedGenreName = currentGenre;
+        (observable, oldValue, newValue) -> {
+          // Get current selection
+          int currentSelection = newValue.intValue();
+          // Find the genre name in the array list.
+          String currentGenre = genreList.get(currentSelection);
+          // Use genre title as key to find original genre ID.
+          String currentId = genreKeys.get(currentGenre);
+          // Saves the id of the genre that was just selected.
+          currentSelectedGenreId = Integer.parseInt(currentId);
+          // Saves the name of the genre that was just selected.
+          currentSelectedGenreName = currentGenre;
 
-            ResultSet newSet;
-            // If the genre wasn't "All" load the correct one.
-            if (currentSelection != 0) {
-              newSet = HotelBox.dbConnection.searchStatement(
-                  "MOVIES", "GENRE_ID", currentId);
-            } else {
-              newSet = HotelBox.dbConnection.searchStatement("MOVIE_ID",
-                  "MOVIE_TITLE", "MOVIE_IMAGE", "MOVIES");
-            }
-            // Clear the display of movies
-            removeAllButtons();
-            // Create new grid with current selection of genre
-            GeneralUtilities.createButtons(newSet, titleKeys, flowPane,
-                HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-                "MOVIES", HotBoxNavigator.MOVIE_GRID);
-            newReleasesLastLoaded = false;
-            mostPopularLastLoaded = false;
+          ResultSet newSet;
+          // If the genre wasn't "All" load the correct one.
+          if (currentSelection != 0) {
+            String search = String.format("SELECT movie_id, movie_title,"
+                + " movie_image FROM movies WHERE genre_id=%s", currentId);
+            newSet = HotelBox.dbConnection.searchStatement(search);
+          } else {
+            String search = "SELECT movie_id, movie_title, movie_image FROM"
+                + " movies";
+            newSet = HotelBox.dbConnection.searchStatement(search);
           }
+          // Clear the display of movies
+          removeAllButtons();
+          // Create new grid with current selection of genre
+          GeneralUtilities.createButtons(newSet, titleKeys, flowPane,
+              HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
+              "MOVIES", HotBoxNavigator.MOVIE_GRID);
+          newReleasesLastLoaded = false;
+          mostPopularLastLoaded = false;
         });
   }
 
@@ -192,33 +183,28 @@ public class MovieGridController implements Initializable {
 
   private void createNewReleasesButton(ResultSet newReleases) {
     recentMovies.setTooltip(new Tooltip("Filter by new releases"));
-    recentMovies.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        // Clear the display of movies
-        removeAllButtons();
-        // Create new grid with current selection of genre
-        GeneralUtilities.createButtons(newReleases, titleKeys, flowPane,
-            HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-            "MOVIES", HotBoxNavigator.MOVIE_GRID);
-        newReleasesLastLoaded = true;
-      }
+    recentMovies.setOnAction(event -> {
+      changeMovieDisplay(newReleases);
+      newReleasesLastLoaded = true;
     });
   }
 
   private void createMostPopularButton(ResultSet mostPopular) {
     popularMovies.setTooltip(new Tooltip("Filter by most popular"));
-    popularMovies.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        // Clear the display of movies
-        removeAllButtons();
-        // Create new grid with current selection of genre
-        GeneralUtilities.createButtons(mostPopular, titleKeys, flowPane,
-            HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
-            "MOVIES", HotBoxNavigator.MOVIE_GRID);
-        mostPopularLastLoaded = true;
-      }
+    popularMovies.setOnAction(event -> {
+      changeMovieDisplay(mostPopular);
+      mostPopularLastLoaded = true;
     });
+  }
+
+  private void changeMovieDisplay(ResultSet rs) {
+    // Reset choice box back to all
+    choiceBox.getSelectionModel().select("All");
+    // Clear the display of movies
+    removeAllButtons();
+    // Create new grid with current selection of genre
+    GeneralUtilities.createButtons(rs, titleKeys, flowPane,
+        HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,
+        "MOVIES", HotBoxNavigator.MOVIE_GRID);
   }
 }

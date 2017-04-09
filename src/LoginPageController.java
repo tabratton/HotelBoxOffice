@@ -39,8 +39,10 @@ public class LoginPageController implements Initializable {
     } catch (IOException ex) {
       System.out.println(ex.getMessage());
     }
-    imageView.setImage(SwingFXUtils.toFXImage(Scalr.resize(bf, WIDTH, HEIGHT),
-        null));
+    if (bf != null) {
+      imageView.setImage(SwingFXUtils.toFXImage(Scalr.resize(bf, WIDTH, HEIGHT),
+          null));
+    }
   }
 
   /**
@@ -50,12 +52,13 @@ public class LoginPageController implements Initializable {
     String username = this.username.getText();
     String password = this.password.getText();
 
-    ResultSet rs = HotelBox.dbConnection.searchStatement(String.format("SELECT"
-        + " * FROM CUSTOMER WHERE CUSTOMER.CUSTOMER_NAME = '%s' AND CUSTOMER"
-        + ".CUSTOMER_PASSWORD = '%s'", username, password), true);
+    String search = String.format("SELECT customer_id, customer_admin FROM"
+        + " customer WHERE customer.customer_name='%s' AND"
+        + " customer.customer_password='%s'", username, password);
+    ResultSet rs = HotelBox.dbConnection.searchStatement(search);
     try {
       if (rs.next()) {
-        HotelBox.setCurrentUserId(rs.getString("CUSTOMER_ID"));
+        HotelBox.setCurrentUserId(rs.getString("customer_id"));
         setAdminStatus(rs);
         HotelBox.setIsLoggedIn(true);
         HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
@@ -74,7 +77,7 @@ public class LoginPageController implements Initializable {
   }
 
   private void setAdminStatus(ResultSet rs) throws SQLException {
-    int adminValue = Integer.parseInt(rs.getString("CUSTOMER_ADMIN"));
+    int adminValue = Integer.parseInt(rs.getString("customer_admin"));
     boolean admin = (adminValue != 0);
     HotelBox.setIsAdmin(admin);
   }

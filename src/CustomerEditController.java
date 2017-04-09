@@ -1,5 +1,3 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -10,7 +8,6 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 
 /**
  * FXML Controller class.
@@ -46,91 +43,85 @@ public class CustomerEditController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     if (HotBoxNavigator.editRecord != null) {
-      ResultSet rs = HotelBox.dbConnection.searchStatement("CUSTOMER",
-          "CUSTOMER_ID", HotBoxNavigator.editRecord);
+      String search = String.format("SELECT * FROM customer WHERE customer_id"
+              + " = %s", HotBoxNavigator.editRecord);
+      ResultSet rs = HotelBox.dbConnection.searchStatement(search);
       try {
         rs.first();
-        customerName.setText(rs.getString("CUSTOMER_NAME"));
-        id = rs.getString("CUSTOMER_ID");
-        Double balance = Double.parseDouble(rs.getString("CUSTOMER_BALANCE"));
+        customerName.setText(rs.getString("customer_name"));
+        id = rs.getString("customer_id");
+        Double balance = Double.parseDouble(rs.getString("customer_balance"));
 
-        customerRoom.setText(rs.getString("CUSTOMER_ROOMNUM"));
+        customerRoom.setText(rs.getString("customer_roomnum"));
         customerBalance.setText(String.format("%.2f", balance));
-        customerAddress.setText(rs.getString("CUSTOMER_ADDRESS"));
-        customerCity.setText(rs.getString("CUSTOMER_CITY"));
-        customerState.setText(rs.getString("CUSTOMER_STATE"));
-        customerZipcode.setText(rs.getString("CUSTOMER_ZIPCODE"));
-        customerPassword.setText(rs.getString("CUSTOMER_PASSWORD"));
+        customerAddress.setText(rs.getString("customer_address"));
+        customerCity.setText(rs.getString("customer_city"));
+        customerState.setText(rs.getString("customer_state"));
+        customerZipcode.setText(rs.getString("customer_zipcode"));
+        customerPassword.setText(rs.getString("customer_password"));
 
-        if (rs.getInt("CUSTOMER_ADMIN") == 1) {
+        if (rs.getInt("customer_admin") == 1) {
           customerAdmin.setSelected(true);
         }
       } catch (SQLException ex) {
         System.out.println(ex.getMessage());
       }
 
-      submitButton.setOnAction(new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent event) {
-          String name = customerName.getText();
-          String bal = customerBalance.getText();
-          String room = customerRoom.getText();
-          String password = customerPassword.getText();
-          String address = customerAddress.getText();
-          String city = customerCity.getText();
-          String zipcode = customerZipcode.getText();
-          String state = customerState.getText();
-          String admin;
-          if (customerAdmin.isSelected()) {
-            admin = "1";
-          } else {
-            admin = "0";
-          }
-          String upString = String.format("UPDATE CUSTOMER SET CUSTOMER_NAME"
-                  + " = '%s', CUSTOMER_PASSWORD = '%s', CUSTOMER_BALANCE = %s,"
-                  + " CUSTOMER_ROOMNUM = '%s', CUSTOMER_ADMIN = %s,"
-                  + " CUSTOMER_ADDRESS = '%s', CUSTOMER_CITY = '%s',"
-                  + " CUSTOMER_ZIPCODE = '%s', CUSTOMER_STATE = '%s' WHERE"
-                  + " CUSTOMER_ID=%s", name, password, bal, room, admin,
-              address, city, zipcode, state, id);
-          HotelBox.dbConnection.updateStatement(upString);
-          GeneralUtilities.showSuccessMessage();
-          HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
+      submitButton.setOnAction(event -> {
+        String name = customerName.getText();
+        String bal = customerBalance.getText();
+        String room = customerRoom.getText();
+        String password = customerPassword.getText();
+        String address = customerAddress.getText();
+        String city = customerCity.getText();
+        String zipcode = customerZipcode.getText();
+        String state = customerState.getText();
+        String admin;
+        if (customerAdmin.isSelected()) {
+          admin = "1";
+        } else {
+          admin = "0";
         }
+        String upString = String.format("UPDATE customer SET customer_name="
+                + "'%s', customer_password='%s', customer_balance=%s,"
+                + " customer_roomnum='%s', customer_admin=%s,"
+                + " customer_address='%s', customer_city='%s',"
+                + " customer_zipcode='%s', customer_state='%s' WHERE"
+                + " customer_id=%s", name, password, bal, room, admin, address,
+            city, zipcode, state, id);
+        HotelBox.dbConnection.updateStatement(upString);
+        GeneralUtilities.showSuccessMessage();
+        HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
       });
     } else {
-      submitButton.setOnAction(new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent event) {
-          String name = customerName.getText();
-          String bal = customerBalance.getText();
-          String room = customerRoom.getText();
-          String password = customerPassword.getText();
-          String address = customerAddress.getText();
-          String city = customerCity.getText();
-          String zipcode = customerZipcode.getText();
-          String state = customerState.getText();
-          String admin;
-          if (customerAdmin.isSelected()) {
-            admin = "1";
-          } else {
-            admin = "0";
-          }
-          String upString = String.format("INSERT INTO CUSTOMER"
-                  + "(CUSTOMER_NAME, CUSTOMER_PASSWORD, CUSTOMER_BALANCE,"
-                  + " CUSTOMER_ROOMNUM, CUSTOMER_ADMIN, CUSTOMER_ADDRESS,"
-                  + " CUSTOMER_CITY, CUSTOMER_ZIPCODE, CUSTOMER_STATE) VALUES"
-                  + " ('%s', '%s', %s, '%s', %s, '%s', '%s', '%s', '%s')",
-              name, password, bal, room, admin, address, city, zipcode, state);
-          HotelBox.dbConnection.updateStatement(upString);
-          GeneralUtilities.showSuccessMessage();
-          HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
+      submitButton.setOnAction(event -> {
+        String name = customerName.getText();
+        String bal = customerBalance.getText();
+        String room = customerRoom.getText();
+        String password = customerPassword.getText();
+        String address = customerAddress.getText();
+        String city = customerCity.getText();
+        String zipcode = customerZipcode.getText();
+        String state = customerState.getText();
+        String admin;
+        if (customerAdmin.isSelected()) {
+          admin = "1";
+        } else {
+          admin = "0";
         }
+        String upString = String.format("INSERT INTO customer"
+                + "(customer_name, customer_password, customer_balance,"
+                + " customer_roomnum, customer_admin, customer_address,"
+                + " customer_city, customer_zipcode, customer_state) VALUES"
+                + " ('%s', '%s', %s, '%s', %s, '%s', '%s', '%s', '%s')",
+            name, password, bal, room, admin, address, city, zipcode, state);
+        HotelBox.dbConnection.updateStatement(upString);
+        GeneralUtilities.showSuccessMessage();
+        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
       });
     }
 
-    cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
-      }
-    });
+    cancelButton.setOnAction(event ->
+        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE));
   }
 }

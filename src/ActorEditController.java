@@ -1,5 +1,3 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -36,7 +34,7 @@ public class ActorEditController implements Initializable {
   public void initialize(URL url, ResourceBundle rb) {
 
     if (HotBoxNavigator.editRecord != null) {
-      String search = String.format("SELECT * FROM actors WHERE actor_id = %s",
+      String search = String.format("SELECT * FROM actors WHERE actor_id=%s",
           HotBoxNavigator.editRecord);
       ResultSet rs = HotelBox.dbConnection.searchStatement(search);
       try {
@@ -54,9 +52,9 @@ public class ActorEditController implements Initializable {
         String image = actorImage.getText();
         String bio = actorBio.getText().replace("'", "''");
         String viewed = timesViewed.getText();
-        String update = String.format("UPDATE actors SET actor_name = '%s',"
-            + " actor_image = '%s', actor_bio = '%s', times_viewed = %s"
-            + " WHERE actor_id = %s", name, image, bio, viewed, id);
+        String update = String.format("UPDATE actors SET actor_name='%s',"
+            + " actor_image='%s', actor_bio='%s', times_viewed=%s"
+            + " WHERE actor_id=%s", name, image, bio, viewed, id);
         HotelBox.dbConnection.updateStatement(update);
         GeneralUtilities.showSuccessMessage();
         HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
@@ -75,7 +73,8 @@ public class ActorEditController implements Initializable {
         HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
       });
     }
-    cancelButton.setOnAction(event -> HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE));
+    cancelButton.setOnAction(event ->
+        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE));
   }
 }
     

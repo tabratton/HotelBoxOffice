@@ -22,10 +22,10 @@ import java.util.ResourceBundle;
  * @author Tyler Bratton
  */
 public class CustomerInformationController implements Initializable {
-  private static final int IMAGE_HEIGHT = 180;
-  private static final int IMAGE_WIDTH = 120;
+  private static final int IMAGE_HEIGHT = 150;
+  private static final int IMAGE_WIDTH = 100;
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
-  private HashMap<String, String> titleKeys = new HashMap<String, String>();
+  private HashMap<String, String> titleKeys = new HashMap<>();
   @FXML
   private FlowPane flowPane;
   @FXML
@@ -46,33 +46,33 @@ public class CustomerInformationController implements Initializable {
     flowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
     flowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty());
     createRentedList();
-    ResultSet customer = HotelBox.dbConnection.searchStatement(
-        String.format("SELECT * FROM CUSTOMER WHERE CUSTOMER_ID = %s",
-            HotelBox.getCurrentUserId()), true);
+    String search = String.format("SELECT * FROM customer WHERE"
+        + " customer_id=%s", HotelBox.getCurrentUserId());
+    ResultSet customer = HotelBox.dbConnection.searchStatement(search);
     try {
       customer.first();
-      name.setText(customer.getString("CUSTOMER_NAME"));
-      address.setText(customer.getString("CUSTOMER_ADDRESS"));
-      cityAndState.setText(customer.getString("CUSTOMER_CITY")
-          + ", " + customer.getString("CUSTOMER_STATE"));
-      zipcode.setText(customer.getString("CUSTOMER_ZIPCODE"));
+      name.setText(customer.getString("customer_name"));
+      address.setText(customer.getString("customer_address"));
+      cityAndState.setText(customer.getString("customer_city")
+          + ", " + customer.getString("customer_state"));
+      zipcode.setText(customer.getString("customer_zipcode"));
       double currentBalance = Double.parseDouble(customer.getString(
-          "CUSTOMER_BALANCE"));
+          "customer_balance"));
       balance.setText(String.format("$%.2f", currentBalance));
-      room.setText(customer.getString("CUSTOMER_ROOMNUM"));
+      room.setText(customer.getString("customer_roomnum"));
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
   }
 
   private void createRentedList() {
-    ResultSet movieList = HotelBox.dbConnection.searchStatement(
-        String.format("SELECT CUSTOMER_RENTALS.RENTAL_DATE, MOVIES.MOVIE_ID,"
-                + " MOVIES.MOVIE_TITLE, MOVIES.MOVIE_IMAGE FROM"
-                + " CUSTOMER_RENTALS INNER JOIN MOVIES ON CUSTOMER_RENTALS"
-                + ".MOVIE_ID = MOVIES.MOVIE_ID AND CUSTOMER_RENTALS"
-                + ".CUSTOMER_ID = %s ORDER BY CUSTOMER_RENTALS.RENTAL_DATE"
-                + " DESC", HotelBox.getCurrentUserId()), true);
+    String search = String.format("SELECT customer_rentals.rental_date,"
+        + " movies.movie_id, movies.movie_title, movies.movie_image FROM"
+        + " customer_rentals INNER JOIN movies ON customer_rentals"
+        + ".movie_id=movies.movie_id WHERE customer_rentals.customer_id=%s"
+        + " ORDER BY customer_rentals.rental_date DESC",
+        HotelBox.getCurrentUserId());
+    ResultSet movieList = HotelBox.dbConnection.searchStatement(search);
     GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
         HotBoxNavigator.MOVIE_PAGE, IMAGE_WIDTH, IMAGE_HEIGHT, "MOVIES",
         HotBoxNavigator.CUSTOMER_INFORMATION);
@@ -82,12 +82,12 @@ public class CustomerInformationController implements Initializable {
       for (Node node : list) {
         try {
           DateFormat isoDate = new SimpleDateFormat("yyyy-MM-dd");
-          Date date = isoDate.parse(movieList.getString("RENTAL_DATE"));
+          Date date = isoDate.parse(movieList.getString("rental_date"));
           Button button = (Button) node;
           button.setPrefSize(button.getPrefWidth(), button.getPrefHeight()
               + 50);
-          button.setText(button.getText() + "\nRented: " + isoDate.format(
-              date));
+          button.setText(String.format("%s\nRented: %s", button.getText(),
+              isoDate.format(date)));
         } catch (ParseException ex) {
           System.out.println(ex.getMessage());
         }

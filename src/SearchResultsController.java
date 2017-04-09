@@ -23,26 +23,31 @@ public class SearchResultsController implements Initializable {
   // Calculates desired height based on the known aspect ratio of the images.
   private static final int TARGET_HEIGHT = (TARGET_WIDTH * 3) / 2;
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
-  private HashMap<String, String> movieKeys = new HashMap<String, String>();
+  private HashMap<String, String> movieKeys = new HashMap<>();
   // HashMap to store GENRE_NAME as a key and GENRE_ID as a value.
-  private HashMap<String, String> actorKeys = new HashMap<String, String>();
+  private HashMap<String, String> actorKeys = new HashMap<>();
 
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     HotBoxNavigator.clearStacks();
 
-    movieFlowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
-    movieFlowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty(
-    ));
-    actorFlowPane.prefWidthProperty().bind(HotelBox.testStage.widthProperty());
-    actorFlowPane.prefHeightProperty().bind(HotelBox.testStage.heightProperty(
-    ));
+    movieFlowPane.prefWidthProperty()
+        .bind(HotelBox.testStage.widthProperty());
+    movieFlowPane.prefHeightProperty()
+        .bind(HotelBox.testStage.heightProperty());
+    actorFlowPane.prefWidthProperty()
+        .bind(HotelBox.testStage.widthProperty());
+    actorFlowPane.prefHeightProperty()
+        .bind(HotelBox.testStage.heightProperty());
 
-    ResultSet movieResults = HotelBox.dbConnection.searchStatement("MOVIES",
-        "MOVIE_TITLE", HotBoxNavigator.lastSearchTerm, true);
-    ResultSet actorResults = HotelBox.dbConnection.searchStatement("ACTORS",
-        "ACTOR_NAME", HotBoxNavigator.lastSearchTerm, true);
+    String search = String.format("SELECT * FROM movies WHERE LOWER"
+        + "(movie_title) LIKE LOWER(\'%%%s%%\')",
+        HotBoxNavigator.lastSearchTerm);
+    ResultSet movieResults = HotelBox.dbConnection.searchStatement(search);
+    search = String.format("SELECT * FROM actors WHERE LOWER(actor_name) LIKE"
+            + " LOWER(\'%%%s%%\')", HotBoxNavigator.lastSearchTerm);
+    ResultSet actorResults = HotelBox.dbConnection.searchStatement(search);
 
     GeneralUtilities.createButtons(movieResults, movieKeys, movieFlowPane,
         HotBoxNavigator.MOVIE_PAGE, TARGET_WIDTH, TARGET_HEIGHT,

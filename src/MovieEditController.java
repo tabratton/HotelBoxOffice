@@ -1,7 +1,5 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -10,7 +8,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -50,12 +47,12 @@ public class MovieEditController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-
-    ResultSet genres = HotelBox.dbConnection.searchStatement("GENRE");
+    String search = "SELECT genre_name FROM genre";
+    ResultSet genres = HotelBox.dbConnection.searchStatement(search);
     try {
       ObservableList<String> options = FXCollections.observableArrayList();
       while (genres.next()) {
-        String genreName = genres.getString("GENRE_NAME");
+        String genreName = genres.getString("genre_name");
         options.add(genreName);
         numGenres++;
       }
@@ -65,57 +62,25 @@ public class MovieEditController implements Initializable {
     }
 
     if (HotBoxNavigator.editRecord != null) {
-      ResultSet rs = HotelBox.dbConnection.searchStatement("MOVIES",
-          "MOVIE_ID", HotBoxNavigator.editRecord);
-
+      search = String.format("SELECT * FROM movies WHERE movie_id=%s",
+          HotBoxNavigator.editRecord);
+      ResultSet rs = HotelBox.dbConnection.searchStatement(search);
       try {
         rs.first();
 
-        id = rs.getString("MOVIE_ID");
-        movieTitle.setText(rs.getString("MOVIE_TITLE"));
-        movieDirector.setText(rs.getString("MOVIE_DIRECTOR"));
-        movieDescription.setText(rs.getString("MOVIE_DESCRIPTION"));
-        movieDate.setText(rs.getString("MOVIE_RELEASE_DATE"));
-        movieImage.setText(rs.getString("MOVIE_IMAGE"));
+        id = rs.getString("movie_id");
+        movieTitle.setText(rs.getString("movie_title"));
+        movieDirector.setText(rs.getString("movie_director"));
+        movieDescription.setText(rs.getString("movie_description"));
+        movieDate.setText(rs.getString("movie_release_date"));
+        movieImage.setText(rs.getString("movie_image"));
 
-        Double balance = Double.parseDouble(rs.getString("MOVIE_PRICE"));
+        Double balance = Double.parseDouble(rs.getString("movie_price"));
         moviePrice.setText(String.format("%.2f", balance));
-        movieViewed.setText(Integer.toString(rs.getInt("TIMES_VIEWED")));
-        movieGenre.getSelectionModel().select(rs.getInt("GENRE_ID") - 1);
+        movieViewed.setText(Integer.toString(rs.getInt("times_viewed")));
+        movieGenre.getSelectionModel().select(rs.getInt("genre_id") - 1);
 
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-          public void handle(ActionEvent event) {
-            String title = movieTitle.getText();
-            String director = movieTitle.getText();
-            String description = movieDescription.getText().replace("'", "''");
-            String date = movieDate.getText();
-            String image = movieImage.getText();
-            String price = moviePrice.getText();
-            String viewed = movieViewed.getText();
-            int genre = 1;
-            for (int i = 1; i <= numGenres; i++) {
-              if (movieGenre.getSelectionModel().isSelected(i)) {
-                genre = i + 1;
-              }
-            }
-
-            String upString = String.format("UPDATE MOVIES SET MOVIE_TITLE"
-                    + " = '%s', MOVIE_DIRECTOR = '%s', MOVIE_DESCRIPTION"
-                    + " = '%s', MOVIE_RELEASE_DATE = '%s', MOVIE_IMAGE ="
-                    + " '%s', MOVIE_PRICE = %s, TIMES_VIEWED = %s,"
-                    + " GENRE_ID = %s WHERE MOVIE_ID = %s", title, director,
-                description, date, image, price, viewed, genre, id);
-            HotelBox.dbConnection.updateStatement(upString);
-            GeneralUtilities.showSuccessMessage();
-            HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
-          }
-        });
-      } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
-      }
-    } else {
-      submitButton.setOnAction(new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent event) {
+        submitButton.setOnAction(event -> {
           String title = movieTitle.getText();
           String director = movieTitle.getText();
           String description = movieDescription.getText().replace("'", "''");
@@ -129,22 +94,47 @@ public class MovieEditController implements Initializable {
               genre = i + 1;
             }
           }
-          String upString = String.format("INSERT INTO MOVIES (MOVIE_TITLE,"
-                  + " MOVIE_DIRECTOR, MOVIE_DESCRIPTION, MOVIE_RELEASE_DATE,"
-                  + " MOVIE_IMAGE, GENRE_ID, MOVIE_PRICE, TIMES_VIEWED)"
-                  + " VALUES ('%s', '%s', '%s', '%s', '%s', %s, %s, %s)",
-              title, director, description, date, image, genre, price, viewed);
+
+          String upString = String.format("UPDATE movies SET movie_title='%s',"
+                  + " movie_director='%s', movie_description='%s',"
+                  + " movie_release_date='%s', movie_image='%s',"
+                  + " movie_price=%s, times_viewed=%s, genre_id=%s WHERE"
+                  + " movie_id=%s", title, director, description, date, image,
+              price, viewed, genre, id);
           HotelBox.dbConnection.updateStatement(upString);
           GeneralUtilities.showSuccessMessage();
-          HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
+          HotBoxNavigator.loadPage(HotBoxNavigator.EDIT_PAGE);
+        });
+      } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+      }
+    } else {
+      submitButton.setOnAction(event -> {
+        String title = movieTitle.getText();
+        String director = movieTitle.getText();
+        String description = movieDescription.getText().replace("'", "''");
+        String date = movieDate.getText();
+        String image = movieImage.getText();
+        String price = moviePrice.getText();
+        String viewed = movieViewed.getText();
+        int genre = 1;
+        for (int i = 1; i <= numGenres; i++) {
+          if (movieGenre.getSelectionModel().isSelected(i)) {
+            genre = i + 1;
+          }
         }
+        String upString = String.format("INSERT INTO movies (movie_title,"
+                + " movie_director, movie_description, movie_release_date,"
+                + " movie_image, genre_id, movie_price, times_viewed)"
+                + " VALUES ('%s', '%s', '%s', '%s', '%s', %s, %s, %s)",
+            title, director, description, date, image, genre, price, viewed);
+        HotelBox.dbConnection.updateStatement(upString);
+        GeneralUtilities.showSuccessMessage();
+        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
       });
     }
 
-    cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-      public void handle(ActionEvent event) {
-        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE);
-      }
-    });
+    cancelButton.setOnAction(event ->
+        HotBoxNavigator.loadPage(HotBoxNavigator.ADMIN_PAGE));
   }
 }

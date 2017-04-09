@@ -1,5 +1,3 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -38,7 +36,7 @@ public class ActorPageController implements Initializable {
   private static final int IMAGE_HEIGHT = 450;
 
   // HashMap to store MOVIE_TITLE as a key and MOVIE_ID as a value.
-  private HashMap<String, String> titleKeys = new HashMap<String, String>();
+  private HashMap<String, String> titleKeys = new HashMap<>();
 
   /*
   * Initialize controller class
@@ -47,16 +45,21 @@ public class ActorPageController implements Initializable {
   public void initialize(URL url, ResourceBundle rb) {
     flowPane.prefWidth(250);
     String lastActor = HotBoxNavigator.lastClickedActorStack.peek();
-    ResultSet actorPage = HotelBox.dbConnection.searchStatement("ACTORS",
-        "ACTOR_ID", lastActor);
-    ResultSet movieList = HotelBox.dbConnection.searchStatement("MOVIES",
-        "CASTING", "ACTORS", lastActor, "MOVIE_ID", "ACTOR_ID");
+    String search = String.format("SELECT * FROM actors WHERE actor_id=%s",
+        lastActor);
+    ResultSet actorPage = HotelBox.dbConnection.searchStatement(search);
+    search = String.format("SELECT movies.movie_id, movies.movie_title,"
+        + " movies.movie_image FROM movies INNER JOIN (SELECT movie_id FROM"
+        + " casting INNER JOIN actors ON casting.actor_id=actors.actor_id"
+        + " WHERE actors.actor_id=%s) cast ON cast.movie_id=movies.movie_id",
+        lastActor);
+    ResultSet movieList = HotelBox.dbConnection.searchStatement(search);
     try {
       actorPage.first();
-      final String name = actorPage.getString("ACTOR_NAME");
-      final String actorImage = actorPage.getString("ACTOR_IMAGE");
-      final String bio = "Biography: " + actorPage.getString("ACTOR_BIO");
-      final String movieLabel = actorPage.getString("ACTOR_NAME") + " movies:";
+      final String name = actorPage.getString("actor_name");
+      final String actorImage = actorPage.getString("actor_image");
+      final String bio = "Biography: " + actorPage.getString("actor_bio");
+      final String movieLabel = actorPage.getString("actor_name") + " movies:";
 
       GeneralUtilities.createButtons(movieList, titleKeys, flowPane,
           HotBoxNavigator.MOVIE_PAGE, 100, 150, "MOVIES",
@@ -78,12 +81,9 @@ public class ActorPageController implements Initializable {
       imageView.setImage(GeneralUtilities.getImage(actorImage, IMAGE_WIDTH,
           IMAGE_HEIGHT, "ACTORS", lastActor).getImage());
 
-      goBack.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-          HotBoxNavigator.lastClickedActorStack.pop();
-          HotBoxNavigator.loadPage(HotBoxNavigator.lastLoadedPageStack.pop());
-        }
+      goBack.setOnAction(event -> {
+        HotBoxNavigator.lastClickedActorStack.pop();
+        HotBoxNavigator.loadPage(HotBoxNavigator.lastLoadedPageStack.pop());
       });
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
