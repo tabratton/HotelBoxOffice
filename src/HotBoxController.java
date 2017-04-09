@@ -112,9 +112,8 @@ public class HotBoxController implements Initializable {
   }
 
   private void addSearchTerm(String term) {
-    String command = String.format("INSERT INTO SEARCH_TERMS (TERM)"
-        + " VALUES ('%s') ON DUPLICATE KEY UPDATE FREQUENCY ="
-        + " FREQUENCY + 1", term);
-    HotelBox.dbConnection.updateStatement(command);
+    String update = String.format("INSERT INTO search_terms (term)"
+        + " VALUES ('%s') ON DUPLICATE KEY UPDATE frequency=frequency+1", term);
+    HotelBox.dbConnection.updateStatement(update);
   }
 }
