@@ -1,0 +1,27 @@
+#gridButton {
+    -fx-background-color: transparent;
+}
+
+#gridButton:hover {
+    -fx-background-color: transparent;
+    -fx-padding: 8, 8, 8, 8;
+}
+
+#gridButton:pressed {
+    -fx-background-color: transparent;
+    -fx-padding: 12 4 4 12;
+}
+
+#moviePageTitle {
+    -fx-font-size: 32px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.list-view {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane id="AnchorPane"
+            maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="536.0"
+            prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.112"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.CustomerEditController">
+  <children>
+    <GridPane layoutX="14.0"
+              layoutY="14.0"
+              prefHeight="508.0"
+              prefWidth="572.0">
+      <children>
+        <Label alignment="TOP_CENTER"
+               prefWidth="286.0"
+               text="Customer Name:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="0"/>
+        <BorderPane prefHeight="200.0"
+                    prefWidth="200.0"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="1">
+          <bottom>
+            <Label alignment="TOP_CENTER" prefWidth="286.0" text="Zipcode:"/>
+          </bottom>
+          <center>
+            <Label alignment="TOP_CENTER"
+                   prefWidth="286.0"
+                   text="City / State:"/>
+          </center>
+          <top>
+            <Label alignment="TOP_CENTER" prefWidth="286.0" text="Address:"/>
+          </top>
+        </BorderPane>
+        <Label alignment="TOP_CENTER"
+               prefWidth="286.0"
+               text="Balance:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="2"/>
+        <Label alignment="TOP_CENTER"
+               prefWidth="286.0"
+               text="Room Number:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="3"/>
+        <Label alignment="TOP_CENTER"
+               prefWidth="286.0"
+               text="Password:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="4"/>
+        <Label alignment="TOP_CENTER"
+               prefWidth="286.0"
+               text="Admin:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="5"/>
+        <TextField fx:id="customerName"
+                   prefWidth="200.0"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="0"/>
+        <BorderPane prefHeight="200.0"
+                    prefWidth="200.0"
+                    GridPane.columnIndex="1"
+                    GridPane.rowIndex="1">
+          <top>
+            <TextField fx:id="customerAddress" prefWidth="200.0"/>
+          </top>
+          <center>
+            <TextField fx:id="customerCity" prefWidth="141.0"/>
+          </center>
+          <right>
+            <TextField fx:id="customerState"
+                       alignment="CENTER_LEFT"
+                       prefWidth="123.0"/>
+          </right>
+          <bottom>
+            <TextField fx:id="customerZipcode" prefWidth="200.0"/>
+          </bottom>
+        </BorderPane>
+        <TextField fx:id="customerBalance"
+                   prefWidth="200.0"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="2"/>
+        <TextField fx:id="customerRoom"
+                   prefWidth="200.0"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="3"/>
+        <TextField fx:id="customerPassword"
+                   prefWidth="200.0"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="4"/>
+        <CheckBox fx:id="customerAdmin"
+                  mnemonicParsing="false"
+                  text=""
+                  GridPane.columnIndex="1"
+                  GridPane.rowIndex="5"/>
+        <BorderPane prefHeight="200.0"
+                    prefWidth="200.0"
+                    GridPane.columnIndex="1"
+                    GridPane.rowIndex="6">
+          <left>
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel"/>
+          </left>
+          <right>
+            <Button fx:id="submitButton" mnemonicParsing="false" text="Submit"/>
+          </right>
+        </BorderPane>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+      </rowConstraints>
+    </GridPane>
+  </children>
+</AnchorPane>

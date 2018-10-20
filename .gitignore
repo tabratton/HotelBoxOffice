@@ -171,3 +171,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+/src/main/resources/.env
+/target
