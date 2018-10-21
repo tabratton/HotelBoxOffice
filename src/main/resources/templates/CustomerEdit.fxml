@@ -90,13 +90,12 @@
                    prefWidth="200.0"
                    GridPane.columnIndex="1"
                    GridPane.rowIndex="3"/>
-        <TextField fx:id="customerPassword"
+        <PasswordField fx:id="customerPassword"
                    prefWidth="200.0"
                    GridPane.columnIndex="1"
                    GridPane.rowIndex="4"/>
         <CheckBox fx:id="customerAdmin"
                   mnemonicParsing="false"
-                  text=""
                   GridPane.columnIndex="1"
                   GridPane.rowIndex="5"/>
         <BorderPane prefHeight="200.0"

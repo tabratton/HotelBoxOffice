@@ -2,6 +2,7 @@ package util;
 
 import hotelbox.HotBoxNavigator;
 import hotelbox.HotelBox;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.TextAlignment;
 import models.Actor;
+import models.Customer;
 import models.Movie;
 import org.imgscalr.Scalr;
 
@@ -22,6 +24,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+
+import static com.kosprov.jargon2.api.Jargon2.*;
 
 /**
  * Provides various general utility methods, such as resizing images, create
@@ -257,5 +261,39 @@ public class GeneralUtilities {
     alert.setHeaderText(null);
     alert.setContentText("Database updated successfully!");
     alert.showAndWait();
+  }
+
+  public static String encodePassword(String pass) {
+    var dotenv = Dotenv.load();
+    var secret = toByteArray(dotenv.get("HASH_SECRET").getBytes()).clearSource();
+
+
+    try (var toHash = toByteArray(pass.getBytes()).clearSource()) {
+      Hasher hasher = jargon2Hasher()
+          .secret(secret)
+          .type(Type.ARGON2d) // Data-dependent hashing
+          .memoryCost(65536)  // 64MB memory cost
+          .timeCost(3)        // 3 passes through memory
+          .parallelism(4)     // use 4 lanes and 4 threads
+          .saltLength(16)     // 16 random bytes salt
+          .hashLength(16);    // 16 bytes output hash
+
+      // Set the password and calculate the encoded hash
+      return hasher.password(toHash).encodedHash();
+    } catch (Exception ex) {
+      throw new RuntimeException("Encoding error");
+    }
+  }
+
+  public static boolean verifyPassword(String user, String pass) {
+    var dotenv = Dotenv.load();
+    try (var secret = toByteArray(dotenv.get("HASH_SECRET").getBytes()).clearSource()) {
+      Verifier verifier = jargon2Verifier().secret(secret).threads(Integer.parseInt(dotenv.get("HASH_THREADS")));
+      var dbPass = HotelBox.dbConnection.getCustomerByName(user).orElse(new Customer()).getPwd();
+      return verifier.hash(dbPass).password(pass.getBytes()).verifyEncoded();
+    } catch (Exception ex) {
+      System.out.println(ex.getMessage());
+    }
+    return false;
   }
 }

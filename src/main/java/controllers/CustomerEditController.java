@@ -56,7 +56,6 @@ public class CustomerEditController implements Initializable {
       customerCity.setText(customer.getCity());
       customerState.setText(customer.getState());
       customerZipcode.setText(customer.getZipcode().toString());
-      customerPassword.setText(customer.getPwd());
 
       if (customer.isAdmin()) {
         customerAdmin.setSelected(true);
@@ -67,7 +66,7 @@ public class CustomerEditController implements Initializable {
       var name = customerName.getText();
       var bal = customerBalance.getText();
       var room = customerRoom.getText();
-      var password = customerPassword.getText();
+      var password = GeneralUtilities.encodePassword(customerPassword.getText());
       var address = customerAddress.getText();
       var city = customerCity.getText();
       var zipcode = customerZipcode.getText();

@@ -464,6 +464,12 @@ public class DatabaseConnection {
   }
 
   public void saveCustomer(Customer customer) {
+    if (customer.getPwd().isBlank()) {
+      var existingCustomer = this.getCustomerById(customer.getCustomerId());
+      existingCustomer.ifPresent(c -> customer.setPwd(c.getPwd()));
+      return;
+    }
+
     String stmt;
     if (customer.getCustomerId().isBlank()) {
       stmt = "INSERT INTO customers (customer_id, customer_name, pwd, balance, room, is_admin, address, city,"

@@ -9,7 +9,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import models.Customer;
 import org.imgscalr.Scalr;
+import util.GeneralUtilities;
+
+import static com.kosprov.jargon2.api.Jargon2.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -49,13 +53,12 @@ public class LoginPageController implements Initializable {
    * Verify that the username and password entered are correct.
    */
   public void verifyLoginCredentials() {
-    // TODO: add password hashing
     var u = this.username.getText();
     var p = this.password.getText();
-    var user = HotelBox.dbConnection.getCustomerByName(u);
-    if (user.isPresent() && user.get().getPwd().equals(p)) {
-      HotelBox.setCurrentUserId(user.get().getCustomerId());
-      HotelBox.setIsAdmin(user.get().isAdmin());
+    if (GeneralUtilities.verifyPassword(u, p)) {
+      var user = HotelBox.dbConnection.getCustomerByName(u).orElse(new Customer());
+      HotelBox.setCurrentUserId(user.getCustomerId());
+      HotelBox.setIsAdmin(user.isAdmin());
       HotelBox.setIsLoggedIn(true);
       MovieGridController.loadedByNavigationBarButton = true;
       HotBoxNavigator.loadPage(HotBoxNavigator.MOVIE_GRID);
