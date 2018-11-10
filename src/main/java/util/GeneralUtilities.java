@@ -218,7 +218,7 @@ public class GeneralUtilities {
   }
 
   private static boolean isWindows() {
-    return (OS.contains("win"));
+    return OS.contains("win");
   }
 
   /**

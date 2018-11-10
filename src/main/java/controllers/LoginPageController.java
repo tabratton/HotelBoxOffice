@@ -13,8 +13,6 @@ import models.Customer;
 import org.imgscalr.Scalr;
 import util.GeneralUtilities;
 
-import static com.kosprov.jargon2.api.Jargon2.*;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
